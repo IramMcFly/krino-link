@@ -3,6 +3,12 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  --kr-background-dark: #1b1f20;
+  --kr-text-light: #ffffff;
+  --kr-title-red: #c3151b;
+  --kr-gray-light: #d1d1d1;
+  --kr-gray-medium: #c3c3c3;
 }
 
 @theme inline {
@@ -23,4 +29,45 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Utilidades adicionales por si deseas usar clases customizadas (opcionales) */
+
+.kr-title {
+  color: var(--kr-title-red);
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.kr-subtitle {
+  font-size: 0.875rem;
+  color: #d1d1d1;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.kr-device-box {
+  background-color: var(--kr-gray-medium);
+  border-radius: 1rem;
+  padding: 1.25rem;
+  max-width: 24rem;
+  margin: 0 auto;
+}
+
+.kr-device-item {
+  background-color: var(--kr-gray-light);
+  color: black;
+  padding: 0.75rem 1rem;
+  border-radius: 0.625rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.kr-device-item:hover {
+  background-color: #bbbbbb;
 }
