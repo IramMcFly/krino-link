@@ -1,19 +1,35 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Loader2 } from 'lucide-react';
+import { Loader2, AlertTriangle, ActivitySquare, CheckCircle2 } from 'lucide-react';
 
-const sistemas = ['TCM', 'ECM', 'VSA', 'ABS', 'Batería', 'ECU'];
+const sistemas = ['TCM', 'ECM', 'VSA', 'ABS', 'BCM', 'ECU'];
 
-const fallas = [
-  { sistema: 'ABS', codigo: 'C0035', descripcion: 'Sensor de velocidad de rueda frontal izquierdo defectuoso' },
-  { sistema: 'ECM', codigo: 'P0A1F', descripcion: 'Fallo en el controlador de motor eléctrico' },
+const fallasIniciales = [
+  {
+    sistema: 'ABS',
+    modulo: 'Sistema de frenos antibloqueo',
+    codigo: 'C0035',
+    descripcion: 'Sensor de velocidad de rueda frontal izquierdo defectuoso',
+    color: 'bg-yellow-600',
+    icono: <AlertTriangle size={20} className="text-white" />,
+  },
+  {
+    sistema: 'ECM',
+    modulo: 'Controlador del motor eléctrico',
+    codigo: 'P0A1F',
+    descripcion: 'Fallo en el controlador de motor eléctrico',
+    color: 'bg-red-700',
+    icono: <ActivitySquare size={20} className="text-white" />,
+  },
 ];
 
 export default function AnalisisRapido() {
   const [progreso, setProgreso] = useState(0);
   const [sistemaActual, setSistemaActual] = useState('');
   const [analisisTerminado, setAnalisisTerminado] = useState(false);
+  const [eliminando, setEliminando] = useState(false);
+  const [fallas, setFallas] = useState(fallasIniciales);
 
   useEffect(() => {
     let i = 0;
@@ -30,6 +46,14 @@ export default function AnalisisRapido() {
 
     return () => clearInterval(interval);
   }, []);
+
+  const eliminarDTCs = () => {
+    setEliminando(true);
+    setTimeout(() => {
+      setFallas([]);
+      setEliminando(false);
+    }, 2000);
+  };
 
   return (
     <div className="min-h-screen bg-[#1b1f20] text-white px-4 py-10 flex flex-col items-center text-center">
@@ -52,12 +76,36 @@ export default function AnalisisRapido() {
       ) : (
         <div className="w-full max-w-md bg-[#2e2e2e] p-6 rounded-xl shadow-md">
           <h2 className="text-xl font-semibold mb-4">Fallas detectadas</h2>
-          {fallas.map((falla, index) => (
-            <div key={index} className="mb-3 text-left">
-              <p className="text-white font-bold">{falla.sistema} - {falla.codigo}</p>
-              <p className="text-sm text-gray-300">{falla.descripcion}</p>
+
+          {fallas.length > 0 ? (
+            <>
+              {fallas.map((falla, index) => (
+                <div
+                  key={index}
+                  className={`mb-4 text-left p-4 rounded-lg ${falla.color} shadow-inner`}
+                >
+                  <div className="flex items-center gap-2 mb-1">
+                    {falla.icono}
+                    <p className="text-white font-bold">{falla.sistema} - {falla.codigo}</p>
+                  </div>
+                  <p className="text-sm text-gray-200 italic mb-1">{falla.modulo}</p>
+                  <p className="text-sm text-white">{falla.descripcion}</p>
+                </div>
+              ))}
+              <button
+                onClick={eliminarDTCs}
+                disabled={eliminando}
+                className="mt-4 bg-[#c3151b] hover:bg-[#a31217] text-white font-semibold py-2 px-4 rounded-lg transition duration-300"
+              >
+                {eliminando ? 'Eliminando DTCs...' : 'Eliminar DTCs'}
+              </button>
+            </>
+          ) : (
+            <div className="text-center">
+              <CheckCircle2 size={48} className="text-green-500 mx-auto mb-2" />
+              <p className="text-lg font-bold">Sin códigos DTC activos</p>
             </div>
-          ))}
+          )}
         </div>
       )}
     </div>

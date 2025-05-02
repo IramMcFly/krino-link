@@ -12,7 +12,7 @@ import { useState } from 'react';
 
 const opciones = [
   { label: 'Análisis Rápido', icon: Car, route: '/AnalisisRapido' },
-  { label: 'Análisis de Batería', icon: BatteryFull },
+  { label: 'Análisis de Batería', icon: BatteryFull, route: '/AnalisisBateria' }, // <- agregado aquí
   { label: 'Análisis de Motor', icon: GaugeCircle },
   { label: 'Asist IA', icon: Sparkles },
 ];
