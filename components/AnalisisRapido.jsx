@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Loader2, AlertTriangle, ActivitySquare, CheckCircle2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { Loader2, AlertTriangle, ActivitySquare, CheckCircle2, MessageSquare } from 'lucide-react';
 
 const sistemas = ['TCM', 'ECM', 'VSA', 'ABS', 'BCM', 'ECU'];
 
@@ -25,6 +26,7 @@ const fallasIniciales = [
 ];
 
 export default function AnalisisRapido() {
+  const router = useRouter();
   const [progreso, setProgreso] = useState(0);
   const [sistemaActual, setSistemaActual] = useState('');
   const [analisisTerminado, setAnalisisTerminado] = useState(false);
@@ -53,6 +55,10 @@ export default function AnalisisRapido() {
       setFallas([]);
       setEliminando(false);
     }, 2000);
+  };
+
+  const irAAistenteIA = (codigo) => {
+    router.push(`/AsistenteIA?codigo=${codigo}`);
   };
 
   return (
@@ -87,6 +93,12 @@ export default function AnalisisRapido() {
                   <div className="flex items-center gap-2 mb-1">
                     {falla.icono}
                     <p className="text-white font-bold">{falla.sistema} - {falla.codigo}</p>
+                    <button
+                      onClick={() => irAAistenteIA(falla.codigo)}
+                      className="ml-auto bg-[#1f1f1f] hover:bg-[#333] text-white px-2 py-1 rounded flex items-center gap-1 text-sm"
+                    >
+                      <MessageSquare size={16} /> Asistente
+                    </button>
                   </div>
                   <p className="text-sm text-gray-200 italic mb-1">{falla.modulo}</p>
                   <p className="text-sm text-white">{falla.descripcion}</p>
