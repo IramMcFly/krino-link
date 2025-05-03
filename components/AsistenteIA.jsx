@@ -12,16 +12,17 @@ export default function AsistenteIA() {
   const bottomRef = useRef(null);
   const searchParams = useSearchParams();
   const codigoInicial = searchParams.get('codigo');
+  const [codigoProcesado, setCodigoProcesado] = useState(false);
 
   useEffect(() => {
-    if (codigoInicial) {
+    if (codigoInicial && !codigoProcesado) {
       const mensajeInicial = `¿Qué significa el código DTC ${codigoInicial} en un vehículo eléctrico o híbrido?`;
-      setChat([{ role: 'user', content: mensajeInicial }]);
-      enviarConsulta(mensajeInicial);
+      setCodigoProcesado(true);
+      enviarConsulta(mensajeInicial, true);
     }
-  }, [codigoInicial]);
+  }, [codigoInicial, codigoProcesado]);
 
-  const enviarConsulta = async (mensaje) => {
+  const enviarConsulta = async (mensaje, esInicial = false) => {
     setLoading(true);
     try {
       const response = await fetch('/api/chat', {
@@ -42,7 +43,21 @@ export default function AsistenteIA() {
 
       const data = await response.json();
       const respuesta = data.choices?.[0]?.message?.content || 'No pude procesar tu solicitud.';
-      setChat((prev) => [...prev, { role: 'assistant', content: respuesta }]);
+
+      setChat((prev) => {
+        const nuevaConversacion = esInicial
+          ? [...prev, { role: 'user', content: mensaje }, { role: 'assistant', content: respuesta }]
+          : [...prev, { role: 'user', content: mensaje }, { role: 'assistant', content: respuesta }];
+
+        // Elimina duplicados exactos si ocurren
+        const vistos = new Set();
+        return nuevaConversacion.filter((msg) => {
+          const clave = msg.role + msg.content;
+          if (vistos.has(clave)) return false;
+          vistos.add(clave);
+          return true;
+        });
+      });
     } catch (error) {
       setChat((prev) => [
         ...prev,
@@ -55,8 +70,6 @@ export default function AsistenteIA() {
 
   const handleSend = () => {
     if (!userMessage.trim()) return;
-    const nuevoChat = [...chat, { role: 'user', content: userMessage }];
-    setChat(nuevoChat);
     enviarConsulta(userMessage);
     setUserMessage('');
   };
@@ -77,10 +90,7 @@ export default function AsistenteIA() {
           {chat.map((msg, i) => (
             <div
               key={i}
-              className={`p-3 rounded-lg text-sm ${msg.role === 'user'
-                  ? 'bg-red-600/20 text-right self-end ml-auto'
-                  : 'bg-[#333] text-left'
-                }`}
+              className={`p-3 rounded-lg text-sm ${msg.role === 'user' ? 'bg-red-600/20 text-right self-end ml-auto' : 'bg-[#333] text-left'}`}
             >
               <ReactMarkdown
                 components={{
@@ -93,7 +103,6 @@ export default function AsistenteIA() {
               >
                 {msg.content}
               </ReactMarkdown>
-
             </div>
           ))}
           {loading && (
