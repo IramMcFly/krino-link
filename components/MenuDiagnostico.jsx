@@ -52,7 +52,7 @@ export default function MenuDiagnostico() {
       )}
 
       {/* Logo */}
-      <img src="/logo_krino.png" alt="Logo KR" className="w-20 md:w-24 mb-4 z-10" />
+      <img src="images/logoKR.png" alt="Logo KR" className="w-20 md:w-24 mb-4 z-10" />
 
       {/* Panel de información */}
       <div className="bg-[#c3c3c3] text-black rounded-xl p-4 mb-6 w-full max-w-md sm:max-w-lg shadow-md z-10">

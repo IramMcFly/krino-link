@@ -13,7 +13,7 @@ export default function DeviceSelector() {
 
   return (
     <div className="min-h-screen bg-[#1b1f20] text-white px-4 py-10 text-center">
-      <img src="/logo_krino.png" alt="Logo KR" className="w-24 mx-auto mb-6" />
+      <img src="images/logoKR.png" alt="Logo KR" className="w-24 mx-auto mb-6" />
 
       <h1 className="text-3xl font-bold text-[#c3151b] mb-2">KL Finder</h1>
       <p className="text-sm text-gray-300 mb-6">
