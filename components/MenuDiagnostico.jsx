@@ -17,7 +17,7 @@ const opciones = [
   { label: 'Análisis de Batería', icon: BatteryFull, route: '/AnalisisBateria' },
   { label: 'Análisis de Motor', icon: GaugeCircle, route: '/AnalisisMotor' },
   { label: 'Asist IA', icon: Sparkles, route: '/AsistenteIA' },
-  { label: 'Simulador de Pruebas', icon: TestTube2, route: '/Simulador' },
+  { label: 'Banco de Pruebas', icon: TestTube2, route: '/Simulador' },
   { label: 'Actualizaciones', icon: UploadCloud, route: '/Actualizaciones' },
 ];
 
