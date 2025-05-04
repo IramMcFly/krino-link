@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   Code2,
   Cpu,
@@ -13,13 +14,15 @@ import {
   X,
 } from 'lucide-react';
 
-export default function Actualizaciones({ volver }) {
+export default function Actualizaciones() {
   const appVersion = '0.2.6';
   const firmwareActual = '1.0.0';
   const firmwareNuevo = '1.1.2';
   const [buscando, setBuscando] = useState(false);
   const [hayUpdate, setHayUpdate] = useState(false);
   const [mostrarModal, setMostrarModal] = useState(false);
+
+  const router = useRouter();
 
   const buscarActualizaciones = () => {
     setBuscando(true);
@@ -116,7 +119,7 @@ export default function Actualizaciones({ volver }) {
       )}
 
       <button
-        onClick={volver}
+        onClick={() => router.push('/MenuDiagnostico')}
         className="mt-10 bg-gray-700 hover:bg-gray-600 px-5 py-2 rounded"
       >
         Volver
