@@ -1,3 +1,4 @@
+// components/AsitenteIA.jsx
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
