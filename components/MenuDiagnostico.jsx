@@ -6,15 +6,19 @@ import {
   GaugeCircle,
   Sparkles,
   Info,
+  TestTube2,
+  UploadCloud,
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 const opciones = [
   { label: 'Análisis Rápido', icon: Car, route: '/AnalisisRapido' },
-  { label: 'Análisis de Batería', icon: BatteryFull, route: '/AnalisisBateria' }, // <- agregado aquí
-  { label: 'Análisis de Motor', icon: GaugeCircle, route: '/AnalisisMotor'},
-  { label: 'Asist IA', icon: Sparkles },
+  { label: 'Análisis de Batería', icon: BatteryFull, route: '/AnalisisBateria' },
+  { label: 'Análisis de Motor', icon: GaugeCircle, route: '/AnalisisMotor' },
+  { label: 'Asist IA', icon: Sparkles, route: '/AsistenteIA' },
+  { label: 'Simulador de Pruebas', icon: TestTube2, route: '/Simulador' },
+  { label: 'Actualizaciones', icon: UploadCloud, route: '/Actualizaciones' },
 ];
 
 const vehiculo = {
@@ -39,11 +43,10 @@ export default function MenuDiagnostico() {
 
   return (
     <div className="min-h-screen bg-[#1b1f20] text-white px-4 py-6 flex flex-col items-center relative overflow-hidden">
-      {/* Transición animada */}
       {transicion && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#1b1f20] animate-fadeIn">
           <div className="text-center">
-            <span className="text-white text-lg mb-4 block">Iniciando análisis...</span>
+            <span className="text-white text-lg mb-4 block">Cargando...</span>
             <div className="w-48 h-2 bg-gray-700 rounded-full overflow-hidden mx-auto">
               <div className="h-full w-full bg-[#c3151b] animate-pulse"></div>
             </div>
@@ -51,10 +54,8 @@ export default function MenuDiagnostico() {
         </div>
       )}
 
-      {/* Logo */}
       <img src="images/logoKR.png" alt="Logo KR" className="w-20 md:w-24 mb-4 z-10" />
 
-      {/* Panel de información */}
       <div className="bg-[#c3c3c3] text-black rounded-xl p-4 mb-6 w-full max-w-md sm:max-w-lg shadow-md z-10">
         <div className="flex flex-col gap-2 sm:gap-4 text-sm sm:text-base">
           <div className="flex items-center gap-2 overflow-hidden">
@@ -74,7 +75,6 @@ export default function MenuDiagnostico() {
         </div>
       </div>
 
-      {/* Menú diagnóstico */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-xs sm:max-w-2xl md:max-w-3xl px-2 md:px-4 z-10">
         {opciones.map((opcion, index) => {
           const Icon = opcion.icon;
