@@ -21,16 +21,28 @@ import {
 
 const modosTransmision = ['P', 'R', 'N', 'D', 'S', 'L'];
 
+const temperaturasMedias = {
+  P: 40,
+  R: 45,
+  N: 45,
+  D: 55,
+  S: 60,
+  L: 50,
+};
+
 export default function AnalisisMotor() {
   const [acelerador, setAcelerador] = useState(0);
   const [modo, setModo] = useState('P');
   const [historial, setHistorial] = useState([]);
   const [logEventos, setLogEventos] = useState([]);
+  const [velocidadActualizacion, setVelocidadActualizacion] = useState(500);
 
   useEffect(() => {
-    const intervalo = setInterval(() => {
+    let acumulacionCalor = 0;
+    let temperatura = temperaturasMedias[modo];
+
+    const simular = () => {
       let corriente = 0;
-      let temperatura = 25;
       let carga = 0;
       const eventos = [];
 
@@ -39,16 +51,31 @@ export default function AnalisisMotor() {
         if (modo === 'S') factorCorriente = 2.5;
 
         const baseCorriente = acelerador * factorCorriente;
-        const baseTemperatura = 35 + acelerador * 0.25;
-        const baseCarga = acelerador;
-
         corriente = +(baseCorriente + (Math.random() * 0.1 - 0.05) * baseCorriente).toFixed(1);
-        temperatura = +(baseTemperatura + (Math.random() * 0.1 - 0.05) * baseTemperatura).toFixed(1);
-        carga = Math.min(100, +(baseCarga + (Math.random() * 0.1 - 0.05) * baseCarga).toFixed(1));
 
-        if (temperatura >= 80) {
+        const calorGenerado = corriente * 0.015;
+        const enfriamiento = 0.04 + (modo === 'S' ? 0.01 : 0.05);
+
+        acumulacionCalor += calorGenerado;
+        acumulacionCalor = Math.max(0, acumulacionCalor - enfriamiento);
+
+        if ((['R', 'N', 'L'].includes(modo) && acelerador < 50) || acelerador === 0) {
+          acumulacionCalor *= 0.92;
+        }
+
+        const oscilacion = Math.sin(Date.now() / 1000) * 1.5;
+        const temperaturaMedia = temperaturasMedias[modo];
+        temperatura = +(temperaturaMedia + acumulacionCalor + oscilacion).toFixed(1);
+
+        carga = Math.min(100, +(acelerador + (Math.random() * 0.1 - 0.05) * acelerador).toFixed(1));
+
+        if (temperatura >= 90) {
           eventos.push(`⚠️ Temperatura crítica detectada: ${temperatura} °C`);
         }
+      } else {
+        acumulacionCalor = Math.max(0, acumulacionCalor - 0.6);
+        const oscilacion = Math.sin(Date.now() / 1000) * 1.5;
+        temperatura = +(temperaturasMedias[modo] + acumulacionCalor + oscilacion).toFixed(1);
       }
 
       const nuevoPunto = {
@@ -56,7 +83,7 @@ export default function AnalisisMotor() {
         corriente,
         temperatura,
         carga,
-        alertaTemperatura: temperatura >= 80,
+        alertaTemperatura: temperatura >= 90,
       };
 
       setHistorial(prev => {
@@ -68,10 +95,11 @@ export default function AnalisisMotor() {
         const actualizados = [...prev, ...eventos];
         return actualizados.length > 10 ? actualizados.slice(actualizados.length - 10) : actualizados;
       });
-    }, 1500);
+    };
 
+    const intervalo = setInterval(simular, velocidadActualizacion);
     return () => clearInterval(intervalo);
-  }, [acelerador, modo]);
+  }, [acelerador, modo, velocidadActualizacion]);
 
   const getColorForMode = (m) => {
     if (['P', 'R', 'N'].includes(m)) return 'bg-red-600';
@@ -124,6 +152,21 @@ export default function AnalisisMotor() {
           </div>
         </div>
 
+        <div>
+          <label className="text-sm text-gray-300 flex items-center gap-2">
+            <BatteryCharging size={18} /> Velocidad de actualización: {velocidadActualizacion} ms
+          </label>
+          <input
+            type="range"
+            min="200"
+            max="2000"
+            step="100"
+            value={velocidadActualizacion}
+            onChange={(e) => setVelocidadActualizacion(Number(e.target.value))}
+            className="w-full mt-2"
+          />
+        </div>
+
         <div className="grid md:grid-cols-3 gap-6">
           <div>
             <h2 className="text-lg font-semibold mb-2 text-center">Corriente (A)</h2>
@@ -170,7 +213,6 @@ export default function AnalisisMotor() {
           </div>
         </div>
 
-        {/* Log de eventos críticos */}
         {logEventos.length > 0 && (
           <div className="bg-[#1b1f20] border border-yellow-600 p-4 rounded-md mt-6">
             <h3 className="text-sm text-yellow-500 font-semibold mb-2">Eventos recientes:</h3>
