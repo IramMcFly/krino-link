@@ -1,6 +1,6 @@
 'use client';
 
-import { Bluetooth } from 'lucide-react';
+import { Bluetooth, ShoppingCart } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 export default function DeviceSelector() {
@@ -9,6 +9,10 @@ export default function DeviceSelector() {
   const handleSelect = () => {
     console.log('Dispositivo seleccionado: KL-01');
     router.push('/MenuDiagnostico');
+  };
+
+  const handleTienda = () => {
+    router.push('/Tienda');
   };
 
   return (
@@ -20,13 +24,21 @@ export default function DeviceSelector() {
         Presiona sobre el dispositivo para seleccionar
       </p>
 
-      <div className="bg-[#c3c3c3] rounded-xl max-w-md mx-auto p-5">
+      <div className="bg-[#c3c3c3] rounded-xl max-w-md mx-auto p-5 space-y-4">
         <div
           onClick={handleSelect}
           className="flex items-center gap-3 bg-[#d1d1d1] text-black px-4 py-3 rounded-lg cursor-pointer hover:bg-[#bbbbbb] transition"
         >
           <Bluetooth size={24} />
           <span className="font-semibold text-lg">KL-01</span>
+        </div>
+
+        <div
+          onClick={handleTienda}
+          className="flex items-center gap-3 bg-[#d1d1d1] text-black px-4 py-3 rounded-lg cursor-pointer hover:bg-[#bbbbbb] transition"
+        >
+          <ShoppingCart size={24} />
+          <span className="font-semibold text-lg">KrinoStore</span>
         </div>
       </div>
     </div>
