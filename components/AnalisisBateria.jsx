@@ -57,9 +57,9 @@ export default function AnalisisBateria() {
 
   const saludMensual = [
     { mes: 'Enero', salud: 100 },
-    { mes: 'Feb', salud: 96 },
-    { mes: 'Marzo', salud: 94 },
-    { mes: 'Abril', salud: 92 },
+    { mes: 'Feb', salud: 99 },
+    { mes: 'Marzo', salud: 97 },
+    { mes: 'Abril', salud: 96 },
   ];
 
   return (
