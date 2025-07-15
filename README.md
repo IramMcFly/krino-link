@@ -1,36 +1,126 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+<p align="center">
+  <img src="public/images/logoKR.png" alt="Krino Link Logo" width="120" />
+</p>
 
-First, run the development server:
+<h1 align="center" style="color:#c3151b;">Krino-Link</h1>
+<p align="center">
+  <b>Plataforma avanzada de diagnóstico OBD2 para vehículos eléctricos e híbridos</b>
+</p>
+<p align="center">
+  <a href="https://nextjs.org/"><img src="https://img.shields.io/badge/Next.js-13+-black?logo=next.js" alt="Next.js" /></a>
+  <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/TailwindCSS-3.x-38bdf8?logo=tailwindcss&logoColor=white" alt="TailwindCSS" /></a>
+  <a href="https://vercel.com/"><img src="https://img.shields.io/badge/Deploy-Vercel-black?logo=vercel" alt="Vercel" /></a>
+</p>
+
+---
+
+## 🚗 ¿Qué es Krino-Link?
+
+**Krino-Link** es una plataforma moderna para talleres y técnicos automotrices, enfocada en el diagnóstico, simulación y venta de equipos OBD2 para vehículos eléctricos e híbridos. Incluye simuladores interactivos, tienda especializada, soporte técnico y módulos de análisis avanzados.
+
+---
+
+## 📸 Vista previa
+
+<p align="center">
+  <img src="public/images/store/StarterKit.png" alt="Starter Kit Krino" width="350" />
+  <img src="public/images/store/KL-01.png" alt="KL-01" width="200" />
+</p>
+
+---
+
+## 📋 Tabla de Contenidos
+
+- [Características](#características)
+- [Instalación](#instalación)
+- [Estructura del Proyecto](#estructura-del-proyecto)
+- [Módulos Principales](#módulos-principales)
+- [Personalización](#personalización)
+- [Contribuir](#contribuir)
+- [Licencia](#licencia)
+
+---
+
+## ✨ Características
+
+- **Diagnóstico OBD2 avanzado** para eléctricos e híbridos
+- **Simulador web** para pruebas y capacitación
+- **Tienda de dispositivos** con carrito y filtros
+- **Asistente IA** para interpretación de códigos DTC
+- **Actualizaciones OTA** y soporte técnico
+- **Interfaz moderna** con TailwindCSS y Lucide Icons
+
+---
+
+## 🚀 Instalación
 
 ```bash
+git clone https://github.com/tuusuario/krino-link.git
+cd krino-link
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abre [http://localhost:3000](http://localhost:3000) en tu navegador.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🗂️ Estructura del Proyecto
 
-## Learn More
+```
+/app
+  /AnalisisBateria
+  /AnalisisMotor
+  /AnalisisRapido
+  /AsistenteIA
+  /DeviceSelector
+  /MenuDiagnostico
+  /Simulador
+  /Tienda
+/components
+/public/images
+```
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🧩 Módulos Principales
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **LandingPage:** Página principal con CTA y testimonios.
+- **Tienda:** Catálogo de productos, filtros, carrito y detalles.
+- **Simulador:** Diagnóstico virtual de sistemas eléctricos y de batería.
+- **MenuDiagnostico:** Acceso rápido a análisis de motor, batería, IA, etc.
+- **AsistenteIA:** Chat para interpretación de códigos DTC.
+- **Actualizaciones:** Gestión de firmware y app.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🎨 Personalización
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Colores:** Basado en la paleta `#c3151b` (rojo), `#facc15` (amarillo), y fondos oscuros.
+- **Fuentes:** [Geist](https://vercel.com/font) integrada vía `next/font`.
+- **Imágenes:** Todos los productos en `/public/images/store/`.
+
+---
+
+## 🤝 Contribuir
+
+¿Quieres mejorar Krino-Link? ¡Pull requests y sugerencias son bienvenidas!
+
+1. Haz un fork del repositorio
+2. Crea una rama (`git checkout -b feature/nueva-funcion`)
+3. Haz tus cambios y commitea (`git commit -am 'Agrega nueva función'`)
+4. Haz push a la rama (`git push origin feature/nueva-funcion`)
+5. Abre un Pull Request
+
+---
+
+## 📄 Licencia
+
+Este proyecto está bajo la licencia MIT.
+
+---
+
+<p align="center">
+  <b>Krino-Link &copy; {new Date().getFullYear()} | Todos los derechos reservados</b>
+</p>
