@@ -95,26 +95,6 @@ Abre [http://localhost:3000](http://localhost:3000) en tu navegador.
 
 ---
 
-## 🎨 Personalización
-
-- **Colores:** Basado en la paleta `#c3151b` (rojo), `#facc15` (amarillo), y fondos oscuros.
-- **Fuentes:** [Geist](https://vercel.com/font) integrada vía `next/font`.
-- **Imágenes:** Todos los productos en `/public/images/store/`.
-
----
-
-## 🤝 Contribuir
-
-¿Quieres mejorar Krino-Link? ¡Pull requests y sugerencias son bienvenidas!
-
-1. Haz un fork del repositorio
-2. Crea una rama (`git checkout -b feature/nueva-funcion`)
-3. Haz tus cambios y commitea (`git commit -am 'Agrega nueva función'`)
-4. Haz push a la rama (`git push origin feature/nueva-funcion`)
-5. Abre un Pull Request
-
----
-
 ## 📄 Licencia
 
 Este proyecto está bajo la licencia MIT.
