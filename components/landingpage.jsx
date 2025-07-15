@@ -54,7 +54,7 @@ const LandingPage = () => (
 			</p>
 			<div className="flex flex-col sm:flex-row gap-4 justify-center mt-6">
 				<a
-					href="/simulador"
+					href="/DeviceSelector"
 					className="bg-[#c3151b] hover:bg-[#a31217] text-white font-bold px-8 py-3 rounded-lg shadow transition text-lg flex items-center gap-2 justify-center"
 				>
 					<Zap size={20} /> Probar Simulador
