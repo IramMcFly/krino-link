@@ -41,7 +41,7 @@ const productosIniciales = [
     descripcion: 'Programador de llaves USB Tipo C compatible con Krino-Link',
     descripcionLarga: 'Permite programación rápida de llaves en vehículos compatibles sin necesidad de conexión a internet. Ideal para cerrajeros automotrices y talleres especializados.',
     precio: 3499,
-    imagen: '/images/store/K-Key.png',
+    imagen: '/images/store/K-KEY.png',
     detalles: 'Permite clonar, emparejar y borrar llaves codificadas en vehículos compatibles. Requiere KL-01 o KML388 para funcionar.',
     categoria: 'llave',
   },
