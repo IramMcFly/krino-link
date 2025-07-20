@@ -4,6 +4,20 @@ import React from "react";
 import { ShoppingCart, Rocket, Zap, ShieldCheck, MonitorSmartphone, Eye } from "lucide-react";
 import { NavLanding } from "./NavLanding";
 
+
+const imagenes = [
+	{
+		src: '/images/store/KL-01.png'
+	},
+	{
+		src: '/images/store/K-KEY.png'
+	},
+	{
+		src: '/images/store/StarterKit.png'
+	},
+]
+
+
 const features = [
 	{
 		icon: <Rocket size={32} className="text-krino-red" />,
@@ -68,6 +82,24 @@ const LandingPage = () => (
 
 
 		</header>
+
+		<section id="imagenes" className="mb-10 mt-0">
+			<div className="flex flex-wrap justify-center gap-10">
+				{imagenes.map((f, i) => (
+					<div
+						key={i}
+						className="rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300"
+					>
+						<img
+							src={f.src}
+							alt="imagen"
+							className="w-100 h-100 object-cover rounded-xl"
+						/>
+					</div>
+				))}
+			</div>
+
+		</section>
 
 
 		<section id="nosotros" className="w-full max-w-6xl mx-auto bg-krino-panel/90 rounded-3xl shadow-xl p-10 mb-20 border border-[#2c2c2c]">
