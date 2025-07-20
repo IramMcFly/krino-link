@@ -71,8 +71,10 @@ const LandingPage = () => (
 		<NavLanding />
 
 		<div id="top" className="h-0" />
+		<header id="intro" className="flex flex-col items-center w-full max-w-4xl mx-auto text-center pt-32 pb-16">
+			<img src="images/logoKR.png" alt="KRINO" className="h-25 "
+			/>
 
-		<header id="intro" className="w-full max-w-4xl mx-auto text-center pt-32 pb-16">
 			<h1 className="text-5xl md:text-6xl font-extrabold tracking-tight leading-tight text-white">
 				Krino Solutions
 			</h1>
