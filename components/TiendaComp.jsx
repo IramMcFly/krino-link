@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { ShoppingCart, Info, X, CheckCircle, Trash2, Search } from 'lucide-react';
+import { FaShoppingCart, FaInfoCircle, FaTimes, FaCheckCircle, FaTrash, FaSearch } from 'react-icons/fa';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -164,7 +164,7 @@ export default function Tienda() {
             onClick={() => router.push('/')}
             className="flex items-center gap-2 bg-[#23272f] hover:bg-[#c3151b] hover:text-white text-gray-300 px-4 py-2 rounded-lg transition"
           >
-            <Info size={18} /> Inicio
+            <FaInfoCircle size={18} /> Inicio
           </button>
         </div>
         <div className="flex gap-2 w-full md:w-auto">
@@ -176,7 +176,7 @@ export default function Tienda() {
               onChange={e => setBusqueda(e.target.value)}
               className="bg-[#23272f] text-white rounded-lg px-4 py-2 w-full pl-10 outline-none border border-[#23272f] focus:border-[#c3151b] transition"
             />
-            <Search size={18} className="absolute left-3 top-2.5 text-gray-400" />
+            <FaSearch size={18} className="absolute left-3 top-2.5 text-gray-400" />
           </div>
           <select
             value={categoria}
@@ -221,7 +221,7 @@ export default function Tienda() {
                     onClick={() => addToCart(producto)}
                     className="mt-auto bg-[#c3151b] hover:bg-[#a31217] text-white font-semibold py-2 rounded-lg flex items-center justify-center gap-2 transition"
                   >
-                    <ShoppingCart size={18} /> Añadir al carrito
+                    <FaShoppingCart size={18} /> Añadir al carrito
                   </button>
                 </div>
               </motion.div>
@@ -236,7 +236,7 @@ export default function Tienda() {
           className="relative bg-[#23272f] hover:bg-[#c3151b] text-white rounded-full p-3 shadow-lg transition"
           onClick={() => setShowCart(true)}
         >
-          <ShoppingCart size={24} />
+          <FaShoppingCart size={24} />
           {carrito.length > 0 && (
             <span className="absolute -top-1 -right-1 bg-[#facc15] text-[#1b1f20] text-xs font-bold rounded-full px-2 py-0.5">
               {carrito.length}
@@ -251,7 +251,7 @@ export default function Tienda() {
               exit={{ opacity: 0, y: -10 }}
               className="mt-2 bg-[#23272f] text-[#facc15] px-4 py-2 rounded shadow flex items-center gap-2"
             >
-              <CheckCircle size={18} /> Añadido al carrito
+              <FaCheckCircle size={18} /> Añadido al carrito
             </motion.div>
           )}
         </AnimatePresence>
@@ -277,10 +277,10 @@ export default function Tienda() {
                 className="absolute top-4 right-4 text-gray-400 hover:text-white"
                 onClick={() => setShowCart(false)}
               >
-                <X size={28} />
+                <FaTimes size={28} />
               </button>
               <h2 className="text-2xl font-bold mb-6 text-[#facc15] flex items-center gap-2">
-                <ShoppingCart size={24} /> Carrito de compras
+                <FaShoppingCart size={24} /> Carrito de compras
               </h2>
               {carrito.length === 0 ? (
                 <div className="text-gray-400 text-center py-10">Tu carrito está vacío.</div>
@@ -301,7 +301,7 @@ export default function Tienda() {
                           onClick={() => removeFromCart(idx)}
                           title="Eliminar"
                         >
-                          <Trash2 size={20} />
+                          <FaTrash size={20} />
                         </button>
                       </div>
                     ))}
@@ -343,7 +343,7 @@ export default function Tienda() {
                 className="absolute top-4 right-4 text-gray-400 hover:text-white"
                 onClick={() => setSeleccionado(null)}
               >
-                <X size={28} />
+                <FaTimes size={28} />
               </button>
 
               <div className="relative w-full h-64 md:h-80 mb-6 rounded-xl overflow-hidden bg-[#1a1a1a]">
@@ -368,7 +368,7 @@ export default function Tienda() {
                 }}
                 className="w-full bg-[#c3151b] hover:bg-[#a31217] py-3 rounded-lg flex items-center justify-center gap-2 font-semibold text-lg transition"
               >
-                <ShoppingCart size={22} /> Añadir al carrito
+                <FaShoppingCart size={22} /> Añadir al carrito
               </button>
             </motion.div>
           </motion.div>

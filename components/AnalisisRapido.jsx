@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Loader2, AlertTriangle, ActivitySquare, CheckCircle2, MessageSquare } from 'lucide-react';
+import { FaSpinner, FaExclamationTriangle, FaSquare, FaCheckCircle, FaCommentDots } from 'react-icons/fa';
 
 const sistemas = ['TCM', 'ECM', 'VSA', 'ABS', 'BCM', 'ECU'];
 
@@ -13,7 +13,7 @@ const fallasIniciales = [
     codigo: 'C0035',
     descripcion: 'Sensor de velocidad de rueda frontal izquierdo defectuoso',
     color: 'bg-yellow-600',
-    icono: <AlertTriangle size={20} className="text-white" />,
+    icono: <FaExclamationTriangle size={20} className="text-white" />,
   },
   {
     sistema: 'ECM',
@@ -21,7 +21,7 @@ const fallasIniciales = [
     codigo: 'P0A1F',
     descripcion: 'Fallo en el controlador de motor eléctrico',
     color: 'bg-red-700',
-    icono: <ActivitySquare size={20} className="text-white" />,
+    icono: <FaSquare size={20} className="text-white" />,
   },
 ];
 
@@ -68,7 +68,7 @@ export default function AnalisisRapido() {
       {!analisisTerminado ? (
         <div className="w-full max-w-md bg-[#2e2e2e] p-6 rounded-xl shadow-md">
           <div className="flex items-center justify-center gap-3 mb-4">
-            <Loader2 className="animate-spin" size={24} />
+            <FaSpinner className="animate-spin" size={24} />
             <span className="text-lg">Comunicando con {sistemaActual}...</span>
           </div>
           <div className="w-full bg-[#444] rounded-full h-4">
@@ -97,7 +97,7 @@ export default function AnalisisRapido() {
                       onClick={() => irAAistenteIA(falla.codigo)}
                       className="ml-auto bg-[#1f1f1f] hover:bg-[#333] text-white px-2 py-1 rounded flex items-center gap-1 text-sm"
                     >
-                      <MessageSquare size={16} /> Asistente
+                      <FaCommentDots size={16} /> Asistente
                     </button>
                   </div>
                   <p className="text-sm text-gray-200 italic mb-1">{falla.modulo}</p>
@@ -114,7 +114,7 @@ export default function AnalisisRapido() {
             </>
           ) : (
             <div className="text-center">
-              <CheckCircle2 size={48} className="text-green-500 mx-auto mb-2" />
+              <FaCheckCircle size={48} className="text-green-500 mx-auto mb-2" />
               <p className="text-lg font-bold">Sin códigos DTC activos</p>
             </div>
           )}

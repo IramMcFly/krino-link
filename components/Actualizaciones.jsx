@@ -3,16 +3,16 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import {
-  Code2,
-  Cpu,
-  CheckCircle2,
-  RefreshCw,
-  Loader2,
-  Info,
-  AlertTriangle,
-  Download,
-  X,
-} from 'lucide-react';
+  FaCode,
+  FaMicrochip,
+  FaCheckCircle,
+  FaSync,
+  FaSpinner,
+  FaInfoCircle,
+  FaExclamationTriangle,
+  FaDownload,
+  FaTimes,
+} from 'react-icons/fa';
 
 export default function Actualizaciones() {
   const appVersion = '0.2.6';
@@ -39,16 +39,16 @@ export default function Actualizaciones() {
 
       <div className="bg-[#2e2e2e] p-6 rounded-xl shadow-md w-full max-w-lg space-y-6">
         <div className="flex items-center gap-4">
-          <Code2 size={32} className="text-[#facc15]" />
+          <FaCode size={32} className="text-[#facc15]" />
           <div>
             <p className="text-lg font-semibold">Versión de la App</p>
             <p className="text-gray-300">Krino-Link v{appVersion}</p>
           </div>
-          <CheckCircle2 size={20} className="text-green-500 ml-auto" />
+          <FaCheckCircle size={20} className="text-green-500 ml-auto" />
         </div>
 
         <div className="flex items-center gap-4">
-          <Cpu size={32} className="text-[#38bdf8]" />
+          <FaMicrochip size={32} className="text-[#38bdf8]" />
           <div>
             <p className="text-lg font-semibold">Firmware del módulo KL-01</p>
             <p className="text-gray-300">
@@ -56,7 +56,7 @@ export default function Actualizaciones() {
               {hayUpdate && <span className="ml-2 text-yellow-400">→ {firmwareNuevo}</span>}
             </p>
           </div>
-          <AlertTriangle size={20} className="text-yellow-500 ml-auto" />
+          <FaExclamationTriangle size={20} className="text-yellow-500 ml-auto" />
         </div>
       </div>
 
@@ -71,12 +71,12 @@ export default function Actualizaciones() {
       >
         {buscando ? (
           <>
-            <Loader2 className="animate-spin" size={18} />
+            <FaSpinner className="animate-spin" size={18} />
             Buscando actualizaciones...
           </>
         ) : (
           <>
-            <RefreshCw size={18} />
+            <FaSync size={18} />
             Buscar actualizaciones
           </>
         )}
@@ -89,10 +89,10 @@ export default function Actualizaciones() {
               onClick={() => setMostrarModal(false)}
               className="absolute top-3 right-3 text-white hover:text-red-400"
             >
-              <X size={20} />
+              <FaTimes size={20} />
             </button>
             <div className="flex items-center gap-3 mb-4">
-              <Cpu size={24} className="text-cyan-400" />
+              <FaMicrochip size={24} className="text-cyan-400" />
               <h3 className="text-xl font-bold text-white">Actualización disponible</h3>
             </div>
             <p className="text-sm text-gray-300 mb-4">
@@ -111,7 +111,7 @@ export default function Actualizaciones() {
               className="flex items-center justify-center gap-2 bg-green-700 hover:bg-green-600 w-full py-2 rounded text-white font-semibold transition"
               onClick={() => setMostrarModal(false)}
             >
-              <Download size={18} />
+              <FaDownload size={18} />
               Descargar actualización
             </button>
           </div>

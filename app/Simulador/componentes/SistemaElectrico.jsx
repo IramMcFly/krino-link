@@ -2,7 +2,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { CheckCircle, Car, Zap, Lightbulb, Fan, Settings, AlertTriangle } from 'lucide-react';
+import { FaCheckCircle, FaCar, FaZap, FaLightbulb, FaFan, FaCog, FaExclamationTriangle } from 'react-icons/fa';
 import {
   ResponsiveContainer,
   LineChart,
@@ -44,9 +44,9 @@ export default function SistemaElectrico({ volver }) {
   };
 
   const botones = [
-    { nombre: 'luces', label: 'Luces', icono: Lightbulb },
-    { nombre: 'ventilador', label: 'Ventilador', icono: Fan },
-    { nombre: 'modulo', label: 'Módulo auxiliar', icono: Settings },
+    { nombre: 'luces', label: 'Luces', icono: FaLightbulb },
+    { nombre: 'ventilador', label: 'Ventilador', icono: FaFan },
+    { nombre: 'modulo', label: 'Módulo auxiliar', icono: FaCog },
   ];
 
   return (
@@ -83,7 +83,7 @@ export default function SistemaElectrico({ volver }) {
 
           {cargaActual > 60 && (
             <div className="mt-4 flex items-center gap-2 text-yellow-400 justify-center text-sm">
-              <AlertTriangle size={18} /> Advertencia: Consumo eléctrico elevado ({cargaActual}W)
+              <FaExclamationTriangle size={18} /> Advertencia: Consumo eléctrico elevado ({cargaActual}W)
             </div>
           )}
         </div>

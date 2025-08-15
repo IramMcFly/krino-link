@@ -2,14 +2,14 @@
 
 import { useState } from 'react';
 import {
-  AirVent,
-  AlertCircle,
-  CheckCircle,
-  XCircle,
-  User,
-  Car,
-  ArrowLeftRight,
-} from 'lucide-react';
+  FaWind,
+  FaExclamationCircle,
+  FaCheckCircle,
+  FaTimes,
+  FaUser,
+  FaCar,
+  FaArrowsAltH,
+} from 'react-icons/fa';
 
 const bolsas = [
   'Airbag conductor',
@@ -38,9 +38,9 @@ export default function ModuloAirbag({ volver }) {
   };
 
   const getIcon = (estado) => {
-    if (estado === 'activo') return <CheckCircle size={18} />;
-    if (estado === 'falla') return <XCircle size={18} />;
-    return <AirVent size={18} />;
+    if (estado === 'activo') return <FaCheckCircle size={18} />;
+    if (estado === 'falla') return <FaTimes size={18} />;
+    return <FaWind size={18} />;
   };
 
   const renderEstado = (nombre) => (
@@ -61,17 +61,17 @@ export default function ModuloAirbag({ volver }) {
       <div className="flex flex-col items-center mb-10 space-y-3 text-sm">
         <div className="flex items-center gap-6">
           {renderEstado('Cortina izquierda')}
-          <ArrowLeftRight className="text-gray-400" />
+          <FaArrowsAltH className="text-gray-400" />
           {renderEstado('Cortina derecha')}
         </div>
         <div className="flex items-center gap-6">
           {renderEstado('Lateral izquierdo')}
-          <Car size={28} className="text-gray-300" />
+          <FaCar size={28} className="text-gray-300" />
           {renderEstado('Lateral derecho')}
         </div>
         <div className="flex items-center gap-6">
           {renderEstado('Airbag conductor')}
-          <User size={24} className="text-white" />
+          <FaUser size={24} className="text-white" />
           {renderEstado('Airbag pasajero')}
         </div>
       </div>
@@ -99,7 +99,7 @@ export default function ModuloAirbag({ volver }) {
 
       {Object.values(estadoBolsas).includes('falla') && (
         <div className="mt-6 bg-yellow-800 p-4 rounded border-l-4 border-yellow-500 text-yellow-200 flex items-start gap-2">
-          <AlertCircle size={20} />
+          <FaExclamationCircle size={20} />
           <p>
             Algunas unidades no respondieron a la simulación. Revise el sistema o intente nuevamente.
           </p>

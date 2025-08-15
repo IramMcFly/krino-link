@@ -2,23 +2,23 @@
 
 import { useState } from 'react';
 import {
-  Loader2,
-  CheckCircle,
-  XCircle,
-  Cpu,
-  Car,
-  Gauge,
-  Fan,
-  BatteryCharging,
-  ServerCog,
-} from 'lucide-react';
+  FaSpinner,
+  FaCheckCircle,
+  FaTimes,
+  FaMicrochip,
+  FaCar,
+  FaTachometerAlt,
+  FaFan,
+  FaBatteryHalf,
+  FaServer,
+} from 'react-icons/fa';
 
 const sistemas = [
-  { nombre: 'Motor', icono: Gauge },
-  { nombre: 'Transmisión', icono: Car },
-  { nombre: 'Sistema eléctrico', icono: BatteryCharging },
-  { nombre: 'Sistema de enfriamiento', icono: Fan },
-  { nombre: 'Módulo central ECU', icono: Cpu },
+  { nombre: 'Motor', icono: FaTachometerAlt },
+  { nombre: 'Transmisión', icono: FaCar },
+  { nombre: 'Sistema eléctrico', icono: FaBatteryHalf },
+  { nombre: 'Sistema de enfriamiento', icono: FaFan },
+  { nombre: 'Módulo central ECU', icono: FaMicrochip },
 ];
 
 export default function ModuloECUReset({ volver }) {
@@ -50,10 +50,10 @@ export default function ModuloECUReset({ volver }) {
   const getIconoEstado = (nombre) => {
     const estadoSistema = resultados[nombre];
     if (estadoSistema === 'ok')
-      return <CheckCircle className="text-green-500" size={20} />;
+      return <FaCheckCircle className="text-green-500" size={20} />;
     if (estadoSistema === 'fail')
-      return <XCircle className="text-red-500" size={20} />;
-    return <Loader2 className="animate-spin text-gray-400" size={20} />;
+      return <FaTimes className="text-red-500" size={20} />;
+    return <FaSpinner className="animate-spin text-gray-400" size={20} />;
   };
 
   return (
@@ -92,7 +92,7 @@ export default function ModuloECUReset({ volver }) {
 
       {estado === 'completo' && (
         <div className="flex items-center gap-2 bg-green-700 text-white px-4 py-3 rounded shadow text-center">
-          <ServerCog size={20} className="text-white" />
+          <FaServer size={20} className="text-white" />
           <span>Reinicio completado. Todos los sistemas han sido verificados correctamente.</span>
         </div>
       )}

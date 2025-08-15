@@ -1,6 +1,6 @@
 'use client';
 
-import { Bluetooth } from 'lucide-react';
+import { FaBluetooth } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
 
 export default function DeviceSelector() {
@@ -25,7 +25,7 @@ export default function DeviceSelector() {
           onClick={handleSelect}
           className="flex items-center gap-3 bg-[#d1d1d1] text-black px-4 py-3 rounded-lg cursor-pointer hover:bg-[#bbbbbb] transition"
         >
-          <Bluetooth size={24} />
+          <FaBluetooth size={24} />
           <span className="font-semibold text-lg">KL-01</span>
         </div>
       </div>

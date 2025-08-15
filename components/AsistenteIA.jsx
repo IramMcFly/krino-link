@@ -3,7 +3,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { Send } from 'lucide-react';
+import { FaPaperPlane } from 'react-icons/fa';
 import ReactMarkdown from 'react-markdown';
 
 export default function AsistenteIA() {
@@ -128,7 +128,7 @@ export default function AsistenteIA() {
             disabled={!userMessage.trim()}
             className="bg-[#c3151b] hover:bg-[#a31217] text-white p-2 rounded-full disabled:bg-gray-600"
           >
-            <Send size={20} />
+            <FaPaperPlane size={20} />
           </button>
         </div>
       </div>

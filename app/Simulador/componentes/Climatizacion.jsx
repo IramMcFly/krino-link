@@ -2,7 +2,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Thermometer, Fan, Flame, Snowflake } from 'lucide-react';
+import { FaThermometer, FaFan, FaFire, FaSnowflake } from 'react-icons/fa';
 import {
   ResponsiveContainer,
   LineChart,
@@ -73,10 +73,10 @@ export default function Climatizacion({ volver }) {
 
         <div className="mb-6 text-center text-sm">
           {estado === 'compresor' && (
-            <div className="text-blue-400 flex items-center justify-center gap-2"><Snowflake size={18} /> Compresor A/C activo</div>
+            <div className="text-blue-400 flex items-center justify-center gap-2"><FaSnowflake size={18} /> Compresor A/C activo</div>
           )}
           {estado === 'calentador' && (
-            <div className="text-orange-400 flex items-center justify-center gap-2"><Flame size={18} /> Calentador activo</div>
+            <div className="text-orange-400 flex items-center justify-center gap-2"><FaFire size={18} /> Calentador activo</div>
           )}
           {estado === 'off' && (
             <div className="text-gray-400">Sistema en espera</div>

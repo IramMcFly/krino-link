@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { ShoppingCart, Rocket, Zap, ShieldCheck, MonitorSmartphone, Eye } from "lucide-react";
+import { FaShoppingCart, FaRocket, FaZap, FaShieldAlt, FaMobileAlt, FaEye } from "react-icons/fa";
 import { NavLanding } from "./NavLanding";
 
 
@@ -20,22 +20,22 @@ const imagenes = [
 
 const features = [
 	{
-		icon: <Rocket size={32} className="text-krino-red" />,
+		icon: <FaRocket size={32} className="text-krino-red" />,
 		title: "Tecnología de Punta",
 		desc: "Equipos OBD2 diseñados para el diagnóstico avanzado de vehículos eléctricos e híbridos.",
 	},
 	{
-		icon: <MonitorSmartphone size={32} className="text-krino-yellow" />,
+		icon: <FaMobileAlt size={32} className="text-krino-yellow" />,
 		title: "Simulador Interactivo",
 		desc: "Experimenta el diagnóstico antes de comprar con nuestro simulador web.",
 	},
 	{
-		icon: <ShoppingCart size={32} className="text-sky-400" />,
+		icon: <FaShoppingCart size={32} className="text-sky-400" />,
 		title: "Tienda Especializada",
 		desc: "Compra dispositivos certificados y recibe asesoría personalizada para tu taller.",
 	},
 	{
-		icon: <ShieldCheck size={32} className="text-green-500" />,
+		icon: <FaShieldAlt size={32} className="text-green-500" />,
 		title: "Soporte y Garantía",
 		desc: "Atención postventa, actualizaciones y garantía directa con nuestro equipo técnico.",
 	},
@@ -54,12 +54,12 @@ const testimonios = [
 
 const misiones = [
 	{
-		icon: <Rocket size={32} className="text-green-500" />,
+		icon: <FaRocket size={32} className="text-green-500" />,
 		title: "Mision",
 		desc: "Ser la empresa desarrolladora de HW y SW referente del mercado y confiable"
 	},
 	{
-		icon: <Eye size={32} className="text-green-500" />,
+		icon: <FaEye size={32} className="text-green-500" />,
 		title: "Vision",
 		desc: "Tener el mejor mercado al ser los dispositivos de confianza y primera eleccion para todos los talleres"
 	}

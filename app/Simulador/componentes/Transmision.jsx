@@ -2,7 +2,7 @@
 'use client';
 
 import { useState } from 'react';
-import { CheckCircle, Car } from 'lucide-react';
+import { FaCheckCircle, FaCar } from 'react-icons/fa';
 
 const modosTransmision = ['P', 'R', 'N', 'D', 'S', 'L'];
 
@@ -36,7 +36,7 @@ export default function Transmision({ volver }) {
             ))}
           </div>
           <div className="mt-4 flex items-center gap-2 text-green-400 text-sm">
-            <CheckCircle size={18} /> Todos los modos de transmisión responden correctamente.
+            <FaCheckCircle size={18} /> Todos los modos de transmisión responden correctamente.
           </div>
         </div>
       </div>

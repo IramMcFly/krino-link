@@ -1,24 +1,24 @@
 'use client';
 
 import {
-  Car,
-  BatteryFull,
-  GaugeCircle,
-  Sparkles,
-  Info,
-  TestTube2,
-  UploadCloud,
-} from 'lucide-react';
+  FaCar,
+  FaBatteryFull,
+  FaTachometerAlt,
+  FaStar,
+  FaInfoCircle,
+  FaFlask,
+  FaCloudUploadAlt,
+} from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 const opciones = [
-  { label: 'Análisis Rápido', icon: Car, route: '/AnalisisRapido' },
-  { label: 'Análisis de Batería', icon: BatteryFull, route: '/AnalisisBateria' },
-  { label: 'Análisis de Motor', icon: GaugeCircle, route: '/AnalisisMotor' },
-  { label: 'Asist IA', icon: Sparkles, route: '/AsistenteIA' },
-  { label: 'Banco de Pruebas', icon: TestTube2, route: '/Simulador' },
-  { label: 'Actualizaciones', icon: UploadCloud, route: '/Actualizaciones' },
+  { label: 'Análisis Rápido', icon: FaCar, route: '/AnalisisRapido' },
+  { label: 'Análisis de Batería', icon: FaBatteryFull, route: '/AnalisisBateria' },
+  { label: 'Análisis de Motor', icon: FaTachometerAlt, route: '/AnalisisMotor' },
+  { label: 'Asist IA', icon: FaStar, route: '/AsistenteIA' },
+  { label: 'Banco de Pruebas', icon: FaFlask, route: '/Simulador' },
+  { label: 'Actualizaciones', icon: FaCloudUploadAlt, route: '/Actualizaciones' },
 ];
 
 const vehiculo = {
@@ -59,7 +59,7 @@ export default function MenuDiagnostico() {
       <div className="bg-[#c3c3c3] text-black rounded-xl p-4 mb-6 w-full max-w-md sm:max-w-lg shadow-md z-10">
         <div className="flex flex-col gap-2 sm:gap-4 text-sm sm:text-base">
           <div className="flex items-center gap-2 overflow-hidden">
-            <Info size={18} />
+            <FaInfoCircle size={18} />
             <span className="font-semibold whitespace-nowrap">Conectado a:</span>
             <span className="truncate">{vehiculo.nombre}</span>
           </div>
@@ -68,7 +68,7 @@ export default function MenuDiagnostico() {
             <span className="truncate">{vehiculo.numeroSerie}</span>
           </div>
           <div className="flex items-center gap-2 overflow-hidden">
-            <BatteryFull size={18} />
+            <FaBatteryFull size={18} />
             <span className="font-semibold whitespace-nowrap">Batería:</span>
             <span className="truncate">{vehiculo.bateria}</span>
           </div>

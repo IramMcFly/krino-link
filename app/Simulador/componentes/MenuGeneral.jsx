@@ -1,27 +1,27 @@
 'use client';
 
 import {
-  Gauge,
-  Car,
-  BatteryCharging,
-  Fan,
-  Thermometer,
-  Settings,
-  ShieldCheck,
-  AlertTriangle,
-  RefreshCcw,
-  AirVent,
-} from 'lucide-react';
+  FaTachometer,
+  FaCar,
+  FaBatteryHalf,
+  FaFan,
+  FaThermometer,
+  FaCog,
+  FaShieldAlt,
+  FaExclamationTriangle,
+  FaSync,
+  FaWind,
+} from 'react-icons/fa';
 
 const modulos = [
-  { nombre: 'ABS', icono: ShieldCheck, archivo: 'ModuloABS' },
-  { nombre: 'Airbags', icono: AirVent, archivo: 'ModuloAirbag' },
-  { nombre: 'Reinicio ECU', icono: RefreshCcw, archivo: 'ModuloECUReset' },
-  { nombre: 'Transmisión', icono: Car, archivo: 'Transmision' },
-  { nombre: 'Sistema eléctrico', icono: BatteryCharging, archivo: 'SistemaElectrico' },
-  { nombre: 'Sistema de enfriamiento', icono: Fan, archivo: 'Enfriamiento' },
-  { nombre: 'Climatización', icono: Thermometer, archivo: 'Climatizacion' },
-  { nombre: 'Otros sistemas', icono: Settings, archivo: 'OtrosSistemas' },
+  { nombre: 'ABS', icono: FaShieldAlt, archivo: 'ModuloABS' },
+  { nombre: 'Airbags', icono: FaWind, archivo: 'ModuloAirbag' },
+  { nombre: 'Reinicio ECU', icono: FaSync, archivo: 'ModuloECUReset' },
+  { nombre: 'Transmisión', icono: FaCar, archivo: 'Transmision' },
+  { nombre: 'Sistema eléctrico', icono: FaBatteryHalf, archivo: 'SistemaElectrico' },
+  { nombre: 'Sistema de enfriamiento', icono: FaFan, archivo: 'Enfriamiento' },
+  { nombre: 'Climatización', icono: FaThermometer, archivo: 'Climatizacion' },
+  { nombre: 'Otros sistemas', icono: FaCog, archivo: 'OtrosSistemas' },
 ];
 
 export default function MenuGeneral({ seleccionarModulo }) {

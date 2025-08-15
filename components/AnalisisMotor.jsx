@@ -2,13 +2,13 @@
 
 import { useEffect, useState } from 'react';
 import {
-  GaugeCircle,
-  SlidersHorizontal,
-  Thermometer,
-  BatteryCharging,
-  AlertTriangle,
-  Car
-} from 'lucide-react';
+  FaTachometerAlt,
+  FaSlidersH,
+  FaThermometer,
+  FaBatteryHalf,
+  FaExclamationTriangle,
+  FaCar
+} from 'react-icons/fa';
 import {
   ResponsiveContainer,
   LineChart,
@@ -114,7 +114,7 @@ export default function AnalisisMotor() {
 
       <div className="bg-[#2e2e2e] p-6 rounded-xl shadow-md w-full max-w-5xl space-y-6">
         <div className="flex items-center gap-3">
-          <GaugeCircle size={24} className="text-blue-400" />
+          <FaTachometerAlt size={24} className="text-blue-400" />
           <p className="text-lg font-medium">
             Código DTC detectado: <span className="text-red-500 font-bold">P0A1F</span>
           </p>
@@ -123,7 +123,7 @@ export default function AnalisisMotor() {
         <div className="grid md:grid-cols-2 gap-6">
           <div>
             <label className="text-sm text-gray-300 flex items-center gap-2">
-              <SlidersHorizontal size={18} /> Posición del acelerador: {acelerador}%
+              <FaSlidersH size={18} /> Posición del acelerador: {acelerador}%
             </label>
             <input
               type="range"
@@ -154,7 +154,7 @@ export default function AnalisisMotor() {
 
         <div>
           <label className="text-sm text-gray-300 flex items-center gap-2">
-            <BatteryCharging size={18} /> Velocidad de actualización: {velocidadActualizacion} ms
+            <FaBatteryHalf size={18} /> Velocidad de actualización: {velocidadActualizacion} ms
           </label>
           <input
             type="range"
@@ -194,7 +194,7 @@ export default function AnalisisMotor() {
             </ResponsiveContainer>
             {historial[historial.length - 1]?.alertaTemperatura && (
               <div className="text-yellow-500 flex items-center gap-2 mt-2 text-sm justify-center">
-                <AlertTriangle size={16} /> Temperatura elevada del motor
+                <FaExclamationTriangle size={16} /> Temperatura elevada del motor
               </div>
             )}
           </div>

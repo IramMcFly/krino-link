@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { BatteryFull, Zap, PlugZap, Thermometer, Bolt } from 'lucide-react';
+import { FaBatteryFull, FaBolt, FaPlug, FaThermometer } from 'react-icons/fa';
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
 
 export default function AnalisisBateria() {
@@ -74,23 +74,23 @@ export default function AnalisisBateria() {
         <div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="bg-[#2e2e2e] p-6 rounded-xl shadow-md space-y-4 text-left">
             <div className="flex items-center gap-2 cursor-pointer" onClick={() => setParametroSeleccionado('Voltaje')}>
-              <PlugZap size={20} className="text-blue-400" />
+              <FaPlug size={20} className="text-blue-400" />
               <p><strong>Voltaje:</strong> {estadoBateria.voltaje} V</p>
             </div>
             <div className="flex items-center gap-2 cursor-pointer" onClick={() => setParametroSeleccionado('Corriente')}>
-              <Bolt size={20} className="text-yellow-300" />
+              <FaBolt size={20} className="text-yellow-300" />
               <p><strong>Corriente:</strong> {estadoBateria.corriente} A</p>
             </div>
             <div className="flex items-center gap-2 cursor-pointer" onClick={() => setParametroSeleccionado('Temperatura')}>
-              <Thermometer size={20} className="text-red-400" />
+              <FaThermometer size={20} className="text-red-400" />
               <p><strong>Temperatura:</strong> {estadoBateria.temperatura} °C</p>
             </div>
             <div className="flex items-center gap-2">
-              <BatteryFull size={20} className="text-green-400" />
+              <FaBatteryFull size={20} className="text-green-400" />
               <p><strong>Nivel de carga:</strong> {estadoBateria.porcentaje}%</p>
             </div>
             <div className="flex items-center gap-2">
-              <Zap size={20} className="text-pink-400" />
+              <FaBolt size={20} className="text-pink-400" />
               <p><strong>Capacidad total:</strong> {estadoBateria.capacidadTotal} kWh</p>
             </div>
             <p><strong>Estado:</strong> {estadoBateria.estado}</p>
