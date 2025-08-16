@@ -3,6 +3,7 @@
 import React from "react";
 import { FaShoppingCart, FaRocket, FaZap, FaShieldAlt, FaMobileAlt, FaEye } from "react-icons/fa";
 import { NavLanding } from "./NavLanding";
+import { useRouter } from 'next/navigation';
 
 
 const imagenes = [
@@ -66,6 +67,19 @@ const misiones = [
 ]
 
 
+function SimuladorButton() {
+  const router = useRouter();
+  return (
+    <button
+      onClick={() => router.push('/Simulador')}
+      className="mt-8 bg-krino-yellow text-black font-bold px-8 py-4 rounded-xl shadow-lg hover:bg-yellow-400 transition-all text-lg flex items-center gap-3"
+    >
+      <FaRocket className="text-krino-red" />
+      Probar Simulador
+    </button>
+  );
+}
+
 const LandingPage = () => (
 	<div className="min-h-screen flex flex-col items-center bg-gradient-to-br from-krino-darker via-krino-dark to-krino-panel font-sans text-white px-4 scroll-smooth">
 		<NavLanding />
@@ -81,8 +95,7 @@ const LandingPage = () => (
 			<p className="text-lg md:text-xl text-gray-300 mt-4 leading-relaxed max-w-2xl mx-auto">
 				La plataforma de diagnóstico OBD2 para vehículos eléctricos e híbridos. Lleva tu taller al siguiente nivel con tecnología, simulador y tienda especializada.
 			</p>
-
-
+			<SimuladorButton />
 		</header>
 
 		<section id="imagenes" className="mb-10 mt-0">
