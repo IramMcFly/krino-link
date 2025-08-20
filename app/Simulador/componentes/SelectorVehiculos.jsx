@@ -185,7 +185,7 @@ export default function SelectorVehiculos({ onVehiculoSeleccionado }) {
               onClick={confirmarSeleccion}
               className="w-full bg-[#c3151b] hover:bg-[#a31116] py-3 rounded-lg font-semibold flex items-center justify-center gap-2 transition-colors"
             >
-              Iniciar Simulación
+              Iniciar
               <FaArrowRight />
             </button>
           </div>

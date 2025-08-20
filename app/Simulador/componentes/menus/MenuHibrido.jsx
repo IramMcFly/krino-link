@@ -11,16 +11,18 @@ import {
   FaSync,
   FaWind,
   FaBolt,
-  FaLeaf
+  FaLeaf,
+  FaSearch
 } from 'react-icons/fa';
 
 const modulos = [
+  { nombre: 'Análisis Rápido', icono: FaSearch, archivo: 'AnalisisRapidoSimulador', descripcion: 'Escaneo rápido de códigos DTC del vehículo' },
   { nombre: 'Motor de Combustión', icono: FaCogs, archivo: 'MotorCombustion', descripcion: 'Sistema de combustión interna IMA' },
   { nombre: 'Motor Eléctrico IMA', icono: FaBolt, archivo: 'MotorElectricoIMA', descripcion: 'Motor eléctrico de asistencia integrado' },
   { nombre: 'Batería Híbrida', icono: FaBatteryHalf, archivo: 'BateriaHibrida', descripcion: 'Batería NiMH de alto voltaje' },
-  { nombre: 'Sistema CVT', icono: FaTachometerAlt, archivo: 'SistemaCVT', descripcion: 'Transmisión variable continua híbrida' },
   { nombre: 'Control Híbrido', icono: FaLeaf, archivo: 'ControlHibrido', descripcion: 'Unidad de control del sistema híbrido' },
   { nombre: 'Sistema de Combustible', icono: FaGasPump, archivo: 'SistemaCombustible', descripcion: 'Inyección y alimentación de combustible' },
+  { nombre: 'Sistema CVT', icono: FaTachometerAlt, archivo: 'SistemaCVT', descripcion: 'Transmisión variable continua híbrida' },
   { nombre: 'Climatización', icono: FaThermometer, archivo: 'Climatizacion', descripcion: 'Climatización con eficiencia híbrida' },
   { nombre: 'ABS', icono: FaShieldAlt, archivo: 'ModuloABS', descripcion: 'Sistema de frenos con regeneración' },
   { nombre: 'Airbags', icono: FaWind, archivo: 'ModuloAirbag', descripcion: 'Sistema de bolsas de aire' },

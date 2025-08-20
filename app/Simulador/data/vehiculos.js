@@ -34,7 +34,7 @@ export const vehiculosDisponibles = {
     año: 2005,
     tipo: 'hibrido',
     numeroSerie: '1HGCM66574A123456',
-    imagen: '/images/vehicles/honda-accord-2005.png',
+    imagen: '/DMYSYS/2005Accord.jpg',
     especificaciones: {
       motorGasolina: 'V6 3.0L VTEC',
       motorElectrico: 'Motor IMA',
@@ -112,6 +112,36 @@ export const vehiculosDisponibles = {
     },
     modosConduccion: ['Eco', 'Comfort', 'Sport', 'Individual'],
     codigosDTC: ['P0A1F', 'P0AA6', 'P0A0F', 'U0100', 'B10A7']
+  },
+
+  'kia-ev6-2024': {
+    id: 'kia-ev6-2024',
+    nombre: '2024 KIA EV6 GT-Line',
+    año: 2024,
+    tipo: 'electrico',
+    numeroSerie: 'KNEV253A8P7123456',
+    imagen: '/images/vehicles/kia-ev6-2024.png',
+    especificaciones: {
+      motor: 'Motor dual (delantero + trasero)',
+      potencia: '239 kW (320 hp)',
+      bateria: '77.4 kWh',
+      autonomia: '528 km',
+      cargaMaxima: '240 kW DC / 11 kW AC',
+      transmision: 'Automática (1 velocidad)',
+      traccion: 'AWD (Tracción total)'
+    },
+    sistemas: ['ABS', 'Airbags', 'ECU', 'BatteryManagement', 'DualMotor', 'HeatPump', 'UltraFastCharging', 'V2L', 'Level2Autonomy'],
+    parametros: {
+      bateria: { min: 0, max: 100, unidad: '%' },
+      voltaje: { min: 350, max: 800, unidad: 'V' },
+      corriente: { min: 0, max: 350, unidad: 'A' },
+      temperatura: { min: 5, max: 95, unidad: '°C' },
+      velocidad: { min: 0, max: 185, unidad: 'km/h' },
+      potencia: { min: 0, max: 239, unidad: 'kW' },
+      torque: { min: 0, max: 605, unidad: 'Nm' }
+    },
+    modosConduccion: ['Eco', 'Normal', 'Sport', 'Snow', 'AWD'],
+    codigosDTC: ['P0A1F', 'P0AA6', 'P0A0F', 'U0100', 'B10A7', 'C1A01', 'P0C1F']
   }
 };
 

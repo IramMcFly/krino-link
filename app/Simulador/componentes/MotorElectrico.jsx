@@ -1,240 +1,299 @@
-import React, { useState, useEffect } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
-import { FaBolt, FaThermometerHalf, FaTachometerAlt, FaExclamationTriangle, FaCheckCircle, FaChargingStation } from 'react-icons/fa';
+'use client';
 
-const MotorElectrico = ({ isActive = false }) => {
-  const [datos, setDatos] = useState([]);
-  const [parametros, setParametros] = useState({
-    potencia: 85.5,
-    voltaje: 380,
-    corriente: 120,
-    temperatura: 42,
-    rpm: 2500,
-    eficiencia: 94.2,
-    estado: 'operativo'
-  });
+import { useState, useEffect } from 'react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { 
+  FaBolt, 
+  FaArrowLeft, 
+  FaPlay, 
+  FaStop, 
+  FaTachometerAlt, 
+  FaThermometer, 
+  FaCog,
+  FaExclamationTriangle,
+  FaCheckCircle 
+} from 'react-icons/fa';
+import { 
+  moduleStyles, 
+  ModuleHeader, 
+  ParameterCard, 
+  AlertBanner, 
+  ChartContainer 
+} from './styles/ModuleStyles';
 
-  const [codigosDTC, setCodigosDTC] = useState([
-    { codigo: 'P0A1F', descripcion: 'Fallo sensor temperatura motor', estado: 'resuelto' },
-    { codigo: 'P0AA6', descripcion: 'Circuito inversor alto voltaje', estado: 'activo' }
-  ]);
+export default function MotorElectrico({ volver, vehiculo }) {
+  const [diagnosticoActivo, setDiagnosticoActivo] = useState(false);
+  const [modoConduccion, setModoConduccion] = useState('normal');
+
+  const getParametrosIniciales = () => {
+    const potenciaMaxima = parseFloat(vehiculo?.especificaciones?.potencia?.replace(/[^\d.]/g, '')) || 150;
+    
+    return {
+      rpm: 0,
+      torque: 0,
+      potencia: 0,
+      temperatura: 25,
+      eficiencia: 95.0,
+      voltajeMotor: 0,
+      corrienteMotor: 0,
+      velocidad: 0,
+      potenciaMaxima: potenciaMaxima
+    };
+  };
+
+  const [parametros, setParametros] = useState(getParametrosIniciales());
+  const [alertas, setAlertas] = useState([]);
+  const [datosGrafico, setDatosGrafico] = useState([]);
 
   useEffect(() => {
-    if (isActive) {
-      const interval = setInterval(() => {
-        // Simular datos en tiempo real del motor eléctrico
-        setParametros(prev => ({
-          ...prev,
-          potencia: Math.max(0, Math.min(150, prev.potencia + (Math.random() - 0.5) * 10)),
-          voltaje: Math.max(300, Math.min(420, prev.voltaje + (Math.random() - 0.5) * 20)),
-          corriente: Math.max(0, Math.min(300, prev.corriente + (Math.random() - 0.5) * 30)),
-          temperatura: Math.max(25, Math.min(80, prev.temperatura + (Math.random() - 0.5) * 3)),
-          rpm: Math.max(0, Math.min(8000, prev.rpm + (Math.random() - 0.5) * 200)),
-          eficiencia: Math.max(85, Math.min(98, prev.eficiencia + (Math.random() - 0.5) * 2))
-        }));
+    const datosIniciales = [];
+    for (let i = 0; i < 10; i++) {
+      datosIniciales.push({
+        tiempo: new Date(Date.now() - (9 - i) * 1000).toLocaleTimeString(),
+        rpm: 0,
+        torque: 0,
+        potencia: 0,
+        temperatura: 25
+      });
+    }
+    setDatosGrafico(datosIniciales);
+  }, []);
 
-        // Actualizar gráfico
-        setDatos(prev => {
+  const iniciarDiagnostico = () => {
+    setDiagnosticoActivo(true);
+  };
+
+  const detenerDiagnostico = () => {
+    setDiagnosticoActivo(false);
+    setParametros(getParametrosIniciales());
+    setAlertas([]);
+  };
+
+  useEffect(() => {
+    if (!diagnosticoActivo) return;
+
+    const intervalo = setInterval(() => {
+      setParametros(prev => {
+        let factorRpm = 1;
+        let factorTorque = 1;
+        let factorEficiencia = 1;
+
+        if (modoConduccion === 'sport') {
+          factorRpm = 1.4;
+          factorTorque = 1.3;
+          factorEficiencia = 0.92;
+        } else if (modoConduccion === 'eco') {
+          factorRpm = 0.7;
+          factorTorque = 0.8;
+          factorEficiencia = 1.05;
+        }
+
+        const baseRpm = 1500 + Math.random() * 3000; // Rango reducido
+        const baseTorque = 200 + Math.random() * 300; // Rango reducido
+        const baseTemp = 50 + Math.random() * 15; // Rango más pequeño: 50-65°C
+        const basePotencia = (baseRpm * baseTorque) / 9549;
+
+        const nuevosParametros = {
+          rpm: Math.max(0, baseRpm * factorRpm + (Math.random() - 0.5) * 100), // Variación reducida
+          torque: Math.max(0, baseTorque * factorTorque + (Math.random() - 0.5) * 30), // Variación reducida
+          potencia: Math.max(0, Math.min(prev.potenciaMaxima, basePotencia * factorRpm + (Math.random() - 0.5) * 8)),
+          temperatura: Math.max(25, Math.min(90, prev.temperatura + (Math.random() - 0.5) * 0.5)), // Cambio gradual
+          eficiencia: Math.max(85, Math.min(98, 95 * factorEficiencia + (Math.random() - 0.5) * 2)),
+          voltajeMotor: Math.max(300, Math.min(450, 380 + (Math.random() - 0.5) * 30)),
+          corrienteMotor: Math.max(0, Math.min(300, 150 + (Math.random() - 0.5) * 100)),
+          velocidad: Math.max(0, Math.min(200, (baseRpm / 100) + (Math.random() - 0.5) * 10)),
+          potenciaMaxima: prev.potenciaMaxima
+        };
+
+        setDatosGrafico(prevDatos => {
           const nuevoDato = {
             tiempo: new Date().toLocaleTimeString(),
-            potencia: parametros.potencia,
-            temperatura: parametros.temperatura,
-            eficiencia: parametros.eficiencia
+            rpm: nuevosParametros.rpm / 100,
+            torque: nuevosParametros.torque / 10,
+            potencia: nuevosParametros.potencia,
+            temperatura: nuevosParametros.temperatura
           };
-          return [...prev.slice(-19), nuevoDato];
+          return [...prevDatos.slice(-19), nuevoDato];
         });
-      }, 1000);
 
-      return () => clearInterval(interval);
-    }
-  }, [isActive, parametros.potencia, parametros.temperatura, parametros.eficiencia]);
+        return nuevosParametros;
+      });
 
-  if (!isActive) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-900 to-blue-800 text-white flex items-center justify-center">
-        <div className="text-center max-w-2xl mx-auto px-6">
-          <FaBolt className="text-6xl text-blue-300 mx-auto mb-6 animate-pulse" />
-          <h2 className="text-3xl font-bold mb-4">Módulo en Desarrollo</h2>
-          <p className="text-blue-100 text-lg mb-8">
-            El módulo <span className="text-blue-300 font-semibold">"MotorElectrico"</span> está siendo desarrollado.
-          </p>
-          <div className="bg-blue-800/50 rounded-xl p-6 backdrop-blur-sm border border-blue-600">
-            <h3 className="text-xl font-semibold mb-4 text-blue-300">Características planificadas:</h3>
-            <ul className="text-left space-y-3 text-blue-100">
-              <li className="flex items-center gap-3">
-                <FaCheckCircle className="text-green-400 text-sm" />
-                Diagnóstico en tiempo real
-              </li>
-              <li className="flex items-center gap-3">
-                <FaCheckCircle className="text-green-400 text-sm" />
-                Lectura de códigos DTC específicos
-              </li>
-              <li className="flex items-center gap-3">
-                <FaCheckCircle className="text-green-400 text-sm" />
-                Gráficos de parámetros
-              </li>
-              <li className="flex items-center gap-3">
-                <FaCheckCircle className="text-green-400 text-sm" />
-                Simulación de fallos
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    );
-  }
+      const nuevasAlertas = [];
+      if (parametros.temperatura > 90) {
+        nuevasAlertas.push({ tipo: 'warning', mensaje: 'Temperatura del motor elevada' });
+      }
+      if (parametros.temperatura > 105) {
+        nuevasAlertas.push({ tipo: 'error', mensaje: 'Temperatura crítica - Motor en riesgo' });
+      }
+      if (parametros.rpm > 8000) {
+        nuevasAlertas.push({ tipo: 'warning', mensaje: 'RPM elevadas detectadas' });
+      }
+      if (parametros.eficiencia < 90) {
+        nuevasAlertas.push({ tipo: 'warning', mensaje: 'Eficiencia del motor reducida' });
+      }
+      if (parametros.corrienteMotor > 250) {
+        nuevasAlertas.push({ tipo: 'warning', mensaje: 'Alta corriente de motor' });
+      }
+
+      setAlertas(nuevasAlertas);
+    }, 1200);
+
+    return () => clearInterval(intervalo);
+  }, [diagnosticoActivo, modoConduccion, parametros.temperatura, parametros.rpm, parametros.eficiencia, parametros.corrienteMotor]);
+
+  const modos = [
+    { id: 'eco', nombre: 'Eco', color: 'text-green-400', desc: 'Máxima eficiencia' },
+    { id: 'normal', nombre: 'Normal', color: 'text-blue-400', desc: 'Rendimiento equilibrado' },
+    { id: 'sport', nombre: 'Sport', color: 'text-red-400', desc: 'Máxima potencia' }
+  ];
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex items-center gap-3 mb-6">
-          <FaBolt className="text-3xl text-blue-400" />
-          <h1 className="text-3xl font-bold">Motor Eléctrico - Diagnóstico</h1>
-        </div>
-
-        {/* Panel de parámetros principales */}
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-6">
-          <div className="bg-gray-800 rounded-lg p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <FaBolt className="text-yellow-400 text-sm" />
-              <span className="text-xs text-gray-400">Potencia</span>
-            </div>
-            <div className="text-xl font-bold">{parametros.potencia.toFixed(1)} kW</div>
+    <div className={moduleStyles.container}>
+      <div className={moduleStyles.layout.centered}>
+        <ModuleHeader
+          title={`Motor Eléctrico - ${vehiculo?.nombre || 'Vehículo Eléctrico'}`}
+          subtitle={`Potencia: ${vehiculo?.especificaciones?.potencia || 'N/A'} | Diagnóstico del sistema de propulsión eléctrica`}
+          status={diagnosticoActivo ? 'active' : 'inactive'}
+          statusText={diagnosticoActivo ? 'Motor Activo' : 'Motor Detenido'}
+        >
+          <div className="flex flex-wrap gap-4 mt-4">
+            <button onClick={volver} className={moduleStyles.buttons.secondary}>
+              <FaArrowLeft className="mr-2" />
+              Volver
+            </button>
+            
+            <button
+              onClick={diagnosticoActivo ? detenerDiagnostico : iniciarDiagnostico}
+              className={diagnosticoActivo ? moduleStyles.buttons.danger : moduleStyles.buttons.success}
+            >
+              {diagnosticoActivo ? <FaStop className="mr-2" /> : <FaPlay className="mr-2" />}
+              {diagnosticoActivo ? 'Detener' : 'Iniciar'} Motor
+            </button>
           </div>
+        </ModuleHeader>
 
-          <div className="bg-gray-800 rounded-lg p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <FaChargingStation className="text-blue-400 text-sm" />
-              <span className="text-xs text-gray-400">Voltaje</span>
-            </div>
-            <div className="text-xl font-bold">{Math.round(parametros.voltaje)} V</div>
-          </div>
-
-          <div className="bg-gray-800 rounded-lg p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <FaBolt className="text-green-400 text-sm" />
-              <span className="text-xs text-gray-400">Corriente</span>
-            </div>
-            <div className="text-xl font-bold">{Math.round(parametros.corriente)} A</div>
-          </div>
-
-          <div className="bg-gray-800 rounded-lg p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <FaThermometerHalf className="text-red-400 text-sm" />
-              <span className="text-xs text-gray-400">Temperatura</span>
-            </div>
-            <div className="text-xl font-bold">{Math.round(parametros.temperatura)}°C</div>
-          </div>
-
-          <div className="bg-gray-800 rounded-lg p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <FaTachometerAlt className="text-purple-400 text-sm" />
-              <span className="text-xs text-gray-400">RPM</span>
-            </div>
-            <div className="text-xl font-bold">{Math.round(parametros.rpm)}</div>
-          </div>
-
-          <div className="bg-gray-800 rounded-lg p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <div className="w-3 h-3 bg-green-400 rounded-full"></div>
-              <span className="text-xs text-gray-400">Eficiencia</span>
-            </div>
-            <div className="text-xl font-bold">{parametros.eficiencia.toFixed(1)}%</div>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-          {/* Gráfico de potencia y temperatura */}
-          <div className="bg-gray-800 rounded-lg p-6">
-            <h3 className="text-lg font-semibold mb-4">Potencia y Temperatura en Tiempo Real</h3>
-            <div className="h-64">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={datos}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                  <XAxis dataKey="tiempo" stroke="#9CA3AF" />
-                  <YAxis stroke="#9CA3AF" />
-                  <Tooltip 
-                    contentStyle={{ 
-                      backgroundColor: '#1F2937', 
-                      border: '1px solid #374151',
-                      borderRadius: '8px'
-                    }} 
-                  />
-                  <Line 
-                    type="monotone" 
-                    dataKey="potencia" 
-                    stroke="#3B82F6" 
-                    strokeWidth={2}
-                    name="Potencia kW"
-                  />
-                  <Line 
-                    type="monotone" 
-                    dataKey="temperatura" 
-                    stroke="#EF4444" 
-                    strokeWidth={2}
-                    name="Temperatura °C"
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-
-          {/* Gráfico de eficiencia */}
-          <div className="bg-gray-800 rounded-lg p-6">
-            <h3 className="text-lg font-semibold mb-4">Eficiencia del Motor</h3>
-            <div className="h-64">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={datos}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                  <XAxis dataKey="tiempo" stroke="#9CA3AF" />
-                  <YAxis stroke="#9CA3AF" domain={[80, 100]} />
-                  <Tooltip 
-                    contentStyle={{ 
-                      backgroundColor: '#1F2937', 
-                      border: '1px solid #374151',
-                      borderRadius: '8px'
-                    }} 
-                  />
-                  <Area
-                    type="monotone"
-                    dataKey="eficiencia"
-                    stroke="#10B981"
-                    fill="#10B981"
-                    fillOpacity={0.3}
-                    name="Eficiencia %"
-                  />
-                </AreaChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-        </div>
-
-        {/* Códigos DTC */}
-        <div className="bg-gray-800 rounded-lg p-6">
+        <div className={moduleStyles.cards.primary}>
           <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-            <FaExclamationTriangle className="text-yellow-400" />
-            Códigos de Diagnóstico (DTC) - Motor Eléctrico
+            <FaCog className="text-blue-400" />
+            Modo de Conducción
           </h3>
-          <div className="space-y-3">
-            {codigosDTC.map((codigo, index) => (
-              <div key={index} className="flex items-center justify-between bg-gray-700 rounded-lg p-3">
-                <div>
-                  <span className="font-mono text-lg text-blue-400">{codigo.codigo}</span>
-                  <p className="text-gray-300 text-sm">{codigo.descripcion}</p>
+          <div className={moduleStyles.modeControls.container}>
+            {modos.map(modo => (
+              <button
+                key={modo.id}
+                onClick={() => setModoConduccion(modo.id)}
+                className={`${moduleStyles.modeControls.button} ${
+                  modoConduccion === modo.id 
+                    ? moduleStyles.modeControls.active 
+                    : moduleStyles.modeControls.inactive
+                }`}
+              >
+                <div className="text-center">
+                  <div className={`font-semibold ${modo.color}`}>{modo.nombre}</div>
+                  <div className="text-xs text-gray-400">{modo.desc}</div>
                 </div>
-                <div className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                  codigo.estado === 'activo' ? 'bg-red-500 text-white' : 
-                  codigo.estado === 'resuelto' ? 'bg-green-500 text-white' : 'bg-yellow-500 text-gray-900'
-                }`}>
-                  {codigo.estado}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {alertas.length > 0 && (
+          <div className={moduleStyles.alerts.container}>
+            {alertas.map((alerta, index) => (
+              <AlertBanner
+                key={index}
+                type={alerta.tipo}
+                message={alerta.mensaje}
+                icon={alerta.tipo === 'error' ? FaExclamationTriangle : 
+                      alerta.tipo === 'warning' ? FaExclamationTriangle : 
+                      FaCheckCircle}
+              />
+            ))}
+          </div>
+        )}
+
+        <div className={moduleStyles.parameterGrid.container}>
+          <ParameterCard label="RPM" value={parametros.rpm.toFixed(0)} unit="rpm" />
+          <ParameterCard label="Torque" value={parametros.torque.toFixed(1)} unit="Nm" />
+          <ParameterCard label="Potencia" value={parametros.potencia.toFixed(1)} unit="kW" />
+          <ParameterCard label="Temperatura" value={parametros.temperatura.toFixed(1)} unit="°C" />
+          <ParameterCard label="Eficiencia" value={parametros.eficiencia.toFixed(1)} unit="%" />
+          <ParameterCard label="Velocidad" value={parametros.velocidad.toFixed(1)} unit="km/h" />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+          <ParameterCard label="Voltaje del Motor" value={parametros.voltajeMotor.toFixed(1)} unit="V" />
+          <ParameterCard label="Corriente del Motor" value={parametros.corrienteMotor.toFixed(1)} unit="A" />
+        </div>
+
+        <div className={moduleStyles.layout.twoColumn}>
+          <ChartContainer title="Rendimiento del Motor en Tiempo Real">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={datosGrafico}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+                <XAxis dataKey="tiempo" stroke="#9CA3AF" fontSize={12} />
+                <YAxis stroke="#9CA3AF" fontSize={12} />
+                <Tooltip 
+                  contentStyle={{ 
+                    backgroundColor: '#1F2937', 
+                    border: '1px solid #374151',
+                    borderRadius: '8px' 
+                  }} 
+                />
+                <Line type="monotone" dataKey="potencia" stroke="#10B981" strokeWidth={2} name="Potencia (kW)" dot={false} />
+                <Line type="monotone" dataKey="rpm" stroke="#3B82F6" strokeWidth={2} name="RPM (÷100)" dot={false} />
+                <Line type="monotone" dataKey="temperatura" stroke="#F59E0B" strokeWidth={2} name="Temperatura (°C)" dot={false} />
+              </LineChart>
+            </ResponsiveContainer>
+          </ChartContainer>
+
+          <div className={moduleStyles.cards.primary}>
+            <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+              <FaBolt className="text-yellow-400" />
+              Información Técnica
+            </h3>
+            
+            <div className="space-y-4">
+              <div>
+                <h4 className="font-medium mb-2 text-gray-300">Especificaciones del Motor</h4>
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-gray-400">Tipo:</span>
+                    <span>PMSM</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-400">Potencia Máxima:</span>
+                    <span>{vehiculo?.especificaciones?.potencia || 'N/A'}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-400">Modo Activo:</span>
+                    <span className={modos.find(m => m.id === modoConduccion)?.color}>
+                      {modos.find(m => m.id === modoConduccion)?.nombre}
+                    </span>
+                  </div>
                 </div>
               </div>
-            ))}
+
+              <div>
+                <h4 className="font-medium mb-2 text-gray-300 flex items-center gap-2">
+                  <FaTachometerAlt className="text-blue-400" />
+                  Potencia Actual
+                </h4>
+                <div className="relative bg-gray-700 rounded-lg h-8 overflow-hidden border border-gray-600">
+                  <div 
+                    className="h-full transition-all duration-1000 bg-gradient-to-r from-blue-500 to-purple-500"
+                    style={{ width: `${Math.max(2, (parametros.potencia / parametros.potenciaMaxima) * 100)}%` }}
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center text-sm font-medium text-white drop-shadow-lg">
+                    {((parametros.potencia / parametros.potenciaMaxima) * 100).toFixed(1)}%
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   );
-};
-
-export default MotorElectrico;
+}

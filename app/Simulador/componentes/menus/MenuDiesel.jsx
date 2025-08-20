@@ -11,10 +11,12 @@ import {
   FaSync,
   FaWind,
   FaCloud,
-  FaTools
+  FaTools,
+  FaSearch
 } from 'react-icons/fa';
 
 const modulos = [
+  { nombre: 'Análisis Rápido', icono: FaSearch, archivo: 'AnalisisRapidoSimulador', descripcion: 'Escaneo rápido de códigos DTC del vehículo' },
   { nombre: 'Motor TDI', icono: FaCogs, archivo: 'MotorTDI', descripcion: 'Motor diésel turboalimentado de inyección directa' },
   { nombre: 'Sistema de Combustible', icono: FaGasPump, archivo: 'SistemaCombustibleDiesel', descripcion: 'Sistema de inyección diésel common rail' },
   { nombre: 'Turbocompresor', icono: FaFan, archivo: 'Turbocompresor', descripcion: 'Sistema de sobrealimentación por turbo' },

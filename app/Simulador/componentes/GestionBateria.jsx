@@ -1,279 +1,410 @@
-import React, { useState, useEffect } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
-import { FaBatteryHalf, FaThermometerHalf, FaBolt, FaExclamationTriangle, FaCheckCircle, FaChargingStation } from 'react-icons/fa';
+'use client';
 
-const GestionBateria = ({ isActive = false }) => {
-  const [datos, setDatos] = useState([]);
-  const [parametros, setParametros] = useState({
-    cargaBateria: 78.5,
-    voltaje: 385,
-    corriente: -45, // Negativo indica descarga
-    temperatura: 35,
-    potencia: 17.3,
-    estadoSalud: 94.2,
-    ciclos: 1247,
-    estado: 'descargando'
-  });
+import { useState, useEffect } from 'react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { 
+  FaBatteryFull, 
+  FaBatteryHalf, 
+  FaBatteryEmpty,
+  FaThermometerHalf,
+  FaBolt,
+  FaExclamationTriangle,
+  FaCheckCircle,
+  FaArrowLeft,
+  FaPlay,
+  FaStop,
+  FaSyncAlt
+} from 'react-icons/fa';
+import { 
+  moduleStyles, 
+  ModuleHeader, 
+  ParameterCard, 
+  AlertBanner, 
+  ChartContainer 
+} from './styles/ModuleStyles';
 
-  const [celdas, setCeldas] = useState(
-    Array.from({ length: 12 }, (_, i) => ({
-      id: i + 1,
-      voltaje: 3.2 + Math.random() * 0.4,
-      temperatura: 32 + Math.random() * 8,
-      estado: Math.random() > 0.9 ? 'advertencia' : 'normal'
-    }))
-  );
+export default function GestionBateria({ volver, vehiculo }) {
+  const [diagnosticoActivo, setDiagnosticoActivo] = useState(false);
+  
+  // Usar datos del vehículo para inicialización
+  const getParametrosIniciales = () => {
+    const capacidadBateria = parseFloat(vehiculo?.especificaciones?.bateria?.replace(/[^\d.]/g, '')) || 82;
+    const potenciaMaxima = parseFloat(vehiculo?.especificaciones?.potencia?.replace(/[^\d.]/g, '')) || 150;
+    const voltajeMaximo = vehiculo?.parametros?.voltaje?.max || 400;
+    
+    return {
+      carga: 0, // Inicia en 0
+      voltaje: 0, // Inicia en 0
+      corriente: 0, // Inicia en 0
+      temperatura: 25, // Temperatura ambiente
+      potencia: 0, // Inicia en 0
+      estadoSalud: 98.5, // Estado de salud fijo
+      capacidad: capacidadBateria,
+      resistenciaInterna: 45.2,
+      ciclos: 1247
+    };
+  };
 
-  const [codigosDTC, setCodigosDTC] = useState([
-    { codigo: 'P0A0F', descripcion: 'Batería HV desconectada', estado: 'resuelto' },
-    { codigo: 'P0AA6', descripcion: 'Sensor temperatura batería', estado: 'intermitente' }
-  ]);
+  const [parametros, setParametros] = useState(getParametrosIniciales());
+  const [alertas, setAlertas] = useState([]);
+  const [datosGrafico, setDatosGrafico] = useState([]);
 
-  const COLORES = ['#22C55E', '#EF4444', '#F59E0B', '#6366F1'];
-
+  // Inicializar datos del gráfico
   useEffect(() => {
-    if (isActive) {
-      const interval = setInterval(() => {
-        // Simular datos en tiempo real de la batería
-        setParametros(prev => ({
-          ...prev,
-          cargaBateria: Math.max(5, Math.min(100, prev.cargaBateria + (Math.random() - 0.52) * 0.5)), // Tendencia a descargar
-          voltaje: Math.max(300, Math.min(420, prev.voltaje + (Math.random() - 0.5) * 10)),
-          corriente: -80 + Math.random() * 160, // Entre -80A y +80A
-          temperatura: Math.max(15, Math.min(60, prev.temperatura + (Math.random() - 0.5) * 2)),
-          potencia: Math.abs(prev.voltaje * prev.corriente / 1000),
-          estadoSalud: Math.max(80, Math.min(100, prev.estadoSalud + (Math.random() - 0.51) * 0.1))
-        }));
+    const datosIniciales = [];
+    for (let i = 0; i < 10; i++) {
+      datosIniciales.push({
+        tiempo: new Date(Date.now() - (9 - i) * 1000).toLocaleTimeString(),
+        carga: 0,
+        temperatura: 25,
+        voltaje: 0
+      });
+    }
+    setDatosGrafico(datosIniciales);
+  }, []);
+
+  const iniciarDiagnostico = () => {
+    setDiagnosticoActivo(true);
+  };
+
+  const detenerDiagnostico = () => {
+    setDiagnosticoActivo(false);
+    // Volver a parámetros iniciales cuando se detiene
+    setParametros(getParametrosIniciales());
+    setAlertas([]);
+  };
+
+  const resetearParametros = () => {
+    setParametros(getParametrosIniciales());
+    setAlertas([]);
+    setDatosGrafico(prev => prev.map(dato => ({
+      ...dato,
+      carga: 0,
+      temperatura: 25,
+      voltaje: 0
+    })));
+  };
+
+  // Simulación de datos en tiempo real solo cuando el diagnóstico está activo
+  useEffect(() => {
+    if (!diagnosticoActivo) return;
+
+    const intervalo = setInterval(() => {
+      setParametros(prev => {
+        const capacidadBateria = parseFloat(vehiculo?.especificaciones?.bateria?.replace(/[^\d.]/g, '')) || 82;
+        const potenciaMaxima = parseFloat(vehiculo?.especificaciones?.potencia?.replace(/[^\d.]/g, '')) || 150;
+        const voltajeMaximo = vehiculo?.parametros?.voltaje?.max || 400;
+        
+        // Parámetros base cuando está funcionando - más estables
+        const baseCarga = prev.carga || 78; // Usar valor anterior o 78% por defecto
+        const baseVoltaje = voltajeMaximo * 0.95; // Voltaje más estable
+        const baseCorriente = Math.random() * 30; // 0-30A (reducido)
+        const baseTemp = 28 + Math.random() * 8; // 28-36°C (rango más pequeño)
+        const basePotencia = Math.random() * potenciaMaxima * 0.5; // 0-50% potencia máxima
+        
+        const nuevosParametros = {
+          carga: Math.max(5, Math.min(100, baseCarga + (Math.random() - 0.5) * 0.5)), // Cambio muy gradual ±0.25%
+          voltaje: Math.max(300, Math.min(voltajeMaximo * 1.05, baseVoltaje + (Math.random() - 0.5) * 5)),
+          corriente: Math.max(0, Math.min(50, baseCorriente + (Math.random() - 0.5) * 3)),
+          temperatura: Math.max(20, Math.min(45, prev.temperatura + (Math.random() - 0.5) * 0.3)), // Cambio gradual de temperatura
+          potencia: Math.max(0, Math.min(potenciaMaxima, basePotencia + (Math.random() - 0.5) * 8)),
+          estadoSalud: prev.estadoSalud,
+          capacidad: capacidadBateria,
+          resistenciaInterna: Math.max(40, Math.min(60, prev.resistenciaInterna + (Math.random() - 0.5) * 0.1)),
+          ciclos: prev.ciclos
+        };
 
         // Actualizar gráfico
-        setDatos(prev => {
+        setDatosGrafico(prevDatos => {
           const nuevoDato = {
             tiempo: new Date().toLocaleTimeString(),
-            carga: parametros.cargaBateria,
-            temperatura: parametros.temperatura,
-            voltaje: parametros.voltaje,
-            corriente: parametros.corriente
+            carga: nuevosParametros.carga,
+            temperatura: nuevosParametros.temperatura,
+            voltaje: nuevosParametros.voltaje / 10, // Escala para visualización
           };
-          return [...prev.slice(-19), nuevoDato];
+          return [...prevDatos.slice(-19), nuevoDato];
         });
 
-        // Actualizar estado de celdas ocasionalmente
-        if (Math.random() > 0.7) {
-          setCeldas(prev => prev.map(celda => ({
-            ...celda,
-            voltaje: Math.max(2.8, Math.min(4.2, celda.voltaje + (Math.random() - 0.5) * 0.1)),
-            temperatura: Math.max(20, Math.min(50, celda.temperatura + (Math.random() - 0.5) * 1))
-          })));
-        }
-      }, 1000);
+        return nuevosParametros;
+      });
 
-      return () => clearInterval(interval);
-    }
-  }, [isActive, parametros.cargaBateria, parametros.temperatura, parametros.voltaje, parametros.corriente]);
+      // Generar alertas basadas en parámetros actuales
+      const nuevasAlertas = [];
+      if (parametros.temperatura > 45) {
+        nuevasAlertas.push({ tipo: 'warning', mensaje: 'Temperatura de batería elevada' });
+      }
+      if (parametros.temperatura > 55) {
+        nuevasAlertas.push({ tipo: 'error', mensaje: 'Temperatura crítica de batería' });
+      }
+      if (parametros.carga < 15) {
+        nuevasAlertas.push({ tipo: 'warning', mensaje: 'Nivel de carga bajo' });
+      }
+      if (parametros.carga < 5) {
+        nuevasAlertas.push({ tipo: 'error', mensaje: 'Carga crítica - Cargar inmediatamente' });
+      }
+      if (parametros.voltaje < vehiculo?.parametros?.voltaje?.min * 0.9) {
+        nuevasAlertas.push({ tipo: 'error', mensaje: 'Voltaje bajo detectado' });
+      }
+      if (parametros.corriente > 80) {
+        nuevasAlertas.push({ tipo: 'warning', mensaje: 'Alta corriente de descarga' });
+      }
+      
+      setAlertas(nuevasAlertas);
+    }, 1500);
 
-  if (!isActive) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-green-900 to-green-800 text-white flex items-center justify-center">
-        <div className="text-center max-w-2xl mx-auto px-6">
-          <FaBatteryHalf className="text-6xl text-green-300 mx-auto mb-6 animate-bounce" />
-          <h2 className="text-3xl font-bold mb-4">Módulo en Desarrollo</h2>
-          <p className="text-green-100 text-lg mb-8">
-            El módulo <span className="text-green-300 font-semibold">"GestionBateria"</span> está siendo desarrollado.
-          </p>
-          <div className="bg-green-800/50 rounded-xl p-6 backdrop-blur-sm border border-green-600">
-            <h3 className="text-xl font-semibold mb-4 text-green-300">Características planificadas:</h3>
-            <ul className="text-left space-y-3 text-green-100">
-              <li className="flex items-center gap-3">
-                <FaCheckCircle className="text-green-400 text-sm" />
-                Diagnóstico en tiempo real
-              </li>
-              <li className="flex items-center gap-3">
-                <FaCheckCircle className="text-green-400 text-sm" />
-                Lectura de códigos DTC específicos
-              </li>
-              <li className="flex items-center gap-3">
-                <FaCheckCircle className="text-green-400 text-sm" />
-                Gráficos de parámetros
-              </li>
-              <li className="flex items-center gap-3">
-                <FaCheckCircle className="text-green-400 text-sm" />
-                Simulación de fallos
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    );
-  }
+    return () => clearInterval(intervalo);
+  }, [diagnosticoActivo, vehiculo, parametros.temperatura, parametros.carga, parametros.voltaje, parametros.corriente]);
 
-  const datosEstadoBateria = [
-    { name: 'Buena', value: parametros.estadoSalud, color: '#22C55E' },
-    { name: 'Degradada', value: 100 - parametros.estadoSalud, color: '#EF4444' }
-  ];
+  const getBatteryIcon = () => {
+    if (parametros.carga > 66) return FaBatteryFull;
+    if (parametros.carga > 33) return FaBatteryHalf;
+    return FaBatteryEmpty;
+  };
+
+  const getBatteryColor = () => {
+    if (parametros.carga > 66) return 'text-green-400';
+    if (parametros.carga > 33) return 'text-yellow-400';
+    return 'text-red-400';
+  };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex items-center gap-3 mb-6">
-          <FaBatteryHalf className="text-3xl text-green-400" />
-          <h1 className="text-3xl font-bold">Gestión de Batería - Diagnóstico</h1>
-        </div>
-
-        {/* Panel de parámetros principales */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <div className="bg-gray-800 rounded-lg p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <FaBatteryHalf className="text-green-400" />
-              <span className="text-sm text-gray-400">Carga</span>
-            </div>
-            <div className="text-2xl font-bold">{parametros.cargaBateria.toFixed(1)}%</div>
-            <div className="w-full bg-gray-700 rounded-full h-2 mt-2">
-              <div 
-                className="bg-green-400 h-2 rounded-full transition-all duration-300"
-                style={{ width: `${parametros.cargaBateria}%` }}
-              ></div>
-            </div>
+    <div className={moduleStyles.container}>
+      <div className={moduleStyles.layout.centered}>
+        {/* Header del módulo */}
+        <ModuleHeader
+          title={`Gestión de Batería - ${vehiculo?.nombre || 'Vehículo Eléctrico'}`}
+          subtitle={`Capacidad: ${vehiculo?.especificaciones?.bateria || 'N/A'} | Estado del sistema de batería de alto voltaje`}
+          status={diagnosticoActivo ? 'active' : 'inactive'}
+          statusText={diagnosticoActivo ? 'Diagnóstico Activo' : 'Sistema Inactivo'}
+        >
+          <div className="flex flex-wrap gap-4 mt-4">
+            <button
+              onClick={volver}
+              className={moduleStyles.buttons.secondary}
+            >
+              <FaArrowLeft className="mr-2" />
+              Volver
+            </button>
+            
+            <button
+              onClick={diagnosticoActivo ? detenerDiagnostico : iniciarDiagnostico}
+              className={diagnosticoActivo ? moduleStyles.buttons.danger : moduleStyles.buttons.success}
+            >
+              {diagnosticoActivo ? <FaStop className="mr-2" /> : <FaPlay className="mr-2" />}
+              {diagnosticoActivo ? 'Detener' : 'Iniciar'} Diagnóstico
+            </button>
+            
+            <button
+              onClick={resetearParametros}
+              className={moduleStyles.buttons.primary}
+            >
+              <FaSyncAlt className="mr-2" />
+              Reset
+            </button>
           </div>
+        </ModuleHeader>
 
-          <div className="bg-gray-800 rounded-lg p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <FaBolt className="text-blue-400" />
-              <span className="text-sm text-gray-400">Voltaje</span>
-            </div>
-            <div className="text-2xl font-bold">{Math.round(parametros.voltaje)} V</div>
-          </div>
-
-          <div className="bg-gray-800 rounded-lg p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <FaChargingStation className={parametros.corriente > 0 ? "text-green-400" : "text-orange-400"} />
-              <span className="text-sm text-gray-400">Corriente</span>
-            </div>
-            <div className="text-2xl font-bold">{parametros.corriente.toFixed(1)} A</div>
-            <div className="text-xs text-gray-400 mt-1">
-              {parametros.corriente > 0 ? 'Cargando' : 'Descargando'}
-            </div>
-          </div>
-
-          <div className="bg-gray-800 rounded-lg p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <FaThermometerHalf className="text-red-400" />
-              <span className="text-sm text-gray-400">Temperatura</span>
-            </div>
-            <div className="text-2xl font-bold">{Math.round(parametros.temperatura)}°C</div>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-          {/* Gráfico principal */}
-          <div className="lg:col-span-2 bg-gray-800 rounded-lg p-6">
-            <h3 className="text-lg font-semibold mb-4">Parámetros en Tiempo Real</h3>
-            <div className="h-64">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={datos}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                  <XAxis dataKey="tiempo" stroke="#9CA3AF" />
-                  <YAxis stroke="#9CA3AF" />
-                  <Tooltip 
-                    contentStyle={{ 
-                      backgroundColor: '#1F2937', 
-                      border: '1px solid #374151',
-                      borderRadius: '8px'
-                    }} 
-                  />
-                  <Line 
-                    type="monotone" 
-                    dataKey="carga" 
-                    stroke="#22C55E" 
-                    strokeWidth={2}
-                    name="Carga %"
-                  />
-                  <Line 
-                    type="monotone" 
-                    dataKey="temperatura" 
-                    stroke="#EF4444" 
-                    strokeWidth={2}
-                    name="Temperatura °C"
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-
-          {/* Estado de salud */}
-          <div className="bg-gray-800 rounded-lg p-6">
-            <h3 className="text-lg font-semibold mb-4">Estado de Salud</h3>
-            <div className="h-64">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={datosEstadoBateria}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={40}
-                    outerRadius={80}
-                    paddingAngle={5}
-                    dataKey="value"
-                  >
-                    {datosEstadoBateria.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </Pie>
-                  <Tooltip />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-green-400">{parametros.estadoSalud.toFixed(1)}%</div>
-              <div className="text-sm text-gray-400">Ciclos: {parametros.ciclos}</div>
-            </div>
-          </div>
-        </div>
-
-        {/* Estado de celdas */}
-        <div className="bg-gray-800 rounded-lg p-6 mb-6">
-          <h3 className="text-lg font-semibold mb-4">Estado de Celdas Individuales</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
-            {celdas.map((celda) => (
-              <div 
-                key={celda.id} 
-                className={`bg-gray-700 rounded-lg p-3 text-center border-2 ${
-                  celda.estado === 'advertencia' ? 'border-yellow-400' : 'border-gray-600'
-                }`}
-              >
-                <div className="text-xs text-gray-400 mb-1">Celda {celda.id}</div>
-                <div className="text-sm font-bold">{celda.voltaje.toFixed(2)}V</div>
-                <div className="text-xs text-gray-400">{celda.temperatura.toFixed(1)}°C</div>
-              </div>
+        {/* Alertas */}
+        {alertas.length > 0 && (
+          <div className={moduleStyles.alerts.container}>
+            {alertas.map((alerta, index) => (
+              <AlertBanner
+                key={index}
+                type={alerta.tipo}
+                message={alerta.mensaje}
+                icon={alerta.tipo === 'error' ? FaExclamationTriangle : 
+                      alerta.tipo === 'warning' ? FaExclamationTriangle : 
+                      FaCheckCircle}
+              />
             ))}
           </div>
+        )}
+
+        {/* Grid de parámetros principales */}
+        <div className={moduleStyles.parameterGrid.container}>
+          <ParameterCard
+            label="Nivel de Carga"
+            value={parametros.carga.toFixed(1)}
+            unit="%"
+            className={parametros.carga < 15 ? moduleStyles.cards.warning : ''}
+          />
+          <ParameterCard
+            label="Voltaje"
+            value={parametros.voltaje.toFixed(1)}
+            unit="V"
+          />
+          <ParameterCard
+            label="Corriente"
+            value={parametros.corriente.toFixed(1)}
+            unit="A"
+            className={parametros.corriente > 80 ? moduleStyles.cards.warning : ''}
+          />
+          <ParameterCard
+            label="Temperatura"
+            value={parametros.temperatura.toFixed(1)}
+            unit="°C"
+            className={parametros.temperatura > 45 ? moduleStyles.cards.warning : ''}
+          />
+          <ParameterCard
+            label="Potencia"
+            value={parametros.potencia.toFixed(1)}
+            unit="kW"
+          />
+          <ParameterCard
+            label="Estado de Salud"
+            value={parametros.estadoSalud.toFixed(1)}
+            unit="%"
+          />
         </div>
 
-        {/* Códigos DTC */}
-        <div className="bg-gray-800 rounded-lg p-6">
-          <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-            <FaExclamationTriangle className="text-yellow-400" />
-            Códigos de Diagnóstico (DTC) - Gestión de Batería
-          </h3>
-          <div className="space-y-3">
-            {codigosDTC.map((codigo, index) => (
-              <div key={index} className="flex items-center justify-between bg-gray-700 rounded-lg p-3">
+        <div className={moduleStyles.layout.twoColumn}>
+          {/* Gráfico de tendencias */}
+          <ChartContainer title="Tendencias en Tiempo Real">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={datosGrafico}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+                <XAxis dataKey="tiempo" stroke="#9CA3AF" fontSize={12} />
+                <YAxis stroke="#9CA3AF" fontSize={12} />
+                <Tooltip 
+                  contentStyle={{ 
+                    backgroundColor: '#1F2937', 
+                    border: '1px solid #374151',
+                    borderRadius: '8px' 
+                  }} 
+                />
+                <Line 
+                  type="monotone" 
+                  dataKey="carga" 
+                  stroke="#10B981" 
+                  strokeWidth={2}
+                  name="Carga (%)"
+                  dot={false}
+                />
+                <Line 
+                  type="monotone" 
+                  dataKey="temperatura" 
+                  stroke="#F59E0B" 
+                  strokeWidth={2}
+                  name="Temperatura (°C)"
+                  dot={false}
+                />
+                <Line 
+                  type="monotone" 
+                  dataKey="voltaje" 
+                  stroke="#3B82F6" 
+                  strokeWidth={2}
+                  name="Voltaje (V/10)"
+                  dot={false}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </ChartContainer>
+
+          {/* Información detallada */}
+          <div className={moduleStyles.cards.primary}>
+            <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+              <FaBatteryFull className="text-blue-400" />
+              Información Detallada
+            </h3>
+            
+            <div className="space-y-4">
+              <div>
+                <h4 className="font-medium mb-2 text-gray-300">Especificaciones del Vehículo</h4>
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-gray-400">Capacidad Total:</span>
+                    <span>{vehiculo?.especificaciones?.bateria || 'N/A'}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-400">Voltaje Nominal:</span>
+                    <span>{vehiculo?.parametros?.voltaje?.max || 400}V</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-400">Potencia Máxima:</span>
+                    <span>{vehiculo?.especificaciones?.potencia || 'N/A'}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-400">Tecnología:</span>
+                    <span>Li-ion NCM</span>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h4 className="font-medium mb-2 text-gray-300">Estado Actual</h4>
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-gray-400">Resistencia Interna:</span>
+                    <span>{parametros.resistenciaInterna.toFixed(1)} mΩ</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-400">Ciclos de Carga:</span>
+                    <span>{parametros.ciclos.toLocaleString()}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-400">Tiempo Estimado:</span>
+                    <span>
+                      {parametros.carga > 20 
+                        ? `${Math.round((parametros.carga / 100) * 8)} horas`
+                        : 'Carga baja'
+                      }
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-400">Estado:</span>
+                    <span className={
+                      parametros.carga > 80 ? 'text-green-400' :
+                      parametros.carga > 30 ? 'text-yellow-400' : 'text-red-400'
+                    }>
+                      {parametros.carga > 80 ? 'Óptimo' :
+                       parametros.carga > 30 ? 'Normal' : 'Crítico'}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Indicador visual de batería */}
+              <div>
+                <h4 className="font-medium mb-2 text-gray-300 flex items-center gap-2">
+                  {(() => {
+                    const IconComponent = getBatteryIcon();
+                    return <IconComponent className={getBatteryColor()} />;
+                  })()}
+                  Visualización de Carga
+                </h4>
+                <div className="relative bg-gray-700 rounded-lg h-8 overflow-hidden border border-gray-600">
+                  <div 
+                    className={`h-full transition-all duration-1000 ${
+                      parametros.carga > 66 ? 'bg-gradient-to-r from-green-500 to-green-400' :
+                      parametros.carga > 33 ? 'bg-gradient-to-r from-yellow-500 to-yellow-400' : 
+                      'bg-gradient-to-r from-red-500 to-red-400'
+                    }`}
+                    style={{ width: `${Math.max(5, parametros.carga)}%` }}
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center text-sm font-medium text-white drop-shadow-lg">
+                    {parametros.carga.toFixed(1)}%
+                  </div>
+                </div>
+              </div>
+
+              {/* Códigos DTC simulados */}
+              {alertas.length > 0 && (
                 <div>
-                  <span className="font-mono text-lg text-blue-400">{codigo.codigo}</span>
-                  <p className="text-gray-300 text-sm">{codigo.descripcion}</p>
+                  <h4 className="font-medium mb-2 text-gray-300">Códigos DTC Activos</h4>
+                  <div className="space-y-1 text-sm">
+                    {alertas.map((alerta, index) => (
+                      <div key={index} className="flex justify-between text-red-400">
+                        <span>P{1000 + index}A</span>
+                        <span className="text-xs">{alerta.mensaje}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <div className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                  codigo.estado === 'activo' ? 'bg-red-500 text-white' : 
-                  codigo.estado === 'resuelto' ? 'bg-green-500 text-white' : 'bg-yellow-500 text-gray-900'
-                }`}>
-                  {codigo.estado}
-                </div>
-              </div>
-            ))}
+              )}
+            </div>
           </div>
         </div>
       </div>
     </div>
   );
-};
-
-export default GestionBateria;
+}

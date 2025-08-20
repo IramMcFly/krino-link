@@ -9,7 +9,7 @@ export const NavLanding = () => {
             <ul className="flex gap-6 text-sm md:text-base font-medium">
                 <li><a href="#intro" className="hover:text-krino-yellow transition">Inicio</a></li>
                 <li><a href="#nosotros" className="hover:text-krino-yellow transition">Nosotros</a></li>
-                <li><a href="#tienda" className="hover:text-krino-yellow transition">Tienda</a></li>
+                <li><a href="/Tienda" className="hover:text-krino-yellow transition">Tienda</a></li>
                 <li>
                     <button
                         className="hover:text-krino-yellow transition bg-transparent border-none cursor-pointer"

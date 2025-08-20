@@ -19,6 +19,23 @@ const Transmision = lazy(() => import('./Transmision'));
 const Enfriamiento = lazy(() => import('./Enfriamiento'));
 const OtrosSistemas = lazy(() => import('./OtrosSistemas'));
 
+// Importación dinámica de componentes específicos desarrollados
+const GestionBateria = lazy(() => import('./GestionBateria'));
+const MotorElectrico = lazy(() => import('./MotorElectrico'));
+const MotorCombustion = lazy(() => import('./MotorCombustion'));
+const AnalisisRapidoSimulador = lazy(() => import('./AnalisisRapidoSimulador'));
+
+// Importación dinámica de nuevos módulos híbridos
+const MotorElectricoIMA = lazy(() => import('./MotorElectricoIMA'));
+const BateriaHibrida = lazy(() => import('./BateriaHibrida'));
+const ControlHibrido = lazy(() => import('./ControlHibrido'));
+const SistemaCombustible = lazy(() => import('./SistemaCombustible'));
+
+// Importación dinámica de nuevos módulos eléctricos
+const SistemaCarga = lazy(() => import('./SistemaCarga'));
+const Inversor = lazy(() => import('./Inversor'));
+const ConvertidorDCDC = lazy(() => import('./ConvertidorDCDC'));
+
 export default function SimuladorVehiculo({ vehiculo, onVolver }) {
   const [moduloActivo, setModuloActivo] = useState(null);
 
@@ -58,23 +75,27 @@ export default function SimuladorVehiculo({ vehiculo, onVolver }) {
       'Enfriamiento': Enfriamiento,
       'OtrosSistemas': OtrosSistemas,
       
-      // Módulos específicos por tipo de vehículo (por desarrollar)
-      // Eléctricos
-      'GestionBateria': null,
-      'MotorElectrico': null,
-      'SistemaCarga': null,
-      'Inversor': null,
-      'ConvertidorDC': null,
+      // Módulo de análisis rápido con DTCs
+      'AnalisisRapidoSimulador': AnalisisRapidoSimulador,
       
-      // Híbridos
-      'MotorCombustion': null,
-      'MotorElectricoIMA': null,
-      'BateriaHibrida': null,
+      // Módulos específicos implementados - Base
+      'GestionBateria': GestionBateria,
+      'MotorElectrico': MotorElectrico,
+      'MotorCombustion': MotorCombustion,
+      
+      // Módulos específicos híbridos
+      'MotorElectricoIMA': MotorElectricoIMA,
+      'BateriaHibrida': BateriaHibrida,
+      'ControlHibrido': ControlHibrido,
+      'SistemaCombustible': SistemaCombustible,
+      
+      // Módulos específicos eléctricos
+      'SistemaCarga': SistemaCarga,
+      'Inversor': Inversor,
+      'ConvertidorDCDC': ConvertidorDCDC,
+      
+      // Módulos específicos por desarrollar
       'SistemaCVT': null,
-      'ControlHibrido': null,
-      'SistemaCombustible': null,
-      
-      // Diésel
       'MotorTDI': null,
       'SistemaCombustibleDiesel': null,
       'Turbocompresor': null,
@@ -85,7 +106,7 @@ export default function SimuladorVehiculo({ vehiculo, onVolver }) {
     const ComponenteSeleccionado = componenteMap[moduloActivo];
     
     if (ComponenteSeleccionado) {
-      return <ComponenteSeleccionado volver={volverAlMenu} />;
+      return <ComponenteSeleccionado vehiculo={vehiculo} volver={volverAlMenu} />;
     } else if (componenteMap.hasOwnProperty(moduloActivo)) {
       // Módulo existe pero no está implementado
       return (

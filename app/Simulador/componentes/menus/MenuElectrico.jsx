@@ -11,18 +11,20 @@ import {
   FaSync,
   FaWind,
   FaPlug,
-  FaChargingStation
+  FaChargingStation,
+  FaSearch
 } from 'react-icons/fa';
 
 const modulos = [
+  { nombre: 'Análisis Rápido', icono: FaSearch, archivo: 'AnalisisRapidoSimulador', descripcion: 'Escaneo rápido de códigos DTC del vehículo' },
   { nombre: 'Gestión de Batería', icono: FaBatteryFull, archivo: 'GestionBateria', descripcion: 'Monitor y control de la batería de alta tensión' },
   { nombre: 'Motor Eléctrico', icono: FaBolt, archivo: 'MotorElectrico', descripcion: 'Diagnóstico del motor de tracción eléctrica' },
   { nombre: 'Sistema de Carga', icono: FaChargingStation, archivo: 'SistemaCarga', descripcion: 'Control y monitoreo de carga AC/DC' },
   { nombre: 'Inversor', icono: FaTachometerAlt, archivo: 'Inversor', descripcion: 'Diagnóstico del inversor de potencia' },
+  { nombre: 'Convertidor DC/DC', icono: FaPlug, archivo: 'ConvertidorDCDC', descripcion: 'Convertidor de alta a baja tensión' },
   { nombre: 'Climatización', icono: FaThermometer, archivo: 'Climatizacion', descripcion: 'Bomba de calor y climatización eficiente' },
   { nombre: 'ABS', icono: FaShieldAlt, archivo: 'ModuloABS', descripcion: 'Sistema de frenos antibloqueo regenerativo' },
   { nombre: 'Airbags', icono: FaWind, archivo: 'ModuloAirbag', descripcion: 'Sistema de bolsas de aire' },
-  { nombre: 'Convertidor DC/DC', icono: FaPlug, archivo: 'ConvertidorDC', descripcion: 'Convertidor de alta a baja tensión' },
   { nombre: 'Reinicio ECU', icono: FaSync, archivo: 'ModuloECUReset', descripcion: 'Reinicio de unidades de control' },
 ];
 
