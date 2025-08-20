@@ -59,7 +59,7 @@ export default function SelectorVehiculos({ onVehiculoSeleccionado }) {
               {/* Imagen del vehículo */}
               <div className="relative w-full h-32 mb-4 bg-[#1a1a1a] rounded-lg overflow-hidden">
                 <div className="flex items-center justify-center h-full text-gray-500">
-                  <span className="text-xs">Imagen del vehículo</span>
+                  <Image src={vehiculo.imagen} alt={vehiculo.nombre} layout="fill" objectFit="cover" />
                 </div>
               </div>
 

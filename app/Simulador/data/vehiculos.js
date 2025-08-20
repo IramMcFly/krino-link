@@ -6,7 +6,7 @@ export const vehiculosDisponibles = {
     año: 2024,
     tipo: 'electrico',
     numeroSerie: '3N1AB7AP8GY256791',
-    imagen: '/images/vehicles/byd-dolphin.png',
+    imagen: '/images/vehicles/byd-dolphin.jpg',
     especificaciones: {
       motor: 'Eléctrico sincrónico',
       potencia: '95 kW (127 hp)',
@@ -34,7 +34,7 @@ export const vehiculosDisponibles = {
     año: 2005,
     tipo: 'hibrido',
     numeroSerie: '1HGCM66574A123456',
-    imagen: '/DMYSYS/2005Accord.jpg',
+    imagen: '/images/vehicles/2005Accord.jpg',
     especificaciones: {
       motorGasolina: 'V6 3.0L VTEC',
       motorElectrico: 'Motor IMA',
@@ -63,7 +63,7 @@ export const vehiculosDisponibles = {
     año: 2007,
     tipo: 'diesel',
     numeroSerie: '3VWSK69M47M123456',
-    imagen: '/images/vehicles/vw-bora-2007.png',
+    imagen: '/images/vehicles/vw-bora-2007.jpg',
     especificaciones: {
       motor: '1.9L TDI Turbo Diesel',
       potencia: '105 hp / 250 Nm',
@@ -91,7 +91,7 @@ export const vehiculosDisponibles = {
     año: 2025,
     tipo: 'electrico',
     numeroSerie: 'WVWZZZ7KZRP123456',
-    imagen: '/images/vehicles/vw-id4-2025.png',
+    imagen: '/images/vehicles/vw-id4-2025.jpeg',
     especificaciones: {
       motor: 'Motor eléctrico trasero',
       potencia: '150 kW (204 hp)',
@@ -120,7 +120,7 @@ export const vehiculosDisponibles = {
     año: 2024,
     tipo: 'electrico',
     numeroSerie: 'KNEV253A8P7123456',
-    imagen: '/images/vehicles/kia-ev6-2024.png',
+    imagen: '/images/vehicles/kia-ev6-2024.jpeg',
     especificaciones: {
       motor: 'Motor dual (delantero + trasero)',
       potencia: '239 kW (320 hp)',
