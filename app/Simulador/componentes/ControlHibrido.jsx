@@ -130,7 +130,7 @@ export default function ControlHibrido({ vehiculo, volver }) {
       </ModuleStyles.Header>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-        <ModuleStyles.InfoCard title={'Modo de Operación'} icon={<FaCogs />}>
+        <ModuleStyles.InfoCard title={'Modo de Operación'} icon={FaCogs}>
           <div className="space-y-4">
             <div className="text-center">
               <div className={`text-xl font-bold mb-2 ${getModoColor(parametrosActuales.modoOperacion)}`}>
@@ -158,7 +158,7 @@ export default function ControlHibrido({ vehiculo, volver }) {
           </div>
         </ModuleStyles.InfoCard>
 
-        <ModuleStyles.InfoCard title="Rendimiento" icon={<FaTachometerAlt />}>
+        <ModuleStyles.InfoCard title="Rendimiento" icon={FaTachometerAlt}>
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
@@ -186,7 +186,7 @@ export default function ControlHibrido({ vehiculo, volver }) {
           </div>
         </ModuleStyles.InfoCard>
 
-        <ModuleStyles.InfoCard title="Parámetros del Sistema" icon={<FaThermometerHalf />}>
+        <ModuleStyles.InfoCard title="Parámetros del Sistema" icon={FaThermometerHalf}>
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
@@ -230,7 +230,7 @@ export default function ControlHibrido({ vehiculo, volver }) {
       )}
 
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-        <ModuleStyles.ChartCard title="Distribución de Potencia" icon={<FaBolt />}>
+        <ModuleStyles.ChartCard title="Distribución de Potencia" icon={FaBolt}>
           <ResponsiveContainer width="100%" height={300}>
             <AreaChart data={[{
               nombre: 'Actual',
@@ -250,7 +250,7 @@ export default function ControlHibrido({ vehiculo, volver }) {
           </ResponsiveContainer>
         </ModuleStyles.ChartCard>
 
-        <ModuleStyles.ChartCard title="Tendencias del Sistema" icon={<FaTachometerAlt />}>
+        <ModuleStyles.ChartCard title="Tendencias del Sistema" icon={FaTachometerAlt}>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={datosEnTiempoReal}>
               <CartesianGrid strokeDasharray="3 3" stroke="#374151" />

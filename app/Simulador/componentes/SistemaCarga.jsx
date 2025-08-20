@@ -162,7 +162,7 @@ export default function SistemaCarga({ vehiculo, volver }) {
       </ModuleStyles.Header>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-        <ModuleStyles.InfoCard title={'Estado de Carga'} icon={<FaBatteryFull />}>
+        <ModuleStyles.InfoCard title={'Estado de Carga'} icon={FaBatteryFull}>
           <div className="space-y-4">
             <div className="text-center">
               <div className={`text-xl font-bold mb-2 ${getEstadoColor(parametrosActuales.estadoCarga)}`}>
@@ -198,7 +198,7 @@ export default function SistemaCarga({ vehiculo, volver }) {
           </div>
         </ModuleStyles.InfoCard>
 
-        <ModuleStyles.InfoCard title={'Parámetros Eléctricos'} icon={<FaBolt />}>
+        <ModuleStyles.InfoCard title={'Parámetros Eléctricos'} icon={FaBolt}>
           <div className="space-y-3">
             <div className="flex justify-between">
               <span className="text-gray-400">Voltaje:</span>
@@ -227,7 +227,7 @@ export default function SistemaCarga({ vehiculo, volver }) {
           </div>
         </ModuleStyles.InfoCard>
 
-        <ModuleStyles.InfoCard title={'Gestión Térmica'} icon={<FaThermometerHalf />}>
+        <ModuleStyles.InfoCard title={'Gestión Térmica'} icon={FaThermometerHalf}>
           <div className="space-y-4">
             <div className="text-center">
               <div className={`text-2xl font-bold mb-2 ${
@@ -275,7 +275,7 @@ export default function SistemaCarga({ vehiculo, volver }) {
       )}
 
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-        <ModuleStyles.ChartCard title={'Perfil de Carga'} icon={<FaPlug />}>
+        <ModuleStyles.ChartCard title={'Perfil de Carga'} icon={FaPlug}>
           <ResponsiveContainer width="100%" height={300}>
             <AreaChart data={datosEnTiempoReal}>
               <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
@@ -291,7 +291,7 @@ export default function SistemaCarga({ vehiculo, volver }) {
           </ResponsiveContainer>
         </ModuleStyles.ChartCard>
 
-        <ModuleStyles.ChartCard title={'Parámetros en Tiempo Real'} icon={<FaTachometerAlt />}>
+        <ModuleStyles.ChartCard title={'Parámetros en Tiempo Real'} icon={FaTachometerAlt}>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={datosEnTiempoReal}>
               <CartesianGrid strokeDasharray="3 3" stroke="#374151" />

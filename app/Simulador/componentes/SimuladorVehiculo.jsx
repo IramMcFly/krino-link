@@ -49,7 +49,7 @@ export default function SimuladorVehiculo({ vehiculo, onVolver }) {
 
   // Renderizar el menú específico según el tipo de vehículo
   const renderizarMenu = () => {
-    switch(vehiculo.tipo) {
+    switch (vehiculo.tipo) {
       case 'electrico':
         return <MenuElectrico vehiculo={vehiculo} seleccionarModulo={seleccionarModulo} />;
       case 'hibrido':
@@ -74,26 +74,26 @@ export default function SimuladorVehiculo({ vehiculo, onVolver }) {
       'Transmision': Transmision,
       'Enfriamiento': Enfriamiento,
       'OtrosSistemas': OtrosSistemas,
-      
+
       // Módulo de análisis rápido con DTCs
       'AnalisisRapidoSimulador': AnalisisRapidoSimulador,
-      
+
       // Módulos específicos implementados - Base
       'GestionBateria': GestionBateria,
       'MotorElectrico': MotorElectrico,
       'MotorCombustion': MotorCombustion,
-      
+
       // Módulos específicos híbridos
       'MotorElectricoIMA': MotorElectricoIMA,
       'BateriaHibrida': BateriaHibrida,
       'ControlHibrido': ControlHibrido,
       'SistemaCombustible': SistemaCombustible,
-      
+
       // Módulos específicos eléctricos
       'SistemaCarga': SistemaCarga,
       'Inversor': Inversor,
       'ConvertidorDCDC': ConvertidorDCDC,
-      
+
       // Módulos específicos por desarrollar
       'SistemaCVT': null,
       'MotorTDI': null,
@@ -104,7 +104,7 @@ export default function SimuladorVehiculo({ vehiculo, onVolver }) {
     };
 
     const ComponenteSeleccionado = componenteMap[moduloActivo];
-    
+
     if (ComponenteSeleccionado) {
       return <ComponenteSeleccionado vehiculo={vehiculo} volver={volverAlMenu} />;
     } else if (componenteMap.hasOwnProperty(moduloActivo)) {
@@ -165,14 +165,14 @@ export default function SimuladorVehiculo({ vehiculo, onVolver }) {
           <FaArrowLeft size={16} />
           Cambiar Vehículo
         </button>
-        
-        <Image 
-          src="/images/logoKR.png" 
-          alt="Logo KR" 
-          width={80} 
-          height={80} 
-          className="z-10" 
-          priority 
+
+        <Image
+          src="/images/logoKR.png"
+          alt="Logo KR"
+          width={80}
+          height={80}
+          className="z-10"
+          priority
         />
       </div>
 
@@ -191,10 +191,6 @@ export default function SimuladorVehiculo({ vehiculo, onVolver }) {
           <div className="flex items-center gap-2 overflow-hidden">
             <span className="font-semibold whitespace-nowrap">Año:</span>
             <span className="truncate">{vehiculo.año}</span>
-          </div>
-          <div className="flex items-center gap-2 overflow-hidden">
-            {getIconoBateria()}
-            <span className="font-semibold whitespace-nowrap">{getNivelCombustible()}</span>
           </div>
         </div>
       </div>
