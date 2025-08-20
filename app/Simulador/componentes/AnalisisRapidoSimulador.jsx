@@ -12,13 +12,16 @@ export default function AnalisisRapidoSimulador({ vehiculo, volver }) {
   const [analisisTerminado, setAnalisisTerminado] = useState(false);
   const [eliminando, setEliminando] = useState(false);
   const [fallas, setFallas] = useState([]);
+  const [escaneoPostEliminacion, setEscaneoPostEliminacion] = useState(false);
+  const [escaneando, setEscaneando] = useState(false);
 
   // Usar los códigos DTC específicos del vehículo
-  const generarDTCsDelVehiculo = () => {
+  const generarDTCsDelVehiculo = (postEliminacion = false) => {
     const codigosPosibles = vehiculo.codigosDTC || [];
     
-    // Simular que algunos códigos pueden estar activos (no todos siempre)
-    const probabilidadFalla = 0.4; // 40% de probabilidad de que aparezca cada código
+    // Si es post-eliminación, simular menos códigos activos (solo códigos realmente activos)
+    // Si es primer escaneo, mostrar más códigos (incluye códigos almacenados en memoria)
+    const probabilidadFalla = postEliminacion ? 0.25 : 0.7; // 25% después de eliminación vs 70% inicial
     const dtcsActivos = [];
 
     // Diccionario de descripciones para códigos DTC específicos
@@ -70,19 +73,26 @@ export default function AnalisisRapidoSimulador({ vehiculo, volver }) {
 
     // Filtrar códigos que estarán activos basado en probabilidad
     codigosPosibles.forEach(codigo => {
+      // Si es primer escaneo, mostrar TODOS los códigos
+      // Si es post-eliminación, usar probabilidad reducida
+      const mostrarCodigo = postEliminacion ? (Math.random() < probabilidadFalla) : true; // TODOS en primer escaneo
+      
+      if (mostrarCodigo) {
         const severidad = coloresDTC[codigo]?.includes('red') ? 'critical' : 'warning';
         dtcsActivos.push({
-            sistema: sistemasMap[codigo] || 'ECM',
-            modulo: getModuloDescripcion(sistemasMap[codigo] || 'ECM'),
-            codigo: codigo,
-            descripcion: descripcionesDTC[codigo] || `Código ${codigo} - revisar sistema específico`,
-            severidad: severidad,
-            color: coloresDTC[codigo] || 'bg-gray-600',
-            icono: iconosDTC[severidad] || FaSquare
+          sistema: sistemasMap[codigo] || 'ECM',
+          modulo: getModuloDescripcion(sistemasMap[codigo] || 'ECM'),
+          codigo: codigo,
+          descripcion: descripcionesDTC[codigo] || `Código ${codigo} - revisar sistema específico`,
+          severidad: severidad,
+          color: coloresDTC[codigo] || 'bg-gray-600',
+          icono: iconosDTC[severidad] || FaSquare
         });
+      }
     });
 
-    // Asegurar que al menos aparezca un código si el vehículo tiene códigos definidos
+    // Si es post-eliminación y no hay códigos, asegurar que quede al menos uno (falla realmente activa)
+    // Si es el primer escaneo y no hay códigos, asegurar que aparezca al menos uno
     if (dtcsActivos.length === 0 && codigosPosibles.length > 0) {
       const primerCodigo = codigosPosibles[0];
       const severidad = coloresDTC[primerCodigo]?.includes('red') ? 'critical' : 'warning';
@@ -95,6 +105,32 @@ export default function AnalisisRapidoSimulador({ vehiculo, volver }) {
         color: coloresDTC[primerCodigo] || 'bg-yellow-600',
         icono: iconosDTC[severidad]
       });
+    }
+
+    // Si es post-eliminación, asegurar que al menos quede 1-2 códigos para mejor simulación
+    if (postEliminacion && dtcsActivos.length === 0 && codigosPosibles.length > 0) {
+      // Seleccionar 1-2 códigos aleatorios como "realmente activos"
+      const cantidadMinima = Math.min(2, codigosPosibles.length);
+      const codigosSeleccionados = [];
+      
+      for (let i = 0; i < cantidadMinima; i++) {
+        const indiceAleatorio = Math.floor(Math.random() * codigosPosibles.length);
+        const codigoSeleccionado = codigosPosibles[indiceAleatorio];
+        
+        if (!codigosSeleccionados.includes(codigoSeleccionado)) {
+          codigosSeleccionados.push(codigoSeleccionado);
+          const severidad = coloresDTC[codigoSeleccionado]?.includes('red') ? 'critical' : 'warning';
+          
+          dtcsActivos.push({
+            sistema: sistemasMap[codigoSeleccionado] || 'ECM',
+            modulo: getModuloDescripcion(sistemasMap[codigoSeleccionado] || 'ECM'),
+            codigo: codigoSeleccionado,
+            descripcion: descripcionesDTC[codigoSeleccionado] || `Código ${codigoSeleccionado} - revisar sistema específico`,
+            color: coloresDTC[codigoSeleccionado] || 'bg-yellow-600',
+            icono: iconosDTC[severidad]
+          });
+        }
+      }
     }
 
     return dtcsActivos;
@@ -115,6 +151,8 @@ export default function AnalisisRapidoSimulador({ vehiculo, volver }) {
   };
 
   useEffect(() => {
+    if (!escaneando) return;
+    
     // Simular el proceso de escaneo usando los sistemas del vehículo
     const sistemas = vehiculo.sistemas || ['ECM', 'BCM', 'ABS', 'PCM'];
     let i = 0;
@@ -127,20 +165,37 @@ export default function AnalisisRapidoSimulador({ vehiculo, volver }) {
       } else {
         clearInterval(interval);
         // Usar los códigos DTC específicos del vehículo después del escaneo
-        const dtcsDelVehiculo = generarDTCsDelVehiculo();
+        const dtcsDelVehiculo = generarDTCsDelVehiculo(escaneoPostEliminacion);
         setFallas(dtcsDelVehiculo);
-        setTimeout(() => setAnalisisTerminado(true), 1000);
+        setTimeout(() => {
+          setAnalisisTerminado(true);
+          setEscaneando(false);
+        }, 1000);
       }
     }, 800);
 
     return () => clearInterval(interval);
-  }, [vehiculo]);
+  }, [vehiculo, escaneando, escaneoPostEliminacion]);
+
+  // Iniciar el primer escaneo automáticamente
+  useEffect(() => {
+    setEscaneando(true);
+  }, []);
 
   const eliminarDTCs = () => {
     setEliminando(true);
     setTimeout(() => {
       setFallas([]);
       setEliminando(false);
+      
+      // Iniciar automáticamente un nuevo escaneo después de eliminar
+      setTimeout(() => {
+        setEscaneoPostEliminacion(true);
+        setAnalisisTerminado(false);
+        setProgreso(0);
+        setSistemaActual('');
+        setEscaneando(true);
+      }, 500);
     }, 2000);
   };
 
@@ -154,6 +209,8 @@ export default function AnalisisRapidoSimulador({ vehiculo, volver }) {
     setAnalisisTerminado(false);
     setEliminando(false);
     setFallas([]);
+    setEscaneoPostEliminacion(false);
+    setEscaneando(true);
   };
 
   return (
@@ -177,12 +234,12 @@ export default function AnalisisRapidoSimulador({ vehiculo, volver }) {
       </ModuleStyles.Header>
 
       <div className="max-w-2xl mx-auto">
-        {!analisisTerminado ? (
+        {!analisisTerminado || escaneando ? (
           <ModuleStyles.InfoCard title={'Estado del Escaneo'} icon={FaSpinner}>
             <div className="space-y-4">
               <div className="text-center">
                 <div className="text-lg font-semibold mb-2 text-blue-400">
-                  Comunicando con {sistemaActual}...
+                  {escaneando ? `Comunicando con ${sistemaActual}...` : 'Preparando escaneo...'}
                 </div>
                 <div className="w-full bg-gray-700 rounded-full h-4 mb-2">
                   <div
@@ -191,14 +248,30 @@ export default function AnalisisRapidoSimulador({ vehiculo, volver }) {
                   ></div>
                 </div>
                 <div className="text-sm text-gray-400">
-                  Solicitando códigos DTC del vehículo... {progreso}%
+                  {escaneoPostEliminacion 
+                    ? `Re-escaneando códigos DTC activos... ${progreso}%`
+                    : `Solicitando códigos DTC del vehículo... ${progreso}%`
+                  }
                 </div>
+                {escaneoPostEliminacion && (
+                  <div className="text-xs text-yellow-400 mt-2">
+                    (Verificando códigos realmente activos tras eliminación)
+                  </div>
+                )}
               </div>
             </div>
           </ModuleStyles.InfoCard>
         ) : (
           <ModuleStyles.InfoCard title={'Códigos DTC Detectados'} icon={FaExclamationTriangle}>
             <div className="space-y-4">
+              {escaneoPostEliminacion && (
+                <div className="bg-blue-900/30 border border-blue-500/30 rounded-lg p-3 mb-4">
+                  <div className="text-sm text-blue-300">
+                    <strong>Escaneo post-eliminación completado:</strong><br/>
+                    Se muestran solo los códigos DTC realmente activos. Los códigos almacenados en memoria han sido eliminados.
+                  </div>
+                </div>
+              )}
               {fallas.length > 0 ? (
                 <>
                   <div className="space-y-3">
@@ -254,7 +327,12 @@ export default function AnalisisRapidoSimulador({ vehiculo, volver }) {
                 <div className="text-center py-8">
                   <FaCheckCircle size={48} className="text-green-400 mx-auto mb-4" />
                   <div className="text-xl font-bold mb-2">Sin códigos DTC activos</div>
-                  <div className="text-gray-400 mb-4">El vehículo no presenta fallas detectadas</div>
+                  <div className="text-gray-400 mb-4">
+                    {escaneoPostEliminacion 
+                      ? 'Los códigos DTC fueron eliminados exitosamente. Solo quedaron códigos realmente activos.'
+                      : 'El vehículo no presenta fallas detectadas'
+                    }
+                  </div>
                   <button
                     onClick={reiniciarEscaneo}
                     className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors"
