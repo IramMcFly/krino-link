@@ -4,6 +4,7 @@ import { useState, Suspense } from 'react';
 import Image from 'next/image';
 import SelectorVehiculos from './componentes/SelectorVehiculos';
 import SimuladorVehiculo from './componentes/SimuladorVehiculo';
+import { NavLanding } from '@/components/NavLanding';
 
 export default function Simulador() {
   const [vehiculoSeleccionado, setVehiculoSeleccionado] = useState(null);
@@ -18,6 +19,7 @@ export default function Simulador() {
 
   return (
     <div className="min-h-screen bg-[#1b1f20] text-white">
+      <NavLanding />
       <Suspense fallback={
         <div className="flex items-center justify-center min-h-screen">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-400"></div>
