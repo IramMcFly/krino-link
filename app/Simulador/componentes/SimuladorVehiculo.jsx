@@ -26,6 +26,7 @@ const MotorCombustion = lazy(() => import('./MotorCombustion'));
 const AnalisisRapidoSimulador = lazy(() => import('./AnalisisRapidoSimulador'));
 const MotorTDI = lazy(() => import('./MotorTDI'));
 const SistemaCombustibleDiesel = lazy(() => import('./SistemaCombustibleDiesel'));
+const Turbocompresor = lazy(() => import('./Turbocompresor'));
 
 // Importación dinámica de nuevos módulos híbridos
 const MotorElectricoIMA = lazy(() => import('./MotorElectricoIMA'));
@@ -100,7 +101,7 @@ export default function SimuladorVehiculo({ vehiculo, onVolver }) {
       'SistemaCVT': null,
       'MotorTDI': MotorTDI,
       'SistemaCombustibleDiesel': SistemaCombustibleDiesel,
-      'Turbocompresor': null,
+      'Turbocompresor': Turbocompresor,
       'SistemaEscape': null,
       'SistemaAceite': null,
     };
