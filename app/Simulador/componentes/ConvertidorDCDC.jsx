@@ -124,7 +124,7 @@ export default function ConvertidorDCDC({ vehiculo, volver }) {
       </ModuleStyles.Header>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-6">
-        <ModuleStyles.InfoCard title={'Entrada Alta Tensión'} icon={<FaBolt />}>
+        <ModuleStyles.InfoCard title={'Entrada Alta Tensión'} icon={FaBolt}>
           <div className="space-y-3">
             <div className="text-center">
               <div className={`text-xl font-bold mb-2 ${
@@ -148,7 +148,7 @@ export default function ConvertidorDCDC({ vehiculo, volver }) {
           </div>
         </ModuleStyles.InfoCard>
 
-        <ModuleStyles.InfoCard title={'Salida Baja Tensión'} icon={<FaBolt />}>
+        <ModuleStyles.InfoCard title={'Salida Baja Tensión'} icon={FaBolt}>
           <div className="space-y-3">
             <div className="text-center">
               <div className={`text-xl font-bold mb-2 ${
@@ -172,7 +172,7 @@ export default function ConvertidorDCDC({ vehiculo, volver }) {
           </div>
         </ModuleStyles.InfoCard>
 
-        <ModuleStyles.InfoCard title="Rendimiento" icon={<FaTachometerAlt />}>
+        <ModuleStyles.InfoCard title="Rendimiento" icon={FaTachometerAlt}>
           <div className="space-y-3">
             <div className="text-center">
               <div className={`text-2xl font-bold mb-2 ${
@@ -201,7 +201,7 @@ export default function ConvertidorDCDC({ vehiculo, volver }) {
           </div>
         </ModuleStyles.InfoCard>
 
-        <ModuleStyles.InfoCard title="Estado del Sistema" icon={<FaCog />}>
+        <ModuleStyles.InfoCard title="Estado del Sistema" icon={FaCog}>
           <div className="space-y-3">
             <div className="text-center">
               <div className={`text-lg font-bold mb-2 ${getEstadoColor(parametrosActuales.estado)}`}>
@@ -251,7 +251,7 @@ export default function ConvertidorDCDC({ vehiculo, volver }) {
       )}
 
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-        <ModuleStyles.ChartCard title={'Parámetros del Sistema'} icon={<FaBolt />}>
+        <ModuleStyles.ChartCard title={'Parámetros del Sistema'} icon={FaBolt}>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={parametrosBarras} layout="horizontal" margin={{ left: 40 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
@@ -269,7 +269,7 @@ export default function ConvertidorDCDC({ vehiculo, volver }) {
           </ResponsiveContainer>
         </ModuleStyles.ChartCard>
 
-        <ModuleStyles.ChartCard title="Flujo de Potencia" icon={<FaExchangeAlt />}>
+        <ModuleStyles.ChartCard title="Flujo de Potencia" icon={FaExchangeAlt}>
           <ResponsiveContainer width="100%" height={300}>
             <AreaChart data={datosEnTiempoReal}>
               <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
@@ -287,7 +287,7 @@ export default function ConvertidorDCDC({ vehiculo, volver }) {
       </div>
 
       <div className="mt-6">
-        <ModuleStyles.ChartCard title="Tendencias del Convertidor" icon={<FaThermometerHalf />}>
+        <ModuleStyles.ChartCard title="Tendencias del Convertidor" icon={FaThermometerHalf}>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={datosEnTiempoReal}>
               <CartesianGrid strokeDasharray="3 3" stroke="#374151" />

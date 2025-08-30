@@ -104,7 +104,7 @@ export default function SistemaCombustible({ vehiculo, volver }) {
       </ModuleStyles.Header>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-        <ModuleStyles.InfoCard title={'Nivel de Combustible'} icon={<FaGasPump />}>
+        <ModuleStyles.InfoCard title={'Nivel de Combustible'} icon={FaGasPump}>
           <div className="space-y-4">
             <div className="text-center">
               <div className={`text-3xl font-bold mb-2 ${
@@ -129,7 +129,7 @@ export default function SistemaCombustible({ vehiculo, volver }) {
           </div>
         </ModuleStyles.InfoCard>
 
-        <ModuleStyles.InfoCard title={'Parámetros Operativos'} icon={<FaTachometerAlt />}>
+        <ModuleStyles.InfoCard title={'Parámetros Operativos'} icon={FaTachometerAlt}>
           <div className="space-y-3">
             <div className="flex justify-between">
               <span className="text-gray-400">Presión:</span>
@@ -154,7 +154,7 @@ export default function SistemaCombustible({ vehiculo, volver }) {
           </div>
         </ModuleStyles.InfoCard>
 
-        <ModuleStyles.InfoCard title={'Estado Componentes'} icon={<FaCog />}>
+        <ModuleStyles.InfoCard title={'Estado Componentes'} icon={FaCog}>
           <div className="space-y-3">
             <div className="flex justify-between">
               <span className="text-gray-400">Bomba:</span>
@@ -199,7 +199,7 @@ export default function SistemaCombustible({ vehiculo, volver }) {
       )}
 
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-        <ModuleStyles.ChartCard title={'Tendencia Parámetros'} icon={<FaTachometerAlt />}>
+        <ModuleStyles.ChartCard title={'Tendencia Parámetros'} icon={FaTachometerAlt}>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={datosEnTiempoReal}>
               <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
@@ -217,7 +217,7 @@ export default function SistemaCombustible({ vehiculo, volver }) {
           </ResponsiveContainer>
         </ModuleStyles.ChartCard>
 
-        <ModuleStyles.ChartCard title={'Parámetros Actuales'} icon={<FaThermometerHalf />}>
+        <ModuleStyles.ChartCard title={'Parámetros Actuales'} icon={FaThermometerHalf}>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={parametrosBarras}>
               <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
