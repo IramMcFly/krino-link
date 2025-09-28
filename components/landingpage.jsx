@@ -25,21 +25,25 @@ const features = [
 		icon: <FaRocket size={32} className="text-krino-red" />,
 		title: "Tecnología de Punta",
 		desc: "Equipos OBD2 diseñados para el diagnóstico avanzado de vehículos eléctricos e híbridos.",
+		link: "/" // misma página
 	},
 	{
 		icon: <FaMobileAlt size={32} className="text-krino-yellow" />,
 		title: "Simulador Interactivo",
 		desc: "Experimenta el diagnóstico antes de comprar con nuestro simulador web.",
+		link: "/Simulador"
 	},
 	{
 		icon: <FaShoppingCart size={32} className="text-sky-400" />,
 		title: "Tienda Especializada",
 		desc: "Compra dispositivos certificados y recibe asesoría personalizada para tu taller.",
+		link: "/Tienda"
 	},
 	{
 		icon: <FaShieldAlt size={32} className="text-green-500" />,
 		title: "Soporte y Garantía",
 		desc: "Atención postventa, actualizaciones y garantía directa con nuestro equipo técnico.",
+		link: "#contacto"
 	},
 ];
 
@@ -103,11 +107,13 @@ const equipo = [
 const sponsors = [
 	{
 		title: "MIB",
-		desc: "Maquinados Industriales Ballesteros, Chihuahua."
+		desc: "Maquinados Industriales Ballesteros, Chihuahua.",
+		image: "/images/sponsor/maquinadosindustriales.jpg"
 	},
 	{
 		title: "Startup Garden",
-		desc: "Incubadora de startups enfocada en tecnología e innovación."
+		desc: "Incubadora de startups enfocada en tecnología e innovación.",
+		image: "/images/sponsor/startupgarden.png"
 	}
 ];
 
@@ -220,16 +226,17 @@ const LandingPage = () => (
 			</h2>
 			<div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
 				{features.map((f, i) => (
-					<div
+					<a
 						key={i}
-						className="flex flex-col sm:flex-row items-start gap-4 bg-krino-card rounded-2xl p-6 shadow-md hover:shadow-xl hover:scale-[1.015] transition-all duration-300"
+						href={f.link}
+						className="flex flex-col sm:flex-row items-start gap-4 bg-krino-card rounded-2xl p-6 shadow-md hover:shadow-xl hover:scale-[1.015] transition-all duration-300 cursor-pointer"
 					>
 						<div className="flex-shrink-0 mb-2 sm:mb-0">{f.icon}</div>
 						<div className="flex-1">
 							<h3 className="text-base md:text-lg font-semibold text-white mb-2">{f.title}</h3>
 							<p className="text-gray-300 text-sm md:text-base leading-relaxed">{f.desc}</p>
 						</div>
-					</div>
+					</a>
 				))}
 			</div>
 		</section>
@@ -259,9 +266,12 @@ const LandingPage = () => (
 			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 md:gap-12">
 				{sponsors.map((sponsor, i) => (
 					<div key={i} className="flex flex-col items-center text-center">
-						<div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-gray-600 flex items-center justify-center mb-4 shadow-lg">
-							{/* Placeholder para logos de sponsors */}
-							<span className="text-gray-400 text-xs">Logo</span>
+						<div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-gray-600 flex items-center justify-center mb-4 shadow-lg overflow-hidden">
+							<img
+								src={sponsor.image}
+								alt={sponsor.title + " logo"}
+								className="object-contain w-full h-full"
+							/>
 						</div>
 						<h4 className="text-base md:text-lg font-medium text-white mb-2">{sponsor.title}</h4>
 						<p className="text-gray-300 text-sm leading-relaxed">{sponsor.desc}</p>
