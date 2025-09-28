@@ -44,12 +44,16 @@ const features = [
 
 const testimonios = [
 	{
-		nombre: "Taller EV Pro",
+		nombre: "Maquinados Industriales Ballesteros MIB, Chihuahua.",
 		texto: "Krino Link nos ayudó a modernizar nuestro taller. El simulador es ideal para capacitar al personal.",
 	},
 	{
-		nombre: "AutoElectro MX",
+		nombre: "Multiservicios Almeraz, Chihuahua.",
 		texto: "El KL-01 es fácil de usar y el soporte técnico es excelente. ¡Recomendado para talleres que quieren crecer!",
+	},
+	{
+		nombre: "Transmisiones Automáticas Julian, Chihuahua.",
+		texto: "Increible soporte para vehiculos hibridos. Nos ha permitido diagnosticar y reparar facilmente.",
 	},
 ];
 
@@ -57,14 +61,53 @@ const misiones = [
 	{
 		icon: <FaRocket size={32} className="text-green-500" />,
 		title: "Mision",
-		desc: "Ser la empresa desarrolladora de HW y SW referente del mercado y confiable"
+		desc: "Ser la empresa desarrolladora de hardware y software para diagnostico OBDII para vehiculos electricos e hibridos mas grande de Mexico y Latinoamerica"
 	},
 	{
 		icon: <FaEye size={32} className="text-green-500" />,
 		title: "Vision",
-		desc: "Tener el mejor mercado al ser los dispositivos de confianza y primera eleccion para todos los talleres"
+		desc: "Ofrecer soluciones innovadoras y accesibles que impulsen la eficiencia y el crecimiento de los talleres automotrices en el emergente mercado de vehículos eléctricos e híbridos."
 	}
 ]
+
+const equipo = [
+	{
+		title: "Desarrollo",
+		desc: "Nuestro equipo de desarrollo está compuesto por estudiantes de ingeniería especializados en sistemas embebidos y conocimiento de protocolos de diagnóstico OBDII."
+	},
+	{
+		title: "Fabricación",
+		desc: "Todos nuestros productos son diseñados y fabricados 100% en México, asegurando calidad y soporte local para nuestros clientes."
+	},
+	{
+		title: "Diseño",
+		desc: "Nuestro equipo de diseño se encarga de crear interfaces intuitivas y atractivas para nuestros productos, asegurando una experiencia de usuario excepcional."
+	},
+	{
+		title: "Inteligencia Artificial",
+		desc: "Nuestro equipo de desarrollo trabaja en algoritmos avanzados para mejorar el diagnóstico y la reparación de todo tipo de vehículos."
+	},
+	{
+		title: "Distribución",
+		desc: "Nuestros productos pueden ser adquiridos a través de nuestra tienda en línea, con envíos a todo México y Latinoamérica. Así como refaccionarias locales, nacionales e internacionales."
+	}
+];
+
+// Información de los sponsors en formato de objeto
+const sponsors = [
+	{
+		title: "Sponsor 1",
+		desc: "Descripción breve del Sponsor 1."
+	},
+	{
+		title: "Sponsor 2",
+		desc: "Descripción breve del Sponsor 2."
+	},
+	{
+		title: "Sponsor 3",
+		desc: "Descripción breve del Sponsor 3."
+	}
+];
 
 
 function SimuladorButton() {
@@ -72,7 +115,8 @@ function SimuladorButton() {
   return (
     <button
       onClick={() => router.push('/Simulador')}
-      className="mt-8 bg-krino-yellow text-black font-bold px-8 py-4 rounded-xl shadow-lg hover:bg-yellow-400 transition-all text-lg flex items-center gap-3"
+      className="mt-6 md:mt-8 bg-yellow-500 text-black font-bold px-6 md:px-8 py-3 md:py-4 rounded-xl shadow-lg hover:bg-yellow-400 transition-all text-base md:text-lg flex items-center gap-2 md:gap-3 w-full sm:w-auto justify-center"
+      style={{ visibility: 'visible' }}
     >
       <FaRocket className="text-krino-red" />
       Probar Simulador
@@ -85,105 +129,148 @@ const LandingPage = () => (
 		<NavLanding />
 
 		<div id="top" className="h-0" />
-		<header id="intro" className="flex flex-col items-center w-full max-w-4xl mx-auto text-center pt-32 pb-16">
-			<img src="images/logoKR.png" alt="KRINO" className="h-25 "
+		<header id="intro" className="flex flex-col items-center w-full max-w-5xl mx-auto text-center pt-24 md:pt-32 pb-16 md:pb-24">
+			<img 
+				src="images/logoKR.png" 
+				alt="KRINO" 
+				className="h-20 w-20 sm:h-24 sm:w-24 md:h-32 md:w-32 mb-6 object-contain"
 			/>
 
-			<h1 className="text-5xl md:text-6xl font-extrabold tracking-tight leading-tight text-white">
+			<h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight leading-tight text-white mb-6">
 				Krino Solutions
 			</h1>
-			<p className="text-lg md:text-xl text-gray-300 mt-4 leading-relaxed max-w-2xl mx-auto">
+			<p className="text-base sm:text-lg md:text-xl text-gray-300 leading-relaxed max-w-3xl mx-auto px-4">
 				La plataforma de diagnóstico OBD2 para vehículos eléctricos e híbridos. Lleva tu taller al siguiente nivel con tecnología, simulador y tienda especializada.
 			</p>
 			<SimuladorButton />
 		</header>
 
-		<section id="imagenes" className="mb-10 mt-0">
-			<div className="flex flex-wrap justify-center gap-10">
+		<section id="imagenes" className="w-full max-w-6xl mx-auto mb-16 md:mb-24">
+			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 px-4">
 				{imagenes.map((f, i) => (
 					<div
 						key={i}
-						className="rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300"
+						className="rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
 					>
 						<img
 							src={f.src}
-							alt="imagen"
-							className="w-100 h-100 object-cover rounded-xl"
+							alt={`Producto ${i + 1}`}
+							className="w-full h-48 sm:h-56 md:h-64 object-cover"
 						/>
 					</div>
 				))}
 			</div>
-
 		</section>
 
 
-		<section id="nosotros" className="w-full max-w-6xl mx-auto bg-krino-panel/90 rounded-3xl shadow-xl p-10 mb-20 border border-[#2c2c2c]">
-			<h2 className="text-3xl font-bold text-krino-red mb-10 text-center tracking-wide">
+		<section id="nosotros" className="w-full max-w-6xl mx-auto bg-krino-panel/90 rounded-3xl shadow-xl p-6 md:p-10 mb-16 md:mb-24 border border-[#2c2c2c]">
+			<h2 className="text-2xl md:text-3xl font-bold text-krino-red mb-8 md:mb-12 text-center tracking-wide">
 				¿Quiénes Somos?
 			</h2>
-			<p className="text-lg md:text-xl text-gray-300 mt-4 leading-relaxed max-w-2xl mx-auto text-center">
-				Somos una empresa desarrolladora de Software y Hardware para diagnóstico OBDII para vehículos electricos e híbridos.
+			<p className="text-base md:text-xl text-gray-300 leading-relaxed max-w-4xl mx-auto text-center mb-10 md:mb-12 px-4">
+				Somos una empresa desarrolladora de Software y Hardware para diagnóstico OBDII para vehículos eléctricos e híbridos.
 			</p>
-			<div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+			<div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mb-12 md:mb-16">
 				{misiones.map((f, i) => (
 					<div
 						key={i}
-						className="flex items-start gap-4 bg-krino-card rounded-2xl p-6 shadow-md hover:shadow-xl hover:scale-[1.015] transition-all duration-300"
+						className="flex flex-col sm:flex-row items-start gap-4 bg-krino-card rounded-2xl p-6 shadow-md hover:shadow-xl hover:scale-[1.015] transition-all duration-300"
 					>
-
-						<div className="flex flex-col items-center text-center bg-krino-card rounded-2xl p-6 shadow-md hover:shadow-xl hover:scale-[1.015] transition-all duration-300">
-							<div className="mb-4 text-green-500 text-3xl">
-								{f.icon}
-							</div>
-							<h3 className="text-lg font-semibold text-white mb-1">{f.title}</h3>
-							<p className="text-gray-300 text-sm leading-relaxed">{f.desc}</p>
+						<div className="mb-2 sm:mb-4 text-green-500 text-2xl md:text-3xl flex-shrink-0">
+							{f.icon}
+						</div>
+						<div className="flex-1">
+							<h3 className="text-lg md:text-xl font-semibold text-white mb-2">{f.title}</h3>
+							<p className="text-gray-300 text-sm md:text-base leading-relaxed">{f.desc}</p>
 						</div>
 					</div>
 				))}
 			</div>
+			<div>
+				<h3 className="text-xl md:text-2xl font-bold text-krino-yellow mb-8 text-center tracking-wide">
+					Nuestro Equipo
+				</h3>
+				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+					{equipo.map((e, i) => (
+						<div
+							key={i}
+							className="bg-krino-card rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300"
+						>
+							<h4 className="text-base md:text-lg font-semibold text-white mb-3">{e.title}</h4>
+							<p className="text-gray-300 text-sm md:text-base leading-relaxed">{e.desc}</p>
+						</div>
+					))}
+				</div>
+			</div>
 		</section>
 
-		<section id="tienda" className="w-full max-w-6xl mx-auto bg-krino-panel/90 rounded-3xl shadow-xl p-10 mb-20 border border-[#2c2c2c]">
-			<h2 className="text-3xl font-bold text-krino-red mb-10 text-center tracking-wide">
+		<section id="tienda" className="w-full max-w-6xl mx-auto bg-krino-panel/90 rounded-3xl shadow-xl p-6 md:p-10 mb-16 md:mb-24 border border-[#2c2c2c]">
+			<h2 className="text-2xl md:text-3xl font-bold text-krino-red mb-8 md:mb-12 text-center tracking-wide">
 				¿Por qué elegir Krino Solutions?
 			</h2>
-			<div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+			<div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
 				{features.map((f, i) => (
 					<div
 						key={i}
-						className="flex items-start gap-4 bg-krino-card rounded-2xl p-6 shadow-md hover:shadow-xl hover:scale-[1.015] transition-all duration-300"
+						className="flex flex-col sm:flex-row items-start gap-4 bg-krino-card rounded-2xl p-6 shadow-md hover:shadow-xl hover:scale-[1.015] transition-all duration-300"
 					>
-						<div>{f.icon}</div>
-						<div>
-							<h3 className="text-lg font-semibold text-white mb-1">{f.title}</h3>
-							<p className="text-gray-300 text-sm leading-relaxed">{f.desc}</p>
+						<div className="flex-shrink-0 mb-2 sm:mb-0">{f.icon}</div>
+						<div className="flex-1">
+							<h3 className="text-base md:text-lg font-semibold text-white mb-2">{f.title}</h3>
+							<p className="text-gray-300 text-sm md:text-base leading-relaxed">{f.desc}</p>
 						</div>
 					</div>
 				))}
 			</div>
 		</section>
 
-		<section id="simulador" className="w-full max-w-4xl mx-auto mb-24 px-4">
-			<h3 className="text-2xl font-bold text-krino-yellow mb-8 text-center tracking-wide">
+		<section id="simulador" className="w-full max-w-6xl mx-auto mb-16 md:mb-24 px-4">
+			<h3 className="text-xl md:text-2xl font-bold text-krino-yellow mb-8 md:mb-12 text-center tracking-wide">
 				Testimonios
 			</h3>
-			<div className="flex flex-col md:flex-row gap-6 justify-center">
+			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
 				{testimonios.map((t, i) => (
 					<div
 						key={i}
-						className="bg-krino-panel rounded-2xl p-6 shadow-md text-left flex-1 hover:shadow-lg transition"
+						className="bg-krino-panel rounded-2xl p-6 shadow-md hover:shadow-lg transition-all duration-300 flex-1"
 					>
-						<p className="text-gray-200 italic mb-3 leading-relaxed">"{t.texto}"</p>
-						<span className="text-krino-red font-semibold">{t.nombre}</span>
+						<p className="text-gray-200 italic mb-4 text-sm md:text-base leading-relaxed">"{t.texto}"</p>
+						<span className="text-krino-red font-semibold text-sm md:text-base">{t.nombre}</span>
 					</div>
 				))}
 			</div>
 		</section>
 
-		<section id="contacto" className="w-full max-w-xl mx-auto mb-24 px-4 text-center">
-			<h3 className="text-2xl font-bold text-white mb-6">Contáctanos</h3>
-			<p className="text-gray-300 mb-4">Puedes escribirnos a <a className="text-krino-yellow hover:underline" href="mailto:contacto@krinosolutions.com">contacto@krinosolutions.com</a></p>
-			<p className="text-gray-400 text-sm">© {new Date().getFullYear()} Krino Solutions. Todos los derechos reservados.</p>
+		{/* Sección de Sponsors */}
+		<section id="sponsors" className="w-full max-w-6xl mx-auto mb-16 md:mb-24 px-4">
+			<h2 className="text-xl md:text-2xl font-bold text-white mb-8 md:mb-12 text-center">
+				Sponsors
+			</h2>
+			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 md:gap-12">
+				{sponsors.map((sponsor, i) => (
+					<div key={i} className="flex flex-col items-center text-center">
+						<div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-gray-600 flex items-center justify-center mb-4 shadow-lg">
+							{/* Placeholder para logos de sponsors */}
+							<span className="text-gray-400 text-xs">Logo</span>
+						</div>
+						<h4 className="text-base md:text-lg font-medium text-white mb-2">{sponsor.title}</h4>
+						<p className="text-gray-300 text-sm leading-relaxed">{sponsor.desc}</p>
+					</div>
+				))}
+			</div>
+		</section>
+
+		<section id="contacto" className="w-full max-w-4xl mx-auto mb-16 md:mb-32 px-4 text-center">
+			<h3 className="text-xl md:text-2xl font-bold text-white mb-6 md:mb-8">Contáctanos</h3>
+			<p className="text-gray-300 mb-6 text-sm md:text-base">
+				Puedes escribirnos a{' '}
+				<a className="text-krino-yellow hover:underline break-all" href="mailto:contactomcfly@gmail.com">
+					contactomcfly@gmail.com
+				</a>
+			</p>
+			<p className="text-gray-400 text-xs md:text-sm">
+				© {new Date().getFullYear()} Krino Solutions. Todos los derechos reservados.
+			</p>
 		</section>
 	</div>
 );
