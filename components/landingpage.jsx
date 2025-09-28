@@ -171,7 +171,7 @@ const LandingPage = () => (
 		</section>
 
 
-		<section id="nosotros" className="w-full max-w-6xl mx-auto bg-krino-panel/90 rounded-3xl shadow-xl p-6 md:p-10 mb-16 md:mb-24 border border-[#2c2c2c]">
+		<section id="nosotros" className="w-full max-w-6xl mx-auto bg-krino-panel/90 rounded-3xl shadow-xl p-6 md:p-10 mb-16 md:mb-24 border border-[#2c2c2c] pt-24 md:pt-28">
 			<h2 className="text-2xl md:text-3xl font-bold text-krino-red mb-8 md:mb-12 text-center tracking-wide">
 				¿Quiénes Somos?
 			</h2>
@@ -220,7 +220,7 @@ const LandingPage = () => (
 			</div>
 		</section>
 
-		<section id="tienda" className="w-full max-w-6xl mx-auto bg-krino-panel/90 rounded-3xl shadow-xl p-6 md:p-10 mb-16 md:mb-24 border border-[#2c2c2c]">
+		<section id="tienda" className="w-full max-w-6xl mx-auto bg-krino-panel/90 rounded-3xl shadow-xl p-6 md:p-10 mb-16 md:mb-24 border border-[#2c2c2c] pt-24 md:pt-28">
 			<h2 className="text-2xl md:text-3xl font-bold text-krino-red mb-8 md:mb-12 text-center tracking-wide">
 				¿Por qué elegir Krino Solutions?
 			</h2>
@@ -241,7 +241,7 @@ const LandingPage = () => (
 			</div>
 		</section>
 
-		<section id="simulador" className="w-full max-w-6xl mx-auto mb-16 md:mb-24 px-4">
+		<section id="simulador" className="w-full max-w-6xl mx-auto mb-16 md:mb-24 px-4 pt-24 md:pt-28">
 			<h3 className="text-xl md:text-2xl font-bold text-krino-yellow mb-8 md:mb-12 text-center tracking-wide">
 				Testimonios
 			</h3>
@@ -259,7 +259,7 @@ const LandingPage = () => (
 		</section>
 
 		{/* Sección de Sponsors */}
-		<section id="sponsors" className="w-full max-w-6xl mx-auto mb-16 md:mb-24 px-4">
+		<section id="sponsors" className="w-full max-w-6xl mx-auto mb-16 md:mb-24 px-4 pt-24 md:pt-28">
 			<h2 className="text-xl md:text-2xl font-bold text-white mb-8 md:mb-12 text-center">
 				Sponsors
 			</h2>
@@ -280,7 +280,7 @@ const LandingPage = () => (
 			</div>
 		</section>
 
-		<section id="contacto" className="w-full max-w-4xl mx-auto mb-16 md:mb-32 px-4 text-center">
+		<section id="contacto" className="w-full max-w-4xl mx-auto mb-16 md:mb-32 px-4 text-center pt-24 md:pt-28">
 			<h3 className="text-xl md:text-2xl font-bold text-white mb-6 md:mb-8">Contáctanos</h3>
 			<p className="text-gray-300 mb-6 text-sm md:text-base">
 				Puedes escribirnos a{' '}
