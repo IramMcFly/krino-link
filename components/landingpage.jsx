@@ -96,16 +96,12 @@ const equipo = [
 // Información de los sponsors en formato de objeto
 const sponsors = [
 	{
-		title: "Sponsor 1",
-		desc: "Descripción breve del Sponsor 1."
+		title: "MIB",
+		desc: "Maquinados Industriales Ballesteros, Chihuahua."
 	},
 	{
-		title: "Sponsor 2",
-		desc: "Descripción breve del Sponsor 2."
-	},
-	{
-		title: "Sponsor 3",
-		desc: "Descripción breve del Sponsor 3."
+		title: "Startup Garden",
+		desc: "Incubadora de startups enfocada en tecnología e innovación."
 	}
 ];
 
