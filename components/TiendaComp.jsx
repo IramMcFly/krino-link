@@ -137,6 +137,16 @@ const productosIniciales = [
     detalles: 'Incluye: Asistente virtual avanzado para diagnóstico y soporte técnico. Diagnóstico y soporte automático. IA para resolución de problemas.',
     categoria: 'suscripciones',
   },
+  {
+    id: 13,
+    nombre: 'Paquete Diesel',
+    descripcion: 'Kit completo para diagnóstico y programación de vehículos diésel.',
+    descripcionLarga: 'Incluye herramientas y software especializado para el diagnóstico de vehículos diésel, así como acceso a actualizaciones y soporte técnico.',
+    precio: 3999,
+    imagen: '/images/store/KrinoCarePlus.png',
+    detalles: 'Ideal para talleres que trabajan con vehículos diésel. Incluye formación y soporte técnico.',
+    categoria: 'paquetes',
+  },
 ];
 
 export default function Tienda() {
