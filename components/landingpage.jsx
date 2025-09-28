@@ -1,7 +1,8 @@
 "use client";
 
 import React from "react";
-import { FaShoppingCart, FaRocket, FaZap, FaShieldAlt, FaMobileAlt, FaEye } from "react-icons/fa";
+import { FaShoppingCart, FaRocket, FaZap,  FaShieldAlt, FaMobileAlt, FaEye, FaCode, FaIndustry, FaPaintBrush, FaRobot, FaTruck } from "react-icons/fa";
+import { MdFactory } from "react-icons/md";
 import { NavLanding } from "./NavLanding";
 import { useRouter } from 'next/navigation';
 
@@ -73,23 +74,28 @@ const misiones = [
 const equipo = [
 	{
 		title: "Desarrollo",
-		desc: "Nuestro equipo de desarrollo está compuesto por estudiantes de ingeniería especializados en sistemas embebidos y conocimiento de protocolos de diagnóstico OBDII."
+		desc: "Nuestro equipo de desarrollo está compuesto por estudiantes de ingeniería especializados en sistemas embebidos y conocimiento de protocolos de diagnóstico OBDII.",
+		icon: <FaCode size={28} className="text-krino-yellow" />
 	},
 	{
 		title: "Fabricación",
-		desc: "Todos nuestros productos son diseñados y fabricados 100% en México, asegurando calidad y soporte local para nuestros clientes."
+		desc: "Todos nuestros productos son diseñados y fabricados 100% en México, asegurando calidad y soporte local para nuestros clientes.",
+		icon: <MdFactory size={28} className="text-green-400" />
 	},
 	{
 		title: "Diseño",
-		desc: "Nuestro equipo de diseño se encarga de crear interfaces intuitivas y atractivas para nuestros productos, asegurando una experiencia de usuario excepcional."
+		desc: "Nuestro equipo de diseño se encarga de crear interfaces intuitivas y atractivas para nuestros productos, asegurando una experiencia de usuario excepcional.",
+		icon: <FaPaintBrush size={28} className="text-pink-400" />
 	},
 	{
 		title: "Inteligencia Artificial",
-		desc: "Nuestro equipo de desarrollo trabaja en algoritmos avanzados para mejorar el diagnóstico y la reparación de todo tipo de vehículos."
+		desc: "Nuestro equipo de desarrollo trabaja en algoritmos avanzados para mejorar el diagnóstico y la reparación de todo tipo de vehículos.",
+		icon: <FaRobot size={28} className="text-blue-400" />
 	},
 	{
 		title: "Distribución",
-		desc: "Nuestros productos pueden ser adquiridos a través de nuestra tienda en línea, con envíos a todo México y Latinoamérica. Así como refaccionarias locales, nacionales e internacionales."
+		desc: "Nuestros productos pueden ser adquiridos a través de nuestra tienda en línea, con envíos a todo México y Latinoamérica. Así como refaccionarias locales, nacionales e internacionales.",
+		icon: <FaTruck size={28} className="text-sky-400" />
 	}
 ];
 
@@ -187,15 +193,23 @@ const LandingPage = () => (
 					Nuestro Equipo
 				</h3>
 				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-					{equipo.map((e, i) => (
-						<div
-							key={i}
-							className="bg-krino-card rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300"
-						>
-							<h4 className="text-base md:text-lg font-semibold text-white mb-3">{e.title}</h4>
-							<p className="text-gray-300 text-sm md:text-base leading-relaxed">{e.desc}</p>
-						</div>
-					))}
+					{equipo.map((e, i) => {
+						const isLastRowCentered = equipo.length === 5 && i >= 3;
+						return (
+							<div
+								key={i}
+								className={`bg-krino-card rounded-xl p-6 shadow-md hover:shadow-xl hover:scale-[1.03] transition-all duration-300 flex flex-row items-start gap-6 min-w-[250px] md:min-w-[300px] w-full
+									${isLastRowCentered ? "lg:col-span-1 lg:justify-self-center" : ""}`}
+								style={isLastRowCentered ? { gridColumn: "span 1", justifySelf: "center" } : {}}
+							>
+								<div className="mb-2">{e.icon}</div>
+								<div>
+									<h4 className="text-base md:text-lg font-semibold text-white mb-3">{e.title}</h4>
+									<p className="text-gray-300 text-sm md:text-base leading-relaxed">{e.desc}</p>
+								</div>
+							</div>
+						);
+					})}
 				</div>
 			</div>
 		</section>
