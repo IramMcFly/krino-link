@@ -12,6 +12,8 @@ const categorias = [
   { label: 'Tablets', value: 'tablet' },
   { label: 'Llaves', value: 'llave' },
   { label: 'TPMS', value: 'tpms' },
+  { label: 'Suscripciones', value: 'suscripciones' },
+  { label: 'Paquetes', value: 'paquetes' }
 ];
 
 const productosIniciales = [
@@ -73,7 +75,7 @@ const productosIniciales = [
     precio: 6499,
     imagen: '/images/store/KITPMSKEY.png',
     detalles: 'Incluye ambos dispositivos y manual de uso rápido.',
-    categoria: 'diagnostico',
+    categoria: 'paquetes',
   },
   {
     id: 7,
@@ -83,7 +85,7 @@ const productosIniciales = [
     precio: 22999,
     imagen: '/images/store/KitTabletKl01.png',
     detalles: 'Ideal para talleres móviles y técnicos en campo.',
-    categoria: 'tablet',
+    categoria: 'paquetes',
   },
   {
     id: 8,
@@ -103,7 +105,7 @@ const productosIniciales = [
     precio: 9999,
     imagen: '/images/store/StarterKit.png',
     detalles: 'Incluye una Tablet Certificada, K-Tyre, K-Key y KLM388+.',
-    categoria: 'diagnostico',
+    categoria: 'paquetes',
   },
   {
     id: 10,
@@ -113,7 +115,27 @@ const productosIniciales = [
     precio: 7999,
     imagen: '/images/store/StarterKit2.png',
     detalles: 'Incluye KLM388+, K-Key y K-Tyre.',
-    categoria: 'diagnostico',
+    categoria: 'paquetes',
+  },
+  {
+    id: 11,
+    nombre: 'Krino Care+',
+    descripcion: 'Seguro de suscripción premium con beneficios exclusivos.',
+    descripcionLarga: 'Suscripcion anual que incluye seguro contra daños accidentales, reemplazo gratuito de dispositivos y soporte técnico prioritario.',
+    precio: 499,
+    imagen: '/images/store/KrinoCarePlus.png',
+    detalles: 'Incluye: Seguro contra daños accidentales, Reemplazo gratuito, Soporte prioritario, atención personalizada.',
+    categoria: 'suscripciones',
+  },
+  {
+    id: 12,
+    nombre: 'Krino Assistant Pro',
+    descripcion: 'Asistente virtual avanzado para talleres',
+    descripcionLarga: 'Asistente de diagnóstico inteligente que ofrece soporte en tiempo real y acceso a información técnica especializada.',
+    precio: 499,
+    imagen: '/images/store/Assistant.png',
+    detalles: 'Incluye: Asistente virtual avanzado para diagnóstico y soporte técnico. Diagnóstico y soporte automático. IA para resolución de problemas.',
+    categoria: 'suscripciones',
   },
 ];
 
@@ -156,35 +178,34 @@ export default function Tienda() {
   }, [productos, categoria, busqueda]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#1b1f20] via-[#23272f] to-[#2b2b2b] text-white px-4 py-8 relative font-sans">
-      <header className="flex flex-col md:flex-row items-center justify-between max-w-6xl mx-auto mb-8 gap-4">
+    <div className="min-h-screen bg-gradient-to-br from-krino-darker via-krino-dark to-krino-panel text-white px-4 py-8 relative font-sans">
+      {/* Ajustar el diseño del header para mejorar la alineación y el espaciado */}
+      <header className="flex flex-col md:flex-row items-center justify-between max-w-6xl mx-auto mb-6 gap-4 bg-krino-panel/90 rounded-3xl shadow-xl p-4 md:p-6 border border-[#2c2c2c]">
         <div className="flex items-center gap-4">
-          <h1 className="text-3xl md:text-4xl font-extrabold text-[#c3151b] tracking-tight">KrinoStore</h1>
-          <button
-            onClick={() => router.push('/')}
-            className="flex items-center gap-2 bg-[#23272f] hover:bg-[#c3151b] hover:text-white text-gray-300 px-4 py-2 rounded-lg transition"
-          >
-            <FaInfoCircle size={18} /> Inicio
-          </button>
+          <img src="/images/logoKR.png" alt="Krino Logo" className="w-10 h-10 object-contain" />
+          <div>
+            <h1 className="text-xl md:text-2xl font-extrabold text-krino-red tracking-tight">KrinoStore</h1>
+            <p className="text-gray-300 text-xs md:text-sm mt-1">Tu tienda especializada en diagnóstico automotriz</p>
+          </div>
         </div>
-        <div className="flex gap-2 w-full md:w-auto">
-          <div className="relative flex-1">
+        <div className="flex gap-4 w-full md:w-auto mt-4 md:mt-0">
+          <div className="relative flex-1 min-w-[200px]">
             <input
               type="text"
               placeholder="Buscar producto..."
               value={busqueda}
               onChange={e => setBusqueda(e.target.value)}
-              className="bg-[#23272f] text-white rounded-lg px-4 py-2 w-full pl-10 outline-none border border-[#23272f] focus:border-[#c3151b] transition"
+              className="bg-krino-card text-white rounded-lg px-4 py-2 w-full pl-10 outline-none border border-krino-card focus:border-krino-yellow focus:ring-2 focus:ring-krino-yellow/20 transition-all shadow-md"
             />
             <FaSearch size={18} className="absolute left-3 top-2.5 text-gray-400" />
           </div>
           <select
             value={categoria}
             onChange={e => setCategoria(e.target.value)}
-            className="bg-[#23272f] text-white rounded-lg px-4 py-2 border border-[#23272f] focus:border-[#c3151b] transition"
+            className="bg-krino-card text-white rounded-lg px-4 py-2 border border-krino-card focus:border-krino-yellow focus:ring-2 focus:ring-krino-yellow/20 transition-all shadow-md min-w-[120px]"
           >
             {categorias.map(cat => (
-              <option key={cat.value} value={cat.value}>{cat.label}</option>
+              <option key={cat.value} value={cat.value} className="bg-krino-panel text-black">{cat.label}</option>
             ))}
           </select>
         </div>
@@ -194,32 +215,35 @@ export default function Tienda() {
         {productosFiltrados.length === 0 ? (
           <div className="text-center text-gray-400 py-20 text-lg">No se encontraron productos.</div>
         ) : (
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {productosFiltrados.map((producto) => (
               <motion.div
                 key={producto.id}
-                whileHover={{ scale: 1.03, boxShadow: "0 8px 32px #c3151b33" }}
-                className="bg-[#23272f] rounded-2xl shadow-lg overflow-hidden flex flex-col transition-all cursor-pointer group"
+                whileHover={{ scale: 1.02, boxShadow: "0 20px 40px rgba(195, 21, 27, 0.3)" }}
+                className="bg-krino-card rounded-xl shadow-md overflow-hidden flex flex-col transition-all cursor-pointer group border border-[#2c2c2c] hover:border-krino-red/30 sm:rounded-lg"
               >
                 <div
-                  className="relative w-full h-48 bg-[#1a1a1a] flex items-center justify-center"
+                  className="relative w-full h-56 bg-gradient-to-br from-krino-panel to-krino-dark flex items-center justify-center"
                   onClick={() => setSeleccionado(producto)}
                 >
                   <Image
                     src={producto.imagen}
                     alt={producto.nombre}
-                    layout="fill"
-                    objectFit="contain"
+                    fill
+                    style={{ objectFit: 'contain' }}
                     className="transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>
-                <div className="flex-1 flex flex-col p-5">
-                  <h2 className="text-lg font-bold mb-1">{producto.nombre}</h2>
-                  <p className="text-sm text-gray-300 mb-2">{producto.descripcion}</p>
-                  <p className="text-xl font-bold text-[#facc15] mb-4">${producto.precio}</p>
+                <div className="flex-1 flex flex-col p-6">
+                  <h2 className="text-xl font-bold mb-2 text-white group-hover:text-krino-yellow transition-colors">{producto.nombre}</h2>
+                  <p className="text-sm text-gray-300 mb-3 leading-relaxed">{producto.descripcion}</p>
+                  <p className="text-2xl font-bold text-krino-yellow mb-6">
+                    ${producto.precio.toLocaleString()}
+                    {producto.categoria === 'suscripciones' && <span className="text-sm font-normal text-gray-400 ml-1">/mes</span>}
+                  </p>
                   <button
                     onClick={() => addToCart(producto)}
-                    className="mt-auto bg-[#c3151b] hover:bg-[#a31217] text-white font-semibold py-2 rounded-lg flex items-center justify-center gap-2 transition"
+                    className="mt-auto bg-krino-red hover:bg-red-700 text-white font-semibold py-3 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
                   >
                     <FaShoppingCart size={18} /> Añadir al carrito
                   </button>
@@ -231,14 +255,14 @@ export default function Tienda() {
       </div>
 
       {/* Indicador de carrito */}
-      <div className="fixed top-6 right-6 z-50">
+      <div className="fixed bottom-6 right-6 z-50">
         <button
-          className="relative bg-[#23272f] hover:bg-[#c3151b] text-white rounded-full p-3 shadow-lg transition"
+          className="relative bg-krino-card hover:bg-krino-red text-white rounded-full p-4 shadow-xl transition-all transform hover:scale-110 border border-krino-red/30"
           onClick={() => setShowCart(true)}
         >
           <FaShoppingCart size={24} />
           {carrito.length > 0 && (
-            <span className="absolute -top-1 -right-1 bg-[#facc15] text-[#1b1f20] text-xs font-bold rounded-full px-2 py-0.5">
+            <span className="absolute -top-2 -right-2 bg-krino-yellow text-krino-darker text-xs font-bold rounded-full px-2.5 py-1 shadow-lg">
               {carrito.length}
             </span>
           )}
@@ -271,7 +295,7 @@ export default function Tienda() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="bg-[#23272f] rounded-2xl max-w-lg w-full p-8 relative shadow-xl"
+              className="bg-krino-panel rounded-3xl max-w-lg w-full p-8 relative shadow-2xl border border-[#2c2c2c]"
             >
               <button
                 className="absolute top-4 right-4 text-gray-400 hover:text-white"
@@ -279,8 +303,8 @@ export default function Tienda() {
               >
                 <FaTimes size={28} />
               </button>
-              <h2 className="text-2xl font-bold mb-6 text-[#facc15] flex items-center gap-2">
-                <FaShoppingCart size={24} /> Carrito de compras
+              <h2 className="text-3xl font-bold mb-8 text-krino-yellow flex items-center gap-3 tracking-wide">
+                <FaShoppingCart size={28} /> Carrito de compras
               </h2>
               {carrito.length === 0 ? (
                 <div className="text-gray-400 text-center py-10">Tu carrito está vacío.</div>
@@ -288,30 +312,33 @@ export default function Tienda() {
                 <>
                   <div className="space-y-4 max-h-64 overflow-y-auto pr-2">
                     {carrito.map((prod, idx) => (
-                      <div key={idx} className="flex items-center gap-4 bg-[#1a1a1a] rounded-lg p-3">
-                        <div className="relative w-14 h-14 rounded-lg overflow-hidden bg-[#23272f]">
+                      <div key={idx} className="flex items-center gap-4 bg-krino-card rounded-xl p-4 border border-[#2c2c2c] hover:border-krino-red/30 transition-all">
+                        <div className="relative w-16 h-16 rounded-xl overflow-hidden bg-krino-dark">
                           <Image src={prod.imagen} alt={prod.nombre} layout="fill" objectFit="contain" />
                         </div>
                         <div className="flex-1">
-                          <div className="font-semibold">{prod.nombre}</div>
-                          <div className="text-[#facc15] font-bold">${prod.precio}</div>
+                          <div className="font-semibold text-white">{prod.nombre}</div>
+                          <div className="text-krino-yellow font-bold text-lg">
+                            ${prod.precio.toLocaleString()}
+                            {prod.categoria === 'suscripciones' && <span className="text-sm font-normal text-gray-400 ml-1">/mes</span>}
+                          </div>
                         </div>
                         <button
-                          className="text-[#c3151b] hover:text-[#a31217] transition"
+                          className="text-krino-red hover:text-red-400 transition-colors p-2 hover:bg-krino-red/10 rounded-lg"
                           onClick={() => removeFromCart(idx)}
                           title="Eliminar"
                         >
-                          <FaTrash size={20} />
+                          <FaTrash size={18} />
                         </button>
                       </div>
                     ))}
                   </div>
-                  <div className="border-t border-[#23272f] mt-6 pt-4 flex justify-between items-center">
-                    <span className="font-bold text-lg">Total:</span>
-                    <span className="text-2xl font-bold text-[#facc15]">${total}</span>
+                  <div className="border-t border-krino-card mt-8 pt-6 flex justify-between items-center">
+                    <span className="font-bold text-xl text-white">Total:</span>
+                    <span className="text-3xl font-bold text-krino-yellow">${total.toLocaleString()}</span>
                   </div>
                   <button
-                    className="w-full mt-6 bg-[#facc15] hover:bg-yellow-400 text-[#1b1f20] font-bold py-3 rounded-lg flex items-center justify-center gap-2 text-lg transition"
+                    className="w-full mt-8 bg-krino-yellow hover:bg-yellow-400 text-krino-darker font-bold py-4 rounded-xl flex items-center justify-center gap-3 text-lg transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
                     onClick={() => alert('¡Gracias por tu compra! Pronto nos pondremos en contacto contigo.')}
                   >
                     Finalizar compra
@@ -337,7 +364,7 @@ export default function Tienda() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="bg-[#23272f] rounded-2xl max-w-2xl w-full p-8 relative shadow-xl"
+              className="bg-krino-panel rounded-3xl max-w-3xl w-full p-10 relative shadow-2xl border border-[#2c2c2c]"
             >
               <button
                 className="absolute top-4 right-4 text-gray-400 hover:text-white"
@@ -346,7 +373,7 @@ export default function Tienda() {
                 <FaTimes size={28} />
               </button>
 
-              <div className="relative w-full h-64 md:h-80 mb-6 rounded-xl overflow-hidden bg-[#1a1a1a]">
+              <div className="relative w-full h-72 md:h-96 mb-8 rounded-2xl overflow-hidden bg-gradient-to-br from-krino-dark to-krino-card shadow-inner">
                 <Image
                   src={seleccionado.imagen}
                   alt={seleccionado.nombre}
@@ -355,20 +382,26 @@ export default function Tienda() {
                 />
               </div>
 
-              <h2 className="text-2xl font-bold mb-2">{seleccionado.nombre}</h2>
-              <p className="text-base text-gray-300 mb-2">{seleccionado.descripcion}</p>
-              <p className="text-sm text-gray-400 mb-4">{seleccionado.descripcionLarga}</p>
-              <p className="text-sm text-gray-500 mb-4">{seleccionado.detalles}</p>
-              <p className="text-2xl font-bold text-[#facc15] mb-6">${seleccionado.precio}</p>
+              <h2 className="text-3xl font-bold mb-4 text-white">{seleccionado.nombre}</h2>
+              <p className="text-lg text-gray-300 mb-4 leading-relaxed">{seleccionado.descripcion}</p>
+              <p className="text-base text-gray-400 mb-6 leading-relaxed">{seleccionado.descripcionLarga}</p>
+              <div className="bg-krino-card rounded-xl p-4 mb-6">
+                <h3 className="text-lg font-semibold text-krino-yellow mb-2">Detalles técnicos:</h3>
+                <p className="text-sm text-gray-300 leading-relaxed">{seleccionado.detalles}</p>
+              </div>
+              <p className="text-4xl font-bold text-krino-yellow mb-8">
+                ${seleccionado.precio.toLocaleString()}
+                {seleccionado.categoria === 'suscripciones' && <span className="text-lg font-normal text-gray-400 ml-2">/mes</span>}
+              </p>
 
               <button
                 onClick={() => {
                   addToCart(seleccionado);
                   setSeleccionado(null);
                 }}
-                className="w-full bg-[#c3151b] hover:bg-[#a31217] py-3 rounded-lg flex items-center justify-center gap-2 font-semibold text-lg transition"
+                className="w-full bg-krino-red hover:bg-red-700 py-4 rounded-xl flex items-center justify-center gap-3 font-semibold text-xl transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
               >
-                <FaShoppingCart size={22} /> Añadir al carrito
+                <FaShoppingCart size={24} /> Añadir al carrito
               </button>
             </motion.div>
           </motion.div>
