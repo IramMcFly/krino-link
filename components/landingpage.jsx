@@ -236,23 +236,23 @@ const LandingPage = () => (
 				))}
 			</div>
 			{/* Apartado de valores */}
-			<div className="mb-12 md:mb-16">
-				<h3 className="text-xl md:text-2xl font-bold text-krino-yellow mb-8 text-center tracking-wide">
-					Valores Krino
-				</h3>
-				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-    {valores.map((v, i) => (
-        <div
-            key={i}
-            className="flex flex-col items-center bg-krino-card rounded-2xl p-6 shadow-md hover:shadow-xl hover:scale-[1.015] transition-all duration-300"
-        >
-            <div className="mb-4 text-3xl">{v.icon}</div>
-            <h4 className="text-base md:text-lg font-semibold text-white mb-2 text-center">{v.title}</h4>
-            <p className="text-gray-300 text-sm md:text-base leading-relaxed text-left w-full">{v.desc}</p>
-        </div>
-    ))}
+			<div id="valores" className="mb-12 md:mb-16">
+    <h3 className="text-xl md:text-2xl font-bold text-krino-yellow mb-8 text-center tracking-wide">
+        Valores Krino
+    </h3>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {valores.map((v, i) => (
+            <div
+                key={i}
+                className="flex flex-col items-center bg-krino-card rounded-2xl p-6 shadow-md hover:shadow-xl hover:scale-[1.015] transition-all duration-300"
+            >
+                <div className="mb-4 text-3xl">{v.icon}</div>
+                <h4 className="text-base md:text-lg font-semibold text-white mb-2 text-center">{v.title}</h4>
+                <p className="text-gray-300 text-sm md:text-base leading-relaxed text-left w-full">{v.desc}</p>
+            </div>
+        ))}
+    </div>
 </div>
-			</div>
 			{/* Fin valores */}
 			<div>
 				<h3 className="text-xl md:text-2xl font-bold text-krino-yellow mb-8 text-center tracking-wide">
