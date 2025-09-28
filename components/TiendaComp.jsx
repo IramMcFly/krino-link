@@ -82,7 +82,7 @@ const productosIniciales = [
     nombre: 'Kit Tablet + KL-01',
     descripcion: 'Paquete especial: Tablet Android + KL-01.',
     descripcionLarga: 'La solución portátil definitiva para diagnóstico automotriz. Incluye tablet resistente y el módulo KL-01 para diagnóstico OBD2.',
-    precio: 22999,
+    precio: 24999,
     imagen: '/images/store/KitTabletKl01.png',
     detalles: 'Ideal para talleres móviles y técnicos en campo.',
     categoria: 'paquetes',
