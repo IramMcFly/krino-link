@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { FaShoppingCart, FaRocket, FaZap,  FaShieldAlt, FaMobileAlt, FaEye, FaCode, FaIndustry, FaPaintBrush, FaRobot, FaTruck } from "react-icons/fa";
+import { FaShoppingCart, FaRocket, FaZap,  FaShieldAlt, FaMobileAlt, FaEye, FaCode, FaIndustry, FaPaintBrush, FaRobot, FaTruck, FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
 import { MdFactory } from "react-icons/md";
 import { NavLanding } from "./NavLanding";
 import { useRouter } from 'next/navigation';
@@ -117,6 +117,24 @@ const sponsors = [
 	}
 ];
 
+const contactos = [
+    {
+        icon: <FaFacebook size={32} className="text-blue-500" />,
+        link: "https://facebook.com/krinosolutions"
+    },
+    {
+        icon: <FaTwitter size={32} className="text-sky-400" />,
+        link: "https://twitter.com/krinosolutions"
+    },
+    {
+        icon: <FaInstagram size={32} className="text-pink-500" />,
+        link: "https://instagram.com/krinosolutions"
+    },
+    {
+        icon: <FaLinkedin size={32} className="text-blue-700" />,
+        link: "https://linkedin.com/company/krinosolutions"
+    }
+];
 
 function SimuladorButton() {
   const router = useRouter();
@@ -282,6 +300,19 @@ const LandingPage = () => (
 
 		<section id="contacto" className="w-full max-w-4xl mx-auto mb-16 md:mb-32 px-4 text-center pt-24 md:pt-28">
 			<h3 className="text-xl md:text-2xl font-bold text-white mb-6 md:mb-8">Contáctanos</h3>
+			<div className="flex justify-center gap-6 mb-6">
+				{contactos.map((c, i) => (
+					<a
+						key={i}
+						href={c.link}
+						target="_blank"
+						rel="noopener noreferrer"
+						className="hover:scale-110 transition-transform duration-200"
+					>
+						{c.icon}
+					</a>
+				))}
+			</div>
 			<p className="text-gray-300 mb-6 text-sm md:text-base">
 				Puedes escribirnos a{' '}
 				<a className="text-krino-yellow hover:underline break-all" href="mailto:contactomcfly@gmail.com">
