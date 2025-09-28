@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { FaShoppingCart, FaRocket, FaZap,  FaShieldAlt, FaMobileAlt, FaEye, FaCode, FaIndustry, FaPaintBrush, FaRobot, FaTruck, FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
+import { FaShoppingCart, FaRocket, FaZap,  FaShieldAlt, FaMobileAlt, FaEye, FaCode, FaIndustry, FaPaintBrush, FaRobot, FaTruck, FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaLeaf, FaLightbulb, FaHandsHelping, FaBolt } from "react-icons/fa";
 import { MdFactory } from "react-icons/md";
 import { NavLanding } from "./NavLanding";
 import { useRouter } from 'next/navigation';
@@ -74,6 +74,29 @@ const misiones = [
 		desc: "Ofrecer soluciones innovadoras y accesibles que impulsen la eficiencia y el crecimiento de los talleres automotrices en el emergente mercado de vehículos eléctricos e híbridos."
 	}
 ]
+
+const valores = [
+    {
+        icon: <FaLeaf size={32} className="text-green-400" />,
+        title: "Sustentabilidad",
+        desc: "Impulsamos soluciones tecnológicas que contribuyen al cuidado del medio ambiente y la electrificación del sector automotriz."
+    },
+    {
+        icon: <FaLightbulb size={32} className="text-yellow-400" />,
+        title: "Innovación",
+        desc: "Fomentamos la creatividad y el desarrollo de nuevas tecnologías para mejorar el diagnóstico y la experiencia de nuestros clientes."
+    },
+    {
+        icon: <FaHandsHelping size={32} className="text-blue-400" />,
+        title: "Colaboración",
+        desc: "Creemos en el trabajo en equipo y en el apoyo mutuo para alcanzar objetivos comunes y fortalecer la industria."
+    },
+    {
+        icon: <FaBolt size={32} className="text-krino-yellow" />,
+        title: "Electrificación",
+        desc: "Apoyamos la transición hacia vehículos eléctricos e híbridos, promoviendo el acceso a tecnología avanzada en talleres."
+    }
+];
 
 const equipo = [
 	{
@@ -212,6 +235,25 @@ const LandingPage = () => (
 					</div>
 				))}
 			</div>
+			{/* Apartado de valores */}
+			<div className="mb-12 md:mb-16">
+				<h3 className="text-xl md:text-2xl font-bold text-krino-yellow mb-8 text-center tracking-wide">
+					Valores Krino
+				</h3>
+				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    {valores.map((v, i) => (
+        <div
+            key={i}
+            className="flex flex-col items-center bg-krino-card rounded-2xl p-6 shadow-md hover:shadow-xl hover:scale-[1.015] transition-all duration-300"
+        >
+            <div className="mb-4 text-3xl">{v.icon}</div>
+            <h4 className="text-base md:text-lg font-semibold text-white mb-2 text-center">{v.title}</h4>
+            <p className="text-gray-300 text-sm md:text-base leading-relaxed text-left w-full">{v.desc}</p>
+        </div>
+    ))}
+</div>
+			</div>
+			{/* Fin valores */}
 			<div>
 				<h3 className="text-xl md:text-2xl font-bold text-krino-yellow mb-8 text-center tracking-wide">
 					Nuestro Equipo
