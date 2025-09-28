@@ -321,7 +321,7 @@ const LandingPage = () => (
 		{/* Sección de Sponsors */}
 		<section id="sponsors" className="w-full max-w-6xl mx-auto mb-16 md:mb-24 px-4 pt-24 md:pt-28">
 			<h2 className="text-xl md:text-2xl font-bold text-white mb-8 md:mb-12 text-center">
-				Sponsors
+				Sponsors y alianzas
 			</h2>
 			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 md:gap-12">
 				{sponsors.map((sponsor, i) => (
