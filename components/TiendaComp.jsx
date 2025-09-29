@@ -147,6 +147,16 @@ const productosIniciales = [
     detalles: 'Ideal para talleres que trabajan con vehículos diésel. Incluye formación y soporte técnico.',
     categoria: 'paquetes',
   },
+  {
+    id: 14,
+    nombre: 'Krino Sim Plus',
+    descripcion: 'Simulador avanzado para pruebas de diagnóstico, entrenamiento y capacitación. Y acceso a manuales y guías técnicas para principiiantes y expertos.',
+    descripcionLarga: 'Ideal para aquellos que no tienen experiencia previa en diagnóstico automotriz. Incluye formación y soporte técnico.',
+    precio: 499,
+    imagen: '/images/store/KrinoCarePlus.png',
+    detalles: 'Simulador avanzado para pruebas de diagnóstico, entrenamiento y capacitación. Y acceso a manuales y guías técnicas para principiiantes y expertos.',
+    categoria: 'suscripciones',
+  },
 ];
 
 export default function Tienda() {
