@@ -30,7 +30,7 @@ export default function AsistenteIA() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          model: 'llama3-8b-8192',
+          model: 'mistralai/mistral-small-3.2-24b-instruct:free',
           messages: [
             {
               role: 'system',
