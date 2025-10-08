@@ -50,22 +50,22 @@ export const NavLanding = () => {
                                 onMouseLeave={handleMouseLeave}
                             >
                                 <li>
-                                    <a href="#nosotros" className="block py-1 px-2 hover:text-krino-yellow transition text-white">¿Quiénes Somos?</a>
+                                    <a href="/#nosotros" className="block py-1 px-2 hover:text-krino-yellow transition text-white">¿Quiénes Somos?</a>
                                 </li>
                                 <li>
-                                    <a href="#valores" className="block py-1 px-2 hover:text-krino-yellow transition text-white">Valores Krino</a>
+                                    <a href="/#valores" className="block py-1 px-2 hover:text-krino-yellow transition text-white">Valores Krino</a>
                                 </li>
                                 <li>
-                                    <a href="#nosotros" className="block py-1 px-2 hover:text-krino-yellow transition text-white">Nuestro Equipo</a>
+                                    <a href="/#nosotros" className="block py-1 px-2 hover:text-krino-yellow transition text-white">Nuestro Equipo</a>
                                 </li>
                                 <li>
-                                    <a href="#tienda" className="block py-1 px-2 hover:text-krino-yellow transition text-white">¿Por qué elegir Krino?</a>
+                                    <a href="/#tienda" className="block py-1 px-2 hover:text-krino-yellow transition text-white">¿Por qué elegir Krino?</a>
                                 </li>
                                 <li>
-                                    <a href="#simulador" className="block py-1 px-2 hover:text-krino-yellow transition text-white">Testimonios</a>
+                                    <a href="/#simulador" className="block py-1 px-2 hover:text-krino-yellow transition text-white">Testimonios</a>
                                 </li>
                                 <li>
-                                    <a href="#sponsors" className="block py-1 px-2 hover:text-krino-yellow transition text-white">Sponsors</a>
+                                    <a href="/#sponsors" className="block py-1 px-2 hover:text-krino-yellow transition text-white">Sponsors</a>
                                 </li>
                             </ul>
                         )}
