@@ -40,45 +40,46 @@ export default function AsistenteIA() {
   }, [codigoInicial, codigoProcesado]);
 
   const enviarConsulta = async (mensaje, esInicial = false) => {
+    if (loading) return; // Prevenir múltiples llamadas
+    
     setLoading(true);
+    
     try {
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          model: 'mistralai/mistral-small-3.2-24b-instruct:free',
+          model: 'openai/gpt-oss-20b:free',
           messages: [
             {
               role: 'system',
               content:
-                'Eres un asistente técnico experto en diagnóstico automotriz. Tu objetivo es interpretar códigos DTC (Diagnostic Trouble Codes) y explicar su origen, implicaciones técnicas y posibles soluciones en autos híbridos y eléctricos. Sé claro, conciso y profesional. Usa lenguaje técnico si es apropiado.',
+                'Eres un técnico automotriz experto en vehículos híbridos y eléctricos. Explica códigos DTC de forma clara y completa.\n\nFormato:\n**Código [código]:** [descripción del problema]\n\n**Causa principal:** [explicación técnica de la causa]\n\n**Síntomas comunes:**\n• [síntoma 1]\n• [síntoma 2]\n• [síntoma 3]\n\n**Pasos de diagnóstico:**\n1. [paso 1]\n2. [paso 2]\n3. [paso 3]\n\n**Solución recomendada:** [pasos de reparación]\n\nSé técnico pero claro. Respuesta de 200-300 palabras.',
             },
             { role: 'user', content: mensaje },
           ],
         }),
       });
 
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
       const data = await response.json();
       const respuesta = data.choices?.[0]?.message?.content || 'No pude procesar tu solicitud.';
 
-      setChat((prev) => {
-        const nuevaConversacion = esInicial
-          ? [...prev, { role: 'user', content: mensaje }, { role: 'assistant', content: respuesta }]
-          : [...prev, { role: 'user', content: mensaje }, { role: 'assistant', content: respuesta }];
-
-        // Elimina duplicados exactos si ocurren
-        const vistos = new Set();
-        return nuevaConversacion.filter((msg) => {
-          const clave = msg.role + msg.content;
-          if (vistos.has(clave)) return false;
-          vistos.add(clave);
-          return true;
-        });
-      });
-    } catch (error) {
-      setChat((prev) => [
+      // Solo agregar ESTA conversación, sin duplicar
+      setChat(prev => [
         ...prev,
-        { role: 'assistant', content: 'Hubo un error al contactar al asistente. Intenta más tarde.' },
+        { role: 'user', content: mensaje },
+        { role: 'assistant', content: respuesta }
+      ]);
+      
+    } catch (error) {
+      console.error('Error en enviarConsulta:', error);
+      setChat(prev => [
+        ...prev,
+        { role: 'assistant', content: 'Error al contactar al asistente. Intenta de nuevo.' }
       ]);
     } finally {
       setLoading(false);
@@ -86,9 +87,18 @@ export default function AsistenteIA() {
   };
 
   const handleSend = () => {
-    if (!userMessage.trim()) return;
-    enviarConsulta(userMessage);
+    if (!userMessage.trim() || loading) return;
+    
+    const mensaje = userMessage.trim();
     setUserMessage('');
+    
+    // Verificar que no sea un mensaje duplicado
+    const ultimoMensaje = chat[chat.length - 1];
+    if (ultimoMensaje && ultimoMensaje.role === 'user' && ultimoMensaje.content === mensaje) {
+      return; // No enviar si es duplicado
+    }
+    
+    enviarConsulta(mensaje, false);
   };
 
   useEffect(() => {
@@ -121,10 +131,27 @@ export default function AsistenteIA() {
               <ReactMarkdown
                 components={{
                   strong: ({ children }) => <strong className="font-semibold text-white">{children}</strong>,
-                  p: ({ children }) => <p className="whitespace-pre-wrap text-sm text-white mb-2">{children}</p>,
-                  ul: ({ children }) => <ul className="list-disc pl-5 mb-2">{children}</ul>,
-                  ol: ({ children }) => <ol className="list-decimal pl-5 mb-2">{children}</ol>,
-                  li: ({ children }) => <li className="mb-1">{children}</li>,
+                  p: ({ children }) => <p className="text-sm text-white mb-2 leading-relaxed">{children}</p>,
+                  ul: ({ children }) => <ul className="list-disc pl-4 mb-2 space-y-1">{children}</ul>,
+                  ol: ({ children }) => <ol className="list-decimal pl-4 mb-2 space-y-1">{children}</ol>,
+                  li: ({ children }) => <li className="text-sm">{children}</li>,
+                  h1: ({ children }) => <h1 className="text-lg font-bold text-white mb-2">{children}</h1>,
+                  h2: ({ children }) => <h2 className="text-md font-bold text-white mb-1">{children}</h2>,
+                  h3: ({ children }) => <h3 className="text-md font-semibold text-white mb-1">{children}</h3>,
+                  code: ({ children, inline }) => 
+                    inline ? (
+                      <code className="bg-gray-700 text-yellow-300 px-1 py-0.5 rounded text-sm">{children}</code>
+                    ) : (
+                      <pre className="bg-gray-700 text-gray-200 p-2 rounded-lg overflow-x-auto mb-2">
+                        <code>{children}</code>
+                      </pre>
+                    ),
+                  hr: () => null, // Elimina separadores horizontales
+                  blockquote: ({ children }) => (
+                    <div className="border-l-2 border-blue-500 pl-3 mb-2">
+                      {children}
+                    </div>
+                  ),
                 }}
               >
                 {msg.content}
@@ -146,7 +173,12 @@ export default function AsistenteIA() {
             className="flex-1 bg-[#333] text-white py-2 px-4 rounded-md focus:outline-none"
             value={userMessage}
             onChange={(e) => setUserMessage(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                handleSend();
+              }
+            }}
           />
           <button
             onClick={handleSend}
