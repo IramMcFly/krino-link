@@ -2,18 +2,34 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { useSearchParams } from 'next/navigation';
-import { FaPaperPlane } from 'react-icons/fa';
+import { useSearchParams, useRouter } from 'next/navigation';
+import { FaPaperPlane, FaArrowLeft } from 'react-icons/fa';
 import ReactMarkdown from 'react-markdown';
 
 export default function AsistenteIA() {
+  const router = useRouter();
   const [userMessage, setUserMessage] = useState('');
   const [chat, setChat] = useState([]);
   const [loading, setLoading] = useState(false);
   const bottomRef = useRef(null);
   const searchParams = useSearchParams();
   const codigoInicial = searchParams.get('codigo');
+  const vehiculoId = searchParams.get('vehiculo');
+  const desdeParam = searchParams.get('desde');
   const [codigoProcesado, setCodigoProcesado] = useState(false);
+
+  // Detectar si viene desde el simulador
+  const vieneDesdeSimulador = vehiculoId && codigoInicial;
+
+  const volverAlSimulador = () => {
+    if (desdeParam === 'analisis-rapido' && vehiculoId) {
+      // Si viene del análisis rápido, navegar de vuelta al simulador con el vehículo seleccionado
+      router.push(`/Simulador?vehiculo=${vehiculoId}&modulo=AnalisisRapidoSimulador`);
+    } else {
+      // Fallback: usar router.back()
+      router.back();
+    }
+  };
 
   useEffect(() => {
     if (codigoInicial && !codigoProcesado) {
@@ -82,7 +98,16 @@ export default function AsistenteIA() {
   return (
     <div className="min-h-screen bg-[#1a1a1a] text-white flex flex-col">
       <div className="max-w-2xl w-full mx-auto flex flex-col flex-1 bg-[#1E1E1E] rounded-lg shadow-md border border-[#333] overflow-hidden">
-        <div className="p-4 border-b border-[#333] text-center">
+        <div className="p-4 border-b border-[#333] text-center relative">
+          {vieneDesdeSimulador && (
+            <button 
+              onClick={volverAlSimulador}
+              className="absolute left-4 top-1/2 transform -translate-y-1/2 flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors"
+            >
+              <FaArrowLeft size={16} />
+              Volver
+            </button>
+          )}
           <h1 className="text-xl font-bold">Asistente Técnico IA</h1>
           <p className="text-gray-400 text-sm">Resuelve dudas sobre códigos DTC en vehículos eléctricos</p>
         </div>

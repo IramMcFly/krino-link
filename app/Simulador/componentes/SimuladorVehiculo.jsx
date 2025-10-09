@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, lazy, Suspense } from 'react';
+import { useState, lazy, Suspense, useEffect } from 'react';
 import Image from 'next/image';
 import { FaInfoCircle, FaBatteryFull, FaArrowLeft, FaGasPump, FaOilCan, FaCar } from 'react-icons/fa';
 
@@ -41,8 +41,15 @@ const SistemaCarga = lazy(() => import('./SistemaCarga'));
 const Inversor = lazy(() => import('./Inversor'));
 const ConvertidorDCDC = lazy(() => import('./ConvertidorDCDC'));
 
-export default function SimuladorVehiculo({ vehiculo, onVolver }) {
-  const [moduloActivo, setModuloActivo] = useState(null);
+export default function SimuladorVehiculo({ vehiculo, onVolver, moduloInicial }) {
+  const [moduloActivo, setModuloActivo] = useState(moduloInicial || null);
+
+  // Efecto para manejar el módulo inicial
+  useEffect(() => {
+    if (moduloInicial && moduloInicial !== moduloActivo) {
+      setModuloActivo(moduloInicial);
+    }
+  }, [moduloInicial]);
 
   const seleccionarModulo = (archivo) => {
     setModuloActivo(archivo);

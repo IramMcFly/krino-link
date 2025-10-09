@@ -200,7 +200,7 @@ export default function AnalisisRapidoSimulador({ vehiculo, volver }) {
   };
 
   const irAAistenteIA = (codigo) => {
-    router.push(`/AsistenteIA?codigo=${codigo}&vehiculo=${vehiculo.id}`);
+    router.push(`/AsistenteIA?codigo=${codigo}&vehiculo=${vehiculo.id}&desde=analisis-rapido`);
   };
 
   const reiniciarEscaneo = () => {
