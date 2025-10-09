@@ -86,12 +86,23 @@ export default function Climatizacion({ volver }) {
         <div>
           <h3 className="text-lg font-semibold mb-2 text-center">Consumo eléctrico (W)</h3>
           <ResponsiveContainer width="100%" height={200}>
-            <LineChart data={historial} isAnimationActive={false}>
+            <LineChart 
+              data={historial} 
+              isAnimationActive={false}
+              animationDuration={0}
+            >
               <CartesianGrid strokeDasharray="3 3" stroke="#333" />
               <XAxis dataKey="tiempo" tick={{ fill: 'white', fontSize: 10 }} />
               <YAxis tick={{ fill: 'white', fontSize: 10 }} />
               <Tooltip contentStyle={{ backgroundColor: '#333', color: 'white' }} />
-              <Line type="monotone" dataKey="consumo" stroke="#22d3ee" strokeWidth={2} dot={false} isAnimationActive={false} />
+              <Line 
+                type="monotone" 
+                dataKey="consumo" 
+                stroke="#22d3ee" 
+                strokeWidth={2} 
+                dot={false} 
+                isAnimationActive={false} 
+              />
             </LineChart>
           </ResponsiveContainer>
         </div>

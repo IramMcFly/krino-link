@@ -187,7 +187,11 @@ export default function BateriaHibrida({ vehiculo, volver }) {
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
         <ModuleStyles.ChartCard title="Tendencia Parámetros" icon={FaCog}>
           <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={datosEnTiempoReal}>
+            <LineChart 
+              data={datosEnTiempoReal}
+              isAnimationActive={false}
+              animationDuration={0}
+            >
               <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
               <XAxis dataKey="tiempo" stroke="#9CA3AF" />
               <YAxis stroke="#9CA3AF" />
@@ -195,9 +199,33 @@ export default function BateriaHibrida({ vehiculo, volver }) {
                 contentStyle={{ backgroundColor: '#374151', border: 'none', borderRadius: '8px' }}
                 labelStyle={{ color: '#D1D5DB' }}
               />
-              <Line type="monotone" dataKey="carga" stroke="#4ade80" strokeWidth={2} name="Carga (%)" />
-              <Line type="monotone" dataKey="voltaje" stroke="#a855f7" strokeWidth={2} name="Voltaje (V)" />
-              <Line type="monotone" dataKey="temperatura" stroke="#f59e0b" strokeWidth={2} name="Temperatura (°C)" />
+              <Line 
+                type="monotone" 
+                dataKey="carga" 
+                stroke="#4ade80" 
+                strokeWidth={2} 
+                name="Carga (%)"
+                dot={false}
+                isAnimationActive={false}
+              />
+              <Line 
+                type="monotone" 
+                dataKey="voltaje" 
+                stroke="#a855f7" 
+                strokeWidth={2} 
+                name="Voltaje (V)"
+                dot={false}
+                isAnimationActive={false}
+              />
+              <Line 
+                type="monotone" 
+                dataKey="temperatura" 
+                stroke="#f59e0b" 
+                strokeWidth={2} 
+                name="Temperatura (°C)"
+                dot={false}
+                isAnimationActive={false}
+              />
             </LineChart>
           </ResponsiveContainer>
         </ModuleStyles.ChartCard>

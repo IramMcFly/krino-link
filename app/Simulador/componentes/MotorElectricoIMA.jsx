@@ -161,7 +161,7 @@ export default function MotorElectricoIMA({ vehiculo, volver }) {
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
         <ModuleStyles.ChartCard title="Tendencia en Tiempo Real" icon={FaTachometerAlt}>
           <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={datosEnTiempoReal}>
+            <LineChart data={datosEnTiempoReal} isAnimationActive={false} animationDuration={0}>
               <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
               <XAxis dataKey="tiempo" stroke="#9CA3AF" />
               <YAxis stroke="#9CA3AF" />
@@ -169,16 +169,16 @@ export default function MotorElectricoIMA({ vehiculo, volver }) {
                 contentStyle={{ backgroundColor: '#374151', border: 'none', borderRadius: '8px' }}
                 labelStyle={{ color: '#D1D5DB' }}
               />
-              <Line type="monotone" dataKey="voltaje" stroke="#8884d8" strokeWidth={2} name="Voltaje (V)" />
-              <Line type="monotone" dataKey="corriente" stroke="#82ca9d" strokeWidth={2} name="Corriente (A)" />
-              <Line type="monotone" dataKey="temperatura" stroke="#ff7c7c" strokeWidth={2} name="Temperatura (°C)" />
+              <Line type="monotone" dataKey="voltaje" stroke="#8884d8" strokeWidth={2} name="Voltaje (V)" dot={false} isAnimationActive={false} />
+              <Line type="monotone" dataKey="corriente" stroke="#82ca9d" strokeWidth={2} name="Corriente (A)" dot={false} isAnimationActive={false} />
+              <Line type="monotone" dataKey="temperatura" stroke="#ff7c7c" strokeWidth={2} name="Temperatura (°C)" dot={false} isAnimationActive={false} />
             </LineChart>
           </ResponsiveContainer>
         </ModuleStyles.ChartCard>
 
         <ModuleStyles.ChartCard title="Parámetros Actuales" icon={FaCog}>
           <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={parametrosBarra} layout="horizontal">
+            <BarChart data={parametrosBarra} layout="horizontal" isAnimationActive={false} animationDuration={0}>
               <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
               <XAxis type="number" stroke="#9CA3AF" />
               <YAxis dataKey="nombre" type="category" stroke="#9CA3AF" />
@@ -186,7 +186,7 @@ export default function MotorElectricoIMA({ vehiculo, volver }) {
                 contentStyle={{ backgroundColor: '#374151', border: 'none', borderRadius: '8px' }}
                 formatter={(value, name) => [`${value.toFixed(1)}${parametrosBarra.find(p => p.color === name)?.unidad || ''}`, 'Valor']}
               />
-              <Bar dataKey="valor" fill={(entry) => entry.color} />
+              <Bar dataKey="valor" fill={(entry) => entry.color} isAnimationActive={false} />
             </BarChart>
           </ResponsiveContainer>
         </ModuleStyles.ChartCard>

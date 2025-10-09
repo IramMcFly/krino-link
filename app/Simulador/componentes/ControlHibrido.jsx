@@ -232,11 +232,15 @@ export default function ControlHibrido({ vehiculo, volver }) {
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
         <ModuleStyles.ChartCard title="Distribución de Potencia" icon={FaBolt}>
           <ResponsiveContainer width="100%" height={300}>
-            <AreaChart data={[{
-              nombre: 'Actual',
-              motorElectrico: parametrosActuales.distribucionPotencia.motorElectrico,
-              motorCombustion: parametrosActuales.distribucionPotencia.motorCombustion
-            }]}>
+            <AreaChart 
+              data={[{
+                nombre: 'Actual',
+                motorElectrico: parametrosActuales.distribucionPotencia.motorElectrico,
+                motorCombustion: parametrosActuales.distribucionPotencia.motorCombustion
+              }]}
+              isAnimationActive={false}
+              animationDuration={0}
+            >
               <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
               <XAxis dataKey="nombre" stroke="#9CA3AF" />
               <YAxis stroke="#9CA3AF" />
@@ -244,15 +248,37 @@ export default function ControlHibrido({ vehiculo, volver }) {
                 contentStyle={{ backgroundColor: '#374151', border: 'none', borderRadius: '8px' }}
                 formatter={(value) => [`${value.toFixed(1)}%`, 'Potencia']}
               />
-              <Area type="monotone" dataKey="motorElectrico" stackId="1" stroke="#10b981" fill="#10b981" fillOpacity={0.6} name="Motor Eléctrico" />
-              <Area type="monotone" dataKey="motorCombustion" stackId="1" stroke="#f59e0b" fill="#f59e0b" fillOpacity={0.6} name="Motor Combustión" />
+              <Area 
+                type="monotone" 
+                dataKey="motorElectrico" 
+                stackId="1" 
+                stroke="#10b981" 
+                fill="#10b981" 
+                fillOpacity={0.6} 
+                name="Motor Eléctrico"
+                isAnimationActive={false}
+              />
+              <Area 
+                type="monotone" 
+                dataKey="motorCombustion" 
+                stackId="1" 
+                stroke="#f59e0b" 
+                fill="#f59e0b" 
+                fillOpacity={0.6} 
+                name="Motor Combustión"
+                isAnimationActive={false}
+              />
             </AreaChart>
           </ResponsiveContainer>
         </ModuleStyles.ChartCard>
 
         <ModuleStyles.ChartCard title="Tendencias del Sistema" icon={FaTachometerAlt}>
           <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={datosEnTiempoReal}>
+            <LineChart 
+              data={datosEnTiempoReal}
+              isAnimationActive={false}
+              animationDuration={0}
+            >
               <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
               <XAxis dataKey="tiempo" stroke="#9CA3AF" />
               <YAxis stroke="#9CA3AF" />
@@ -260,9 +286,33 @@ export default function ControlHibrido({ vehiculo, volver }) {
                 contentStyle={{ backgroundColor: '#374151', border: 'none', borderRadius: '8px' }}
                 labelStyle={{ color: '#D1D5DB' }}
               />
-              <Line type="monotone" dataKey="eficiencia" stroke="#3b82f6" strokeWidth={2} name="Eficiencia (%)" />
-              <Line type="monotone" dataKey="regeneracion" stroke="#10b981" strokeWidth={2} name="Regeneración (kW)" />
-              <Line type="monotone" dataKey="temperatura" stroke="#f59e0b" strokeWidth={2} name="Temperatura (°C)" />
+              <Line 
+                type="monotone" 
+                dataKey="eficiencia" 
+                stroke="#3b82f6" 
+                strokeWidth={2} 
+                name="Eficiencia (%)"
+                dot={false}
+                isAnimationActive={false}
+              />
+              <Line 
+                type="monotone" 
+                dataKey="regeneracion" 
+                stroke="#10b981" 
+                strokeWidth={2} 
+                name="Regeneración (kW)"
+                dot={false}
+                isAnimationActive={false}
+              />
+              <Line 
+                type="monotone" 
+                dataKey="temperatura" 
+                stroke="#f59e0b" 
+                strokeWidth={2} 
+                name="Temperatura (°C)"
+                dot={false}
+                isAnimationActive={false}
+              />
             </LineChart>
           </ResponsiveContainer>
         </ModuleStyles.ChartCard>

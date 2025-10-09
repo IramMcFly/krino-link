@@ -261,7 +261,11 @@ export default function GestionBateria({ volver, vehiculo }) {
           {/* Gráfico de tendencias */}
           <ChartContainer title="Tendencias en Tiempo Real">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={datosGrafico}>
+              <LineChart 
+                data={datosGrafico}
+                isAnimationActive={false}
+                animationDuration={0}
+              >
                 <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
                 <XAxis dataKey="tiempo" stroke="#9CA3AF" fontSize={12} />
                 <YAxis stroke="#9CA3AF" fontSize={12} />
@@ -279,6 +283,7 @@ export default function GestionBateria({ volver, vehiculo }) {
                   strokeWidth={2}
                   name="Carga (%)"
                   dot={false}
+                  isAnimationActive={false}
                 />
                 <Line 
                   type="monotone" 
@@ -287,6 +292,7 @@ export default function GestionBateria({ volver, vehiculo }) {
                   strokeWidth={2}
                   name="Temperatura (°C)"
                   dot={false}
+                  isAnimationActive={false}
                 />
                 <Line 
                   type="monotone" 
@@ -295,6 +301,7 @@ export default function GestionBateria({ volver, vehiculo }) {
                   strokeWidth={2}
                   name="Voltaje (V/10)"
                   dot={false}
+                  isAnimationActive={false}
                 />
               </LineChart>
             </ResponsiveContainer>

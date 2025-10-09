@@ -253,7 +253,13 @@ export default function ConvertidorDCDC({ vehiculo, volver }) {
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
         <ModuleStyles.ChartCard title={'Parámetros del Sistema'} icon={FaBolt}>
           <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={parametrosBarras} layout="horizontal" margin={{ left: 40 }}>
+            <BarChart 
+              data={parametrosBarras} 
+              layout="horizontal" 
+              margin={{ left: 40 }}
+              isAnimationActive={false}
+              animationDuration={0}
+            >
               <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
               <XAxis type="number" stroke="#9CA3AF" />
               <YAxis dataKey="nombre" type="category" stroke="#9CA3AF" />
@@ -264,14 +270,22 @@ export default function ConvertidorDCDC({ vehiculo, volver }) {
                   'Valor'
                 ]}
               />
-              <Bar dataKey="valor" fill="#06b6d4" />
+              <Bar 
+                dataKey="valor" 
+                fill="#06b6d4"
+                isAnimationActive={false}
+              />
             </BarChart>
           </ResponsiveContainer>
         </ModuleStyles.ChartCard>
 
         <ModuleStyles.ChartCard title="Flujo de Potencia" icon={FaExchangeAlt}>
           <ResponsiveContainer width="100%" height={300}>
-            <AreaChart data={datosEnTiempoReal}>
+            <AreaChart 
+              data={datosEnTiempoReal}
+              isAnimationActive={false}
+              animationDuration={0}
+            >
               <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
               <XAxis dataKey="tiempo" stroke="#9CA3AF" />
               <YAxis stroke="#9CA3AF" />
@@ -279,8 +293,26 @@ export default function ConvertidorDCDC({ vehiculo, volver }) {
                 contentStyle={{ backgroundColor: '#374151', border: 'none', borderRadius: '8px' }}
                 labelStyle={{ color: '#D1D5DB' }}
               />
-              <Area type="monotone" dataKey="potenciaEntrada" stackId="1" stroke="#8b5cf6" fill="#8b5cf6" fillOpacity={0.6} name="Entrada (kW)" />
-              <Area type="monotone" dataKey="potenciaSalida" stackId="2" stroke="#10b981" fill="#10b981" fillOpacity={0.6} name="Salida (kW)" />
+              <Area 
+                type="monotone" 
+                dataKey="potenciaEntrada" 
+                stackId="1" 
+                stroke="#8b5cf6" 
+                fill="#8b5cf6" 
+                fillOpacity={0.6} 
+                name="Entrada (kW)"
+                isAnimationActive={false}
+              />
+              <Area 
+                type="monotone" 
+                dataKey="potenciaSalida" 
+                stackId="2" 
+                stroke="#10b981" 
+                fill="#10b981" 
+                fillOpacity={0.6} 
+                name="Salida (kW)"
+                isAnimationActive={false}
+              />
             </AreaChart>
           </ResponsiveContainer>
         </ModuleStyles.ChartCard>
@@ -289,7 +321,11 @@ export default function ConvertidorDCDC({ vehiculo, volver }) {
       <div className="mt-6">
         <ModuleStyles.ChartCard title="Tendencias del Convertidor" icon={FaThermometerHalf}>
           <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={datosEnTiempoReal}>
+            <LineChart 
+              data={datosEnTiempoReal}
+              isAnimationActive={false}
+              animationDuration={0}
+            >
               <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
               <XAxis dataKey="tiempo" stroke="#9CA3AF" />
               <YAxis stroke="#9CA3AF" />
@@ -297,10 +333,42 @@ export default function ConvertidorDCDC({ vehiculo, volver }) {
                 contentStyle={{ backgroundColor: '#374151', border: 'none', borderRadius: '8px' }}
                 labelStyle={{ color: '#D1D5DB' }}
               />
-              <Line type="monotone" dataKey="eficiencia" stroke="#10b981" strokeWidth={2} name="Eficiencia (%)" />
-              <Line type="monotone" dataKey="temperatura" stroke="#ef4444" strokeWidth={2} name="Temperatura (°C)" />
-              <Line type="monotone" dataKey="voltajeSalidaLV" stroke="#3b82f6" strokeWidth={2} name="Voltaje 12V (V)" />
-              <Line type="monotone" dataKey="regulacionCarga" stroke="#f59e0b" strokeWidth={2} name="Regulación (%)" />
+              <Line 
+                type="monotone" 
+                dataKey="eficiencia" 
+                stroke="#10b981" 
+                strokeWidth={2} 
+                name="Eficiencia (%)"
+                dot={false}
+                isAnimationActive={false}
+              />
+              <Line 
+                type="monotone" 
+                dataKey="temperatura" 
+                stroke="#ef4444" 
+                strokeWidth={2} 
+                name="Temperatura (°C)"
+                dot={false}
+                isAnimationActive={false}
+              />
+              <Line 
+                type="monotone" 
+                dataKey="voltajeSalidaLV" 
+                stroke="#3b82f6" 
+                strokeWidth={2} 
+                name="Voltaje 12V (V)"
+                dot={false}
+                isAnimationActive={false}
+              />
+              <Line 
+                type="monotone" 
+                dataKey="regulacionCarga" 
+                stroke="#f59e0b" 
+                strokeWidth={2} 
+                name="Regulación (%)"
+                dot={false}
+                isAnimationActive={false}
+              />
             </LineChart>
           </ResponsiveContainer>
         </ModuleStyles.ChartCard>

@@ -235,7 +235,7 @@ export default function Inversor({ vehiculo, volver }) {
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
         <ModuleStyles.ChartCard title={'Parámetros Eléctricos'} icon={FaBolt}>
           <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={parametrosBarras}>
+            <BarChart data={parametrosBarras} isAnimationActive={false} animationDuration={0}>
               <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
               <XAxis dataKey="nombre" stroke="#9CA3AF" />
               <YAxis stroke="#9CA3AF" />
@@ -246,7 +246,7 @@ export default function Inversor({ vehiculo, volver }) {
                   'Valor'
                 ]}
               />
-              <Bar dataKey="valor" fill="#8b5cf6" />
+              <Bar dataKey="valor" fill="#8b5cf6" isAnimationActive={false} />
             </BarChart>
           </ResponsiveContainer>
         </ModuleStyles.ChartCard>
@@ -275,7 +275,7 @@ export default function Inversor({ vehiculo, volver }) {
 
         <ModuleStyles.ChartCard title={'Tendencias en Tiempo Real'} icon={FaThermometerHalf}>
           <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={datosEnTiempoReal}>
+            <LineChart data={datosEnTiempoReal} isAnimationActive={false} animationDuration={0}>
               <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
               <XAxis dataKey="tiempo" stroke="#9CA3AF" />
               <YAxis stroke="#9CA3AF" />
@@ -283,10 +283,10 @@ export default function Inversor({ vehiculo, volver }) {
                 contentStyle={{ backgroundColor: '#374151', border: 'none', borderRadius: '8px' }}
                 labelStyle={{ color: '#D1D5DB' }}
               />
-              <Line type="monotone" dataKey="eficiencia" stroke="#10b981" strokeWidth={2} name="Eficiencia (%)" />
-              <Line type="monotone" dataKey="temperatura" stroke="#ef4444" strokeWidth={2} name="Temperatura (°C)" />
-              <Line type="monotone" dataKey="THD" stroke="#f59e0b" strokeWidth={2} name="THD (%)" />
-              <Line type="monotone" dataKey="factorPotencia" stroke="#06b6d4" strokeWidth={2} name="Factor Potencia" />
+              <Line type="monotone" dataKey="eficiencia" stroke="#10b981" strokeWidth={2} name="Eficiencia (%)" dot={false} isAnimationActive={false} />
+              <Line type="monotone" dataKey="temperatura" stroke="#ef4444" strokeWidth={2} name="Temperatura (°C)" dot={false} isAnimationActive={false} />
+              <Line type="monotone" dataKey="THD" stroke="#f59e0b" strokeWidth={2} name="THD (%)" dot={false} isAnimationActive={false} />
+              <Line type="monotone" dataKey="factorPotencia" stroke="#06b6d4" strokeWidth={2} name="Factor Potencia" dot={false} isAnimationActive={false} />
             </LineChart>
           </ResponsiveContainer>
         </ModuleStyles.ChartCard>

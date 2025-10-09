@@ -200,7 +200,7 @@ export default function SistemaAceite({ vehiculo, volver }) {
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
         <ModuleStyles.ChartCard title={'Tendencia Aceite'} icon={FaTachometerAlt}>
           <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={datosEnTiempoReal}>
+            <LineChart data={datosEnTiempoReal} isAnimationActive={false} animationDuration={0}>
               <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
               <XAxis dataKey="tiempo" stroke="#9CA3AF" />
               <YAxis stroke="#9CA3AF" />
@@ -208,17 +208,17 @@ export default function SistemaAceite({ vehiculo, volver }) {
                 contentStyle={{ backgroundColor: '#374151', border: 'none', borderRadius: '8px' }}
                 labelStyle={{ color: '#D1D5DB' }}
               />
-              <Line type="monotone" dataKey="presionAceite" stroke="#8884d8" strokeWidth={2} name="Presión Aceite (bar)" />
-              <Line type="monotone" dataKey="tempAceite" stroke="#ffc658" strokeWidth={2} name="Temp. Aceite (°C)" />
-              <Line type="monotone" dataKey="nivelAceite" stroke="#ff7c7c" strokeWidth={2} name="Nivel Aceite (%)" />
-              <Line type="monotone" dataKey="calidadAceite" stroke="#82ca9d" strokeWidth={2} name="Calidad Aceite (%)" />
+              <Line type="monotone" dataKey="presionAceite" stroke="#8884d8" strokeWidth={2} name="Presión Aceite (bar)" dot={false} isAnimationActive={false} />
+              <Line type="monotone" dataKey="tempAceite" stroke="#ffc658" strokeWidth={2} name="Temp. Aceite (°C)" dot={false} isAnimationActive={false} />
+              <Line type="monotone" dataKey="nivelAceite" stroke="#ff7c7c" strokeWidth={2} name="Nivel Aceite (%)" dot={false} isAnimationActive={false} />
+              <Line type="monotone" dataKey="calidadAceite" stroke="#82ca9d" strokeWidth={2} name="Calidad Aceite (%)" dot={false} isAnimationActive={false} />
             </LineChart>
           </ResponsiveContainer>
         </ModuleStyles.ChartCard>
 
         <ModuleStyles.ChartCard title={'Parámetros Actuales'} icon={FaOilCan}>
           <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={parametrosBarras}>
+            <BarChart data={parametrosBarras} isAnimationActive={false} animationDuration={0}>
               <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
               <XAxis dataKey="nombre" stroke="#9CA3AF" />
               <YAxis stroke="#9CA3AF" />
@@ -229,7 +229,7 @@ export default function SistemaAceite({ vehiculo, volver }) {
                   'Valor'
                 ]}
               />
-              <Bar dataKey="valor" fill="#4f46e5" />
+              <Bar dataKey="valor" fill="#4f46e5" isAnimationActive={false} />
             </BarChart>
           </ResponsiveContainer>
         </ModuleStyles.ChartCard>

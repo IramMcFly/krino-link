@@ -277,7 +277,11 @@ export default function SistemaCarga({ vehiculo, volver }) {
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
         <ModuleStyles.ChartCard title={'Perfil de Carga'} icon={FaPlug}>
           <ResponsiveContainer width="100%" height={300}>
-            <AreaChart data={datosEnTiempoReal}>
+            <AreaChart 
+              data={datosEnTiempoReal}
+              isAnimationActive={false}
+              animationDuration={0}
+            >
               <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
               <XAxis dataKey="tiempo" stroke="#9CA3AF" />
               <YAxis stroke="#9CA3AF" />
@@ -285,15 +289,35 @@ export default function SistemaCarga({ vehiculo, volver }) {
                 contentStyle={{ backgroundColor: '#374151', border: 'none', borderRadius: '8px' }}
                 labelStyle={{ color: '#D1D5DB' }}
               />
-              <Area type="monotone" dataKey="potenciaCarga" stroke="#10b981" fill="#10b981" fillOpacity={0.3} name="Potencia (kW)" />
-              <Area type="monotone" dataKey="nivelBateria" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.3} name="Batería (%)" />
+              <Area 
+                type="monotone" 
+                dataKey="potenciaCarga" 
+                stroke="#10b981" 
+                fill="#10b981" 
+                fillOpacity={0.3} 
+                name="Potencia (kW)"
+                isAnimationActive={false}
+              />
+              <Area 
+                type="monotone" 
+                dataKey="nivelBateria" 
+                stroke="#3b82f6" 
+                fill="#3b82f6" 
+                fillOpacity={0.3} 
+                name="Batería (%)"
+                isAnimationActive={false}
+              />
             </AreaChart>
           </ResponsiveContainer>
         </ModuleStyles.ChartCard>
 
         <ModuleStyles.ChartCard title={'Parámetros en Tiempo Real'} icon={FaTachometerAlt}>
           <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={datosEnTiempoReal}>
+            <LineChart 
+              data={datosEnTiempoReal}
+              isAnimationActive={false}
+              animationDuration={0}
+            >
               <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
               <XAxis dataKey="tiempo" stroke="#9CA3AF" />
               <YAxis stroke="#9CA3AF" />
@@ -301,10 +325,42 @@ export default function SistemaCarga({ vehiculo, volver }) {
                 contentStyle={{ backgroundColor: '#374151', border: 'none', borderRadius: '8px' }}
                 labelStyle={{ color: '#D1D5DB' }}
               />
-              <Line type="monotone" dataKey="voltajeEntrada" stroke="#a855f7" strokeWidth={2} name="Voltaje (V)" />
-              <Line type="monotone" dataKey="corrienteCarga" stroke="#f59e0b" strokeWidth={2} name="Corriente (A)" />
-              <Line type="monotone" dataKey="temperatura" stroke="#ef4444" strokeWidth={2} name="Temperatura (°C)" />
-              <Line type="monotone" dataKey="eficienciaCarga" stroke="#06b6d4" strokeWidth={2} name="Eficiencia (%)" />
+              <Line 
+                type="monotone" 
+                dataKey="voltajeEntrada" 
+                stroke="#a855f7" 
+                strokeWidth={2} 
+                name="Voltaje (V)"
+                dot={false}
+                isAnimationActive={false}
+              />
+              <Line 
+                type="monotone" 
+                dataKey="corrienteCarga" 
+                stroke="#f59e0b" 
+                strokeWidth={2} 
+                name="Corriente (A)"
+                dot={false}
+                isAnimationActive={false}
+              />
+              <Line 
+                type="monotone" 
+                dataKey="temperatura" 
+                stroke="#ef4444" 
+                strokeWidth={2} 
+                name="Temperatura (°C)"
+                dot={false}
+                isAnimationActive={false}
+              />
+              <Line 
+                type="monotone" 
+                dataKey="eficienciaCarga" 
+                stroke="#06b6d4" 
+                strokeWidth={2} 
+                name="Eficiencia (%)"
+                dot={false}
+                isAnimationActive={false}
+              />
             </LineChart>
           </ResponsiveContainer>
         </ModuleStyles.ChartCard>

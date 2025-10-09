@@ -201,7 +201,7 @@ export default function SistemaCombustible({ vehiculo, volver }) {
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
         <ModuleStyles.ChartCard title={'Tendencia Parámetros'} icon={FaTachometerAlt}>
           <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={datosEnTiempoReal}>
+            <LineChart data={datosEnTiempoReal} isAnimationActive={false} animationDuration={0}>
               <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
               <XAxis dataKey="tiempo" stroke="#9CA3AF" />
               <YAxis stroke="#9CA3AF" />
@@ -209,17 +209,17 @@ export default function SistemaCombustible({ vehiculo, volver }) {
                 contentStyle={{ backgroundColor: '#374151', border: 'none', borderRadius: '8px' }}
                 labelStyle={{ color: '#D1D5DB' }}
               />
-              <Line type="monotone" dataKey="presionCombustible" stroke="#8884d8" strokeWidth={2} name="Presión (bar)" />
-              <Line type="monotone" dataKey="flujo" stroke="#82ca9d" strokeWidth={2} name="Flujo (L/h)" />
-              <Line type="monotone" dataKey="temperatura" stroke="#ffc658" strokeWidth={2} name="Temperatura (°C)" />
-              <Line type="monotone" dataKey="consumo" stroke="#ff7c7c" strokeWidth={2} name="Consumo (L/100km)" />
+              <Line type="monotone" dataKey="presionCombustible" stroke="#8884d8" strokeWidth={2} name="Presión (bar)" dot={false} isAnimationActive={false} />
+              <Line type="monotone" dataKey="flujo" stroke="#82ca9d" strokeWidth={2} name="Flujo (L/h)" dot={false} isAnimationActive={false} />
+              <Line type="monotone" dataKey="temperatura" stroke="#ffc658" strokeWidth={2} name="Temperatura (°C)" dot={false} isAnimationActive={false} />
+              <Line type="monotone" dataKey="consumo" stroke="#ff7c7c" strokeWidth={2} name="Consumo (L/100km)" dot={false} isAnimationActive={false} />
             </LineChart>
           </ResponsiveContainer>
         </ModuleStyles.ChartCard>
 
         <ModuleStyles.ChartCard title={'Parámetros Actuales'} icon={FaThermometerHalf}>
           <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={parametrosBarras}>
+            <BarChart data={parametrosBarras} isAnimationActive={false} animationDuration={0}>
               <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
               <XAxis dataKey="nombre" stroke="#9CA3AF" />
               <YAxis stroke="#9CA3AF" />
@@ -230,7 +230,7 @@ export default function SistemaCombustible({ vehiculo, volver }) {
                   'Valor'
                 ]}
               />
-              <Bar dataKey="valor" fill="#4f46e5" />
+              <Bar dataKey="valor" fill="#4f46e5" isAnimationActive={false} />
             </BarChart>
           </ResponsiveContainer>
         </ModuleStyles.ChartCard>

@@ -210,7 +210,7 @@ export default function SistemaEscape({ vehiculo, volver }) {
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
         <ModuleStyles.ChartCard title={'Tendencia Escape'} icon={FaTachometerAlt}>
           <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={datosEnTiempoReal}>
+            <LineChart data={datosEnTiempoReal} isAnimationActive={false} animationDuration={0}>
               <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
               <XAxis dataKey="tiempo" stroke="#9CA3AF" />
               <YAxis stroke="#9CA3AF" />
@@ -218,17 +218,17 @@ export default function SistemaEscape({ vehiculo, volver }) {
                 contentStyle={{ backgroundColor: '#374151', border: 'none', borderRadius: '8px' }}
                 labelStyle={{ color: '#D1D5DB' }}
               />
-              <Line type="monotone" dataKey="tempGases" stroke="#ffc658" strokeWidth={2} name="Temp. Gases (°C)" />
-              <Line type="monotone" dataKey="presionDPF" stroke="#8884d8" strokeWidth={2} name="Presión DPF (bar)" />
-              <Line type="monotone" dataKey="saturacionDPF" stroke="#ff7c7c" strokeWidth={2} name="Saturación DPF (%)" />
-              <Line type="monotone" dataKey="eficienciaCatalizador" stroke="#82ca9d" strokeWidth={2} name="Eficiencia Cat. (%)" />
+              <Line type="monotone" dataKey="tempGases" stroke="#ffc658" strokeWidth={2} name="Temp. Gases (°C)" dot={false} isAnimationActive={false} />
+              <Line type="monotone" dataKey="presionDPF" stroke="#8884d8" strokeWidth={2} name="Presión DPF (bar)" dot={false} isAnimationActive={false} />
+              <Line type="monotone" dataKey="saturacionDPF" stroke="#ff7c7c" strokeWidth={2} name="Saturación DPF (%)" dot={false} isAnimationActive={false} />
+              <Line type="monotone" dataKey="eficienciaCatalizador" stroke="#82ca9d" strokeWidth={2} name="Eficiencia Cat. (%)" dot={false} isAnimationActive={false} />
             </LineChart>
           </ResponsiveContainer>
         </ModuleStyles.ChartCard>
 
         <ModuleStyles.ChartCard title={'Parámetros Actuales'} icon={FaCloud}>
           <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={parametrosBarras}>
+            <BarChart data={parametrosBarras} isAnimationActive={false} animationDuration={0}>
               <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
               <XAxis dataKey="nombre" stroke="#9CA3AF" />
               <YAxis stroke="#9CA3AF" />
@@ -239,7 +239,7 @@ export default function SistemaEscape({ vehiculo, volver }) {
                   'Valor'
                 ]}
               />
-              <Bar dataKey="valor" fill="#4f46e5" />
+              <Bar dataKey="valor" fill="#4f46e5" isAnimationActive={false} />
             </BarChart>
           </ResponsiveContainer>
         </ModuleStyles.ChartCard>

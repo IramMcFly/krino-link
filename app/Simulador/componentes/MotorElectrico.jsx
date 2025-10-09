@@ -230,7 +230,7 @@ export default function MotorElectrico({ volver, vehiculo }) {
         <div className={moduleStyles.layout.twoColumn}>
           <ChartContainer title="Rendimiento del Motor en Tiempo Real">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={datosGrafico}>
+              <LineChart data={datosGrafico} isAnimationActive={false} animationDuration={0}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
                 <XAxis dataKey="tiempo" stroke="#9CA3AF" fontSize={12} />
                 <YAxis stroke="#9CA3AF" fontSize={12} />
@@ -241,9 +241,9 @@ export default function MotorElectrico({ volver, vehiculo }) {
                     borderRadius: '8px' 
                   }} 
                 />
-                <Line type="monotone" dataKey="potencia" stroke="#10B981" strokeWidth={2} name="Potencia (kW)" dot={false} />
-                <Line type="monotone" dataKey="rpm" stroke="#3B82F6" strokeWidth={2} name="RPM (÷100)" dot={false} />
-                <Line type="monotone" dataKey="temperatura" stroke="#F59E0B" strokeWidth={2} name="Temperatura (°C)" dot={false} />
+                <Line type="monotone" dataKey="potencia" stroke="#10B981" strokeWidth={2} name="Potencia (kW)" dot={false} isAnimationActive={false} />
+                <Line type="monotone" dataKey="rpm" stroke="#3B82F6" strokeWidth={2} name="RPM (÷100)" dot={false} isAnimationActive={false} />
+                <Line type="monotone" dataKey="temperatura" stroke="#F59E0B" strokeWidth={2} name="Temperatura (°C)" dot={false} isAnimationActive={false} />
               </LineChart>
             </ResponsiveContainer>
           </ChartContainer>
