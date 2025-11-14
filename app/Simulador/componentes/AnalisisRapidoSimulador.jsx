@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { FaSpinner, FaExclamationTriangle, FaSquare, FaCheckCircle, FaCommentDots, FaArrowLeft, FaSearch } from 'react-icons/fa';
+import axios from 'axios';
 import ModuleStyles from './styles/ModuleStyles';
 
 export default function AnalisisRapidoSimulador({ vehiculo, volver }) {
@@ -14,6 +15,46 @@ export default function AnalisisRapidoSimulador({ vehiculo, volver }) {
   const [fallas, setFallas] = useState([]);
   const [escaneoPostEliminacion, setEscaneoPostEliminacion] = useState(false);
   const [escaneando, setEscaneando] = useState(false);
+  const [error, setError] = useState('');
+
+  // Función para enviar errores al ESP32
+  const enviarErroresAlESP32 = async (error1, error2, error3) => {
+    console.log('=== ENTRADA A enviarErroresAlESP32 (Simulador) ===');
+    console.log('Parámetros:', { error1, error2, error3 });
+    console.log('Variable entorno ESP32_API:', process.env.NEXT_PUBLIC_ESP32_API);
+    
+    try {
+      const body = {
+        error1: error1,
+        error2: error2,
+        error3: error3
+      };
+
+      console.log('Enviando datos al ESP32:', body);
+      console.log('URL:', `${process.env.NEXT_PUBLIC_ESP32_API}/errores`);
+
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_ESP32_API}/errores`, body, {
+        timeout: 5000,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      console.log('Respuesta del ESP32:', response.data);
+      setError(''); // Limpiar errores previos si la conexión es exitosa
+    } catch (err) {
+      console.error('Error al conectar con ESP32:', err);
+      if (err.code === 'ECONNABORTED') {
+        setError('Timeout: No se pudo conectar con el ESP32 en 5 segundos.');
+      } else if (err.response) {
+        setError(`Error del servidor: ${err.response.status} - ${err.response.data}`);
+      } else if (err.request) {
+        setError('No se pudo conectar con el dispositivo ESP32. Verifique la dirección IP y conexión.');
+      } else {
+        setError('Error desconocido al conectar con ESP32.');
+      }
+    }
+  };
 
   // Usar los códigos DTC específicos del vehículo
   const generarDTCsDelVehiculo = (postEliminacion = false) => {
@@ -170,6 +211,9 @@ export default function AnalisisRapidoSimulador({ vehiculo, volver }) {
         setTimeout(() => {
           setAnalisisTerminado(true);
           setEscaneando(false);
+          // Enviar errores activos al ESP32 cuando se completa el análisis
+          console.log('Análisis completado, enviando errores al ESP32...');
+          enviarErroresAlESP32(true, true, true);
         }, 1000);
       }
     }, 800);
@@ -182,8 +226,14 @@ export default function AnalisisRapidoSimulador({ vehiculo, volver }) {
     setEscaneando(true);
   }, []);
 
-  const eliminarDTCs = () => {
+  const eliminarDTCs = async () => {
     setEliminando(true);
+    setError(''); // Limpiar errores previos
+
+    // Enviar errores apagados al ESP32
+    console.log('Eliminando DTCs, enviando errores apagados al ESP32...');
+    await enviarErroresAlESP32(false, false, false);
+
     setTimeout(() => {
       setFallas([]);
       setEliminando(false);
@@ -232,6 +282,15 @@ export default function AnalisisRapidoSimulador({ vehiculo, volver }) {
           <div className="text-green-400">Escaneo DTC</div>
         </div>
       </ModuleStyles.Header>
+
+      {/* Mostrar error de conexión si existe */}
+      {error && (
+        <div className="max-w-2xl mx-auto mb-4">
+          <div className="bg-red-600 text-white p-3 rounded-lg">
+            <p className="text-sm">{error}</p>
+          </div>
+        </div>
+      )}
 
       <div className="max-w-2xl mx-auto">
         {!analisisTerminado || escaneando ? (

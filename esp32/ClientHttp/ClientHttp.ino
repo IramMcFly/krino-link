@@ -46,6 +46,11 @@ void handleErrores() {
   server.sendHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
   server.sendHeader("Access-Control-Allow-Headers", "Content-Type");
 
+  // Manejar preflight OPTIONS request
+  if (server.method() == HTTP_OPTIONS) {
+    server.send(200, "text/plain", "");
+    return;
+  }
 
   //verificar metodo correcto
   if (server.method() != HTTP_POST) {
@@ -100,6 +105,7 @@ void setup() {
 
   //handle for errores
   server.on("/errores", HTTP_POST, handleErrores);
+  server.on("/errores", HTTP_OPTIONS, handleErrores);
 
 
   server.begin();
