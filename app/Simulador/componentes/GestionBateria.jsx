@@ -49,6 +49,40 @@ export default function GestionBateria({ volver, vehiculo }) {
   const [alertas, setAlertas] = useState([]);
   const [datosGrafico, setDatosGrafico] = useState([]);
 
+  // Función para consumir API del ESP32
+  const enviarComandoESP32 = async (modulo, esCleanup = false) => {
+    if (!process.env.NEXT_PUBLIC_API_ESP32) {
+      if (!esCleanup) console.warn('API_ESP32 no configurada en variables de entorno');
+      return;
+    }
+
+    try {
+      const url = `${process.env.NEXT_PUBLIC_API_ESP32}/moduloDiag?modulo=${modulo}`;
+      if (!esCleanup) console.log(`Enviando comando a ESP32: ${url}`);
+      
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        if (!esCleanup) console.log(`✅ Comando enviado exitosamente - Módulo: ${modulo}`);
+      } else {
+        if (!esCleanup) console.error(`❌ Error al enviar comando - Módulo: ${modulo}, Status: ${response.status}`);
+      }
+    } catch (error) {
+      // Solo mostrar errores de cleanup si no son de conexión típicos
+      if (!esCleanup) {
+        console.error(`❌ Error de conexión con ESP32 - Módulo: ${modulo}:`, error);
+      } else {
+        // Para cleanup, solo log silencioso
+        console.debug(`Cleanup ESP32 - Módulo: ${modulo} (conexión no disponible)`);
+      }
+    }
+  };
+
   // Inicializar datos del gráfico
   useEffect(() => {
     const datosIniciales = [];
@@ -63,15 +97,63 @@ export default function GestionBateria({ volver, vehiculo }) {
     setDatosGrafico(datosIniciales);
   }, []);
 
-  const iniciarDiagnostico = () => {
+  // Cleanup al desmontar componente o al salir
+  useEffect(() => {
+    // Función de limpieza que se ejecuta al desmontar o cambiar de página
+    const handleCleanup = async () => {
+      if (diagnosticoActivo) {
+        await enviarComandoESP32('exit', true); // true = es cleanup
+      }
+    };
+
+    // Cleanup al desmontar el componente
+    return () => {
+      if (diagnosticoActivo) {
+        enviarComandoESP32('exit', true); // true = es cleanup
+      }
+    };
+  }, [diagnosticoActivo]);
+
+  // Detectar cambios de página/navegación para enviar exit
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      if (diagnosticoActivo) {
+        // Para cambios de página/cierre de ventana
+        navigator.sendBeacon(
+          `${process.env.NEXT_PUBLIC_API_ESP32}/moduloDiag?modulo=exit`
+        );
+      }
+    };
+
+    const handlePopState = async () => {
+      if (diagnosticoActivo) {
+        await enviarComandoESP32('exit', true); // true = es cleanup
+      }
+    };
+
+    // Eventos para detectar navegación
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [diagnosticoActivo]);
+
+  const iniciarDiagnostico = async () => {
     setDiagnosticoActivo(true);
+    // Enviar comando de inicio al ESP32 con módulo bateria
+    await enviarComandoESP32('bateria');
   };
 
-  const detenerDiagnostico = () => {
+  const detenerDiagnostico = async () => {
     setDiagnosticoActivo(false);
     // Volver a parámetros iniciales cuando se detiene
     setParametros(getParametrosIniciales());
     setAlertas([]);
+    // Enviar comando de salida al ESP32
+    await enviarComandoESP32('exit');
   };
 
   const resetearParametros = () => {
@@ -179,7 +261,13 @@ export default function GestionBateria({ volver, vehiculo }) {
         >
           <div className="flex flex-wrap gap-4 mt-4">
             <button
-              onClick={volver}
+              onClick={async () => {
+                // Enviar exit antes de volver si el diagnóstico está activo
+                if (diagnosticoActivo) {
+                  await enviarComandoESP32('exit', true); // true = es cleanup
+                }
+                volver();
+              }}
               className={moduleStyles.buttons.secondary}
             >
               <FaArrowLeft className="mr-2" />
