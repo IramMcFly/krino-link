@@ -150,6 +150,57 @@ export default function AnalisisRapidoSimulador({ vehiculo, volver }) {
     return descripciones[sistema] || 'Módulo de control';
   };
 
+  // Mapeo de sistemas a módulos para API ESP32
+  const mapearSistemaAModulo = (sistema) => {
+    const mapeo = {
+      'ABS': 'frenos',
+      'ECM': 'motor', 
+      'BMS': 'bateria'
+    };
+    return mapeo[sistema] || null;
+  };
+
+  // Función para consumir API ESP32
+  const enviarEstadoAESP32 = async (fallas) => {
+    if (!process.env.NEXT_PUBLIC_API_ESP32) {
+      console.warn('API_ESP32 no configurada en variables de entorno');
+      return;
+    }
+
+    // Agrupar fallas por módulo para evitar llamadas duplicadas
+    const modulosActivos = new Set();
+    
+    fallas.forEach(falla => {
+      const modulo = mapearSistemaAModulo(falla.sistema);
+      if (modulo) {
+        modulosActivos.add(modulo);
+      }
+    });
+
+    // Enviar estado ON para cada módulo con fallas
+    for (const modulo of modulosActivos) {
+      try {
+        const url = `${process.env.NEXT_PUBLIC_API_ESP32}/DTC?modulo=${modulo}&state=ON`;
+        console.log(`Enviando estado a ESP32: ${url}`);
+        
+        const response = await fetch(url, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (response.ok) {
+          console.log(`✅ Estado enviado exitosamente - Módulo: ${modulo}, Estado: ON`);
+        } else {
+          console.error(`❌ Error al enviar estado - Módulo: ${modulo}, Status: ${response.status}`);
+        }
+      } catch (error) {
+        console.error(`❌ Error de conexión con ESP32 - Módulo: ${modulo}:`, error);
+      }
+    }
+  };
+
   useEffect(() => {
     if (!escaneando) return;
     
@@ -167,6 +218,12 @@ export default function AnalisisRapidoSimulador({ vehiculo, volver }) {
         // Usar los códigos DTC específicos del vehículo después del escaneo
         const dtcsDelVehiculo = generarDTCsDelVehiculo(escaneoPostEliminacion);
         setFallas(dtcsDelVehiculo);
+        
+        // Enviar estados a ESP32 después de generar las fallas
+        if (dtcsDelVehiculo.length > 0) {
+          enviarEstadoAESP32(dtcsDelVehiculo);
+        }
+        
         setTimeout(() => {
           setAnalisisTerminado(true);
           setEscaneando(false);
@@ -174,6 +231,7 @@ export default function AnalisisRapidoSimulador({ vehiculo, volver }) {
       }
     }, 800);
 
+    
     return () => clearInterval(interval);
   }, [vehiculo, escaneando, escaneoPostEliminacion]);
 
@@ -182,8 +240,34 @@ export default function AnalisisRapidoSimulador({ vehiculo, volver }) {
     setEscaneando(true);
   }, []);
 
-  const eliminarDTCs = () => {
+  const eliminarDTCs = async () => {
     setEliminando(true);
+    
+    // Consumir API de eliminación de DTCs en ESP32
+    if (process.env.NEXT_PUBLIC_API_ESP32) {
+      try {
+        const url = `${process.env.NEXT_PUBLIC_API_ESP32}/deleteDTC`;
+        console.log(`Eliminando DTCs en ESP32: ${url}`);
+        
+        const response = await fetch(url, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (response.ok) {
+          console.log('✅ DTCs eliminados exitosamente en ESP32');
+        } else {
+          console.error(`❌ Error al eliminar DTCs en ESP32, Status: ${response.status}`);
+        }
+      } catch (error) {
+        console.error('❌ Error de conexión con ESP32 para eliminar DTCs:', error);
+      }
+    } else {
+      console.warn('API_ESP32 no configurada para eliminación de DTCs');
+    }
+    
     setTimeout(() => {
       setFallas([]);
       setEliminando(false);
