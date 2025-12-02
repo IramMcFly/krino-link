@@ -1,0 +1,107 @@
+/*
+ * =====================================================
+ *  DIAGRAMA DE CONEXIÓN - ESP32 + PN532 NFC (I2C)
+ * =====================================================
+ *
+ *  Vista superior del ESP32 DevKit y PN532
+ *
+ *
+ *         ESP32 DevKit                          PN532 NFC V3
+ *      ┌───────────────────┐               ┌──────────────────────┐
+ *      │  ┌─────────────┐  │               │                      │
+ *      │  │    USB-C    │  │               │   ┌──────────────┐   │
+ *      │  └─────────────┘  │               │   │   ANTENA     │   │
+ *      │                   │               │   │     NFC      │   │
+ *      │ EN           D23  │               │   └──────────────┘   │
+ *      │ VP           D22 ●├───────────────┤● SCL                 │
+ *      │ VN           D21 ●├───────────────┤● SDA                 │
+ *      │ D34          D19  │               │                      │
+ *      │ D35          D18  │               │  SWITCHES I2C:       │
+ *      │ D32          D5   │               │  ┌───┬───┐           │
+ *      │ D33          D17  │               │  │OFF│ ON│ ← SW1     │
+ *      │ D25          D16  │               │  ├───┼───┤           │
+ *      │ D26          D4   │               │  │ ON│OFF│ ← SW2     │
+ *      │ D27          D2   │               │  └───┴───┘           │
+ *      │ D14          D15  │               │                      │
+ *      │ D12          GND ●├───────────────┤● GND                 │
+ *      │ D13         3.3V ●├───────────────┤● VCC                 │
+ *      │                   │               │                      │
+ *      │  ┌─────────────┐  │               │                      │
+ *      │  │   ESP32     │  │               └──────────────────────┘
+ *      │  │   WROOM     │  │
+ *      │  └─────────────┘  │
+ *      └───────────────────┘
+ *
+ *
+ *  TABLA DE CONEXIONES:
+ *  ┌─────────────┬─────────────┬─────────────────────┐
+ *  │   ESP32     │   PN532     │     Descripción     │
+ *  ├─────────────┼─────────────┼─────────────────────┤
+ *  │   GPIO 21   │    SDA      │  Datos I2C          │
+ *  │   GPIO 22   │    SCL      │  Reloj I2C          │
+ *  │    3.3V     │    VCC      │  Alimentación       │
+ *  │    GND      │    GND      │  Tierra             │
+ *  └─────────────┴─────────────┴─────────────────────┘
+ *
+ *
+ *  CONFIGURACIÓN DE SWITCHES PN532:
+ *  ┌────────────────────────────────────────┐
+ *  │  MODO I2C (requerido para este proyecto)
+ *  │  
+ *  │  Switch 1: OFF (abajo)
+ *  │  Switch 2: ON  (arriba)
+ *  │  
+ *  │     ┌─────────┐
+ *  │     │ 1     2 │
+ *  │     │ ○     ● │ ← ON
+ *  │     │ ●     ○ │ ← OFF  
+ *  │     └─────────┘
+ *  └────────────────────────────────────────┘
+ *
+ *
+ *  DIAGRAMA DE BLOQUES DEL SISTEMA:
+ *
+ *   ┌─────────────┐      WiFi       ┌─────────────────┐
+ *   │  Krino-Link │ ◄─────────────► │     ESP32       │
+ *   │  (Next.js)  │   HTTP/JSON     │  Web Server     │
+ *   │             │                 │                 │
+ *   └─────────────┘                 └────────┬────────┘
+ *                                            │
+ *                                            │ I2C
+ *                                            │
+ *                                   ┌────────▼────────┐
+ *                                   │     PN532       │
+ *                                   │   NFC Reader    │
+ *                                   │                 │
+ *                                   └────────┬────────┘
+ *                                            │
+ *                                            │ NFC/RFID
+ *                                            ▼
+ *                                   ┌─────────────────┐
+ *                                   │   Tarjeta NFC   │
+ *                                   │  (Llave virtual)│
+ *                                   └─────────────────┘
+ *
+ *
+ *  FLUJO DE DATOS:
+ *
+ *   1. Usuario presiona "Verificar Llave" o "Programar Llave" en la app
+ *   2. App envía GET request a http://<ESP32_IP>/nfc/read
+ *   3. ESP32 activa el lector PN532 y espera tarjeta (timeout 10s)
+ *   4. Usuario acerca tarjeta NFC al módulo PN532
+ *   5. PN532 lee el UID de la tarjeta via I2C
+ *   6. ESP32 responde con JSON: {"ok": true, "id": "XX:XX:XX:XX"}
+ *   7. App muestra resultado y guarda en localStorage si es programación
+ *
+ *
+ *  CÓDIGOS DE COLOR DE CABLES SUGERIDOS:
+ *  ┌──────────┬──────────┬──────────┐
+ *  │  Señal   │  Color   │   Pin    │
+ *  ├──────────┼──────────┼──────────┤
+ *  │   VCC    │  ROJO    │  3.3V    │
+ *  │   GND    │  NEGRO   │  GND     │
+ *  │   SDA    │  AZUL    │  GPIO21  │
+ *  │   SCL    │  AMARILLO│  GPIO22  │
+ *  └──────────┴──────────┴──────────┘
+ *
+ */

@@ -12,7 +12,8 @@ import {
   FaWind,
   FaCloud,
   FaTools,
-  FaSearch
+  FaSearch,
+  FaKey
 } from 'react-icons/fa';
 
 const modulos = [
@@ -26,6 +27,7 @@ const modulos = [
   { nombre: 'Climatización', icono: FaThermometer, archivo: 'Climatizacion', descripcion: 'Sistema de aire acondicionado' },
   { nombre: 'ABS', icono: FaShieldAlt, archivo: 'ModuloABS', descripcion: 'Sistema de frenos antibloqueo' },
   { nombre: 'Airbags', icono: FaWind, archivo: 'ModuloAirbag', descripcion: 'Sistema de bolsas de aire' },
+  { nombre: 'Inmovilizador', icono: FaKey, archivo: 'Inmovilizador', descripcion: 'Sistema IMMO - Programador K-Key' },
   { nombre: 'Reinicio ECU', icono: FaSync, archivo: 'ModuloECUReset', descripcion: 'Reinicio de unidades de control' },
 ];
 

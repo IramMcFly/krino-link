@@ -41,6 +41,9 @@ const SistemaCarga = lazy(() => import('./SistemaCarga'));
 const Inversor = lazy(() => import('./Inversor'));
 const ConvertidorDCDC = lazy(() => import('./ConvertidorDCDC'));
 
+// Importación dinámica del módulo de Inmovilizador
+const Inmovilizador = lazy(() => import('./Inmovilizador'));
+
 export default function SimuladorVehiculo({ vehiculo, onVolver, moduloInicial }) {
   const [moduloActivo, setModuloActivo] = useState(moduloInicial || null);
 
@@ -105,6 +108,9 @@ export default function SimuladorVehiculo({ vehiculo, onVolver, moduloInicial })
       'SistemaCarga': SistemaCarga,
       'Inversor': Inversor,
       'ConvertidorDCDC': ConvertidorDCDC,
+
+      // Módulo de Inmovilizador (programador de llaves)
+      'Inmovilizador': Inmovilizador,
 
       // Módulos específicos por desarrollar
       'SistemaCVT': null,
